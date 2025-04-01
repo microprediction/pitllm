@@ -2,7 +2,7 @@
 pitllm
 
 
-- https://github.com/cardiffnlp/timelms/blob/main/README.md  RoBERTa-base models
+- https://github.com/cardiffnlp/timelms/blob/main/README.md  RoBERTa-base models trained on quarterly Twitter updates. 
 
 Related
 
