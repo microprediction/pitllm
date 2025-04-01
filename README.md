@@ -2,7 +2,8 @@
 pitllm
 
 
-- https://github.com/cardiffnlp/timelms/blob/main/README.md  RoBERTa-base models trained on quarterly Twitter updates. 
+- https://github.com/cardiffnlp/timelms/blob/main/README.md  RoBERTa-base models trained on quarterly Twitter updates.
+- https://arxiv.org/abs/2502.21206  Chronologicall consistent Models ChronoBERT
 
 Related
 
