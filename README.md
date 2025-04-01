@@ -2,7 +2,8 @@
 pitlm model sequences: 
 
 - https://github.com/cardiffnlp/timelms/blob/main/README.md  RoBERTa-base models trained on quarterly Twitter updates.
-- https://arxiv.org/abs/2502.21206  Chronologicall consistent Models ChronoBERT   [hugging](https://huggingface.co/collections/manelalab/chronobert-67c1ca6c2382e03aaec446f8) 
+- https://arxiv.org/abs/2502.21206  Chronologicall consistent Models ChronoBERT   [hugging](https://huggingface.co/collections/manelalab/chronobert-67c1ca6c2382e03aaec446f8)
+- https://huggingface.co/StoriesLM/StoriesLM-v1-1963  StoriesLM  1900-1963 yearly
 
 
 
