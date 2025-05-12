@@ -1,6 +1,6 @@
 # Point-in-Time Large Language Models (PITLLM)
 
-This repository serves as a comprehensive resource for information about Point-in-Time (chronologically consistent) Large Language Models. It contains various documents exploring different aspects of these temporally faithful models and their applications.
+This repository serves as a comprehensive resource collating ideas about Point-in-Time (chronologically consistent) Large Language Models and their uses.
 
 ## Repository Contents
 
