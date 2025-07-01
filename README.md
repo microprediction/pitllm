@@ -17,7 +17,7 @@ This repository serves as a comprehensive resource collating ideas about Point-i
 ## Related Projects and Research
 
 ### Benchmarks and Tools
-- [ChroKnowBench](https://arxiv.org/abs/2410.09870) - Benchmark for chronological knowledge
+- [ChroKnowledge](https://p-yi.github.io/ChroKnowledge/) - Benchmark for chronological knowledge
 - [FinGPT](https://arxiv.org/abs/2306.06031) - Toolkit for continuous learning
 - [TemporalWiki](https://arxiv.org/abs/2204.14211) - [GitHub Repository](https://github.com/joeljang/temporalwiki/tree/main)
 

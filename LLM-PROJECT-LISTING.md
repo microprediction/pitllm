@@ -43,7 +43,7 @@ The following projects provide sequences of ≥10 date-stamped LLM checkpoints, 
 ## Related Projects and Research
 
 ### Benchmarks and Tools
-- [ChroKnowBench](https://arxiv.org/abs/2410.09870) - Benchmark for chronological knowledge
+- [ChroKnowledge](https://p-yi.github.io/ChroKnowledge/) - Benchmark for chronological knowledge
 - [FinGPT](https://arxiv.org/abs/2306.06031) - Toolkit for continuous learning
 - [TemporalWiki](https://arxiv.org/abs/2204.14211) - [GitHub Repository](https://github.com/joeljang/temporalwiki/tree/main)
 
@@ -68,7 +68,7 @@ The following projects provide sequences of ≥10 date-stamped LLM checkpoints, 
 
 ### Datasets and Resources
 - [TemporalWiki](https://github.com/joeljang/temporalwiki) - Temporal knowledge graph dataset
-- [ChroKnowBench](https://github.com/ChroKnowBench) - Benchmark for chronological knowledge
+- [ChroKnowledge](https://p-yi.github.io/ChroKnowledge/) - Benchmark for chronological knowledge
 - [Historical News Archives](https://github.com/StoriesLM) - Historical newspaper datasets
 - [Temporal Question Answering Datasets](https://github.com/temporal-qa) - Datasets for temporal QA tasks
 
