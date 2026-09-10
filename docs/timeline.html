@@ -13,6 +13,7 @@
       <nav>
         <a href="./models.html">Models</a>
         <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
         <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
@@ -40,11 +41,11 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
 const LANES = {
-  models:   {label:"Model sequences",                     color:"#4a3aff", y0:50,  h:150},
-  bias:     {label:"Look-ahead bias & leakage (finance)", color:"#27ae60", y0:230, h:170},
-  nlp:      {label:"Temporal generalisation (NLP)",       color:"#2980b9", y0:430, h:110},
-  bench:    {label:"Temporal knowledge & benchmarks",     color:"#d68910", y0:570, h:90},
-  beyond:   {label:"Data & beyond finance",               color:"#8e44ad", y0:680, h:40},
+  models:   {label:"Model sequences",                     color:"#4a3aff", y0:50,  h:170},
+  bias:     {label:"Look-ahead bias & leakage (finance)", color:"#27ae60", y0:250, h:330},
+  nlp:      {label:"Temporal generalisation & cut-offs",  color:"#2980b9", y0:610, h:170},
+  bench:    {label:"Temporal knowledge & benchmarks",     color:"#d68910", y0:810, h:110},
+  beyond:   {label:"Data & beyond finance",               color:"#8e44ad", y0:950, h:82},
 };
 // d: YYYY-MM (earliest public date). sure:false => month-approximate
 const EVENTS = [
@@ -67,6 +68,18 @@ const EVENTS = [
   note:"Oct 2025. Instruction-tuned ChronoGPT per cut-off year: a chat interface that is free of look-ahead bias by construction."},
  {d:"2026-04", lane:"models", label:"Scaling PiT LMs (Kelly et al)", big:true, url:"https://arxiv.org/abs/2607.11889",
   note:"Apr 2026. Kelly, Malamud, Schwab, Xu: decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens; monthly checkpoints 2013–2024. The gap to unconstrained models narrows with scale."},
+ {d:"2025-04", lane:"models", label:"TiC-LM", url:"https://arxiv.org/abs/2504.02107",
+  note:"Apr 2025. Li et al.: time-continual pretraining benchmark over 114 Common Crawl dumps; replay schedules match from-scratch retraining at 2.6× less compute."},
+ {d:"2025-04", lane:"models", label:"Fittschen et al", url:"https://arxiv.org/abs/2504.05523",
+  note:"Apr 2025. Pretraining on five 10M-word time slices for diachronic discovery; beats fine-tuning an 8B model on period fidelity."},
+ {d:"2025-08", lane:"models", label:"TiMoE", url:"https://arxiv.org/abs/2508.08827",
+  note:"Aug 2025. Faro, Fan, Alphaidze, Jaggi: experts on disjoint two-year slices, masked by query date at inference. One set of weights, every cut-off."},
+ {d:"2026-03", lane:"models", label:"DatedGPT", big:true, url:"https://arxiv.org/abs/2603.11838",
+  note:"Mar 2026. Yan, Tang, Gao, Jiang: twelve 1.3B yearly models 2013–2024 plus DatedInstruct; the lookahead premium measured at 26.4 bp per s.d. in return prediction."},
+ {d:"2026-05", lane:"models", label:"Pilchen et al ⚠", sure:false, url:"https://arxiv.org/abs/2605.22769",
+  note:"May 2026. Chronologically ordered pretraining gives fresher, more precise temporal knowledge than shuffled, at no cost in general ability."},
+ {d:"2026-06", lane:"models", label:"TypewriterLM", url:"https://arxiv.org/abs/2606.02991",
+  note:"Jun 2026. Luo et al.: 7B model on 54B tokens of pre-1913 English, with leakage-mitigated corpus and lexically grounded instruction tuning."},
  // --- look-ahead bias & leakage ---
  {d:"2023-04", lane:"bias", label:"Lopez-Lira–Tang", big:true, url:"https://arxiv.org/abs/2304.07619",
   note:"Apr 2023. 'Can ChatGPT Forecast Stock Price Movements?' The result that made training leakage an urgent question in finance."},
@@ -90,6 +103,34 @@ const EVENTS = [
   note:"May 2026. Li, Wang, Ma: 'parametric look-ahead bias' and an inference-time decoding fix."},
  {d:"2026-08", lane:"bias", label:"OpenPM", url:"https://arxiv.org/abs/2608.09988",
   note:"Aug 2026. Auditable point-in-time evaluation for LLM portfolio agents; runs emit a contamination certificate."},
+ {d:"2025-04", lane:"bias", label:"Memorization Problem", big:true, url:"https://arxiv.org/abs/2504.14765",
+  note:"Apr 2025. Lopez-Lira, Tang, Zhu: in-sample forecasting skill is non-identified; models recall exact values, and date instructions and masking both fail."},
+ {d:"2025-05", lane:"bias", label:"DeepFund (live)", url:"https://arxiv.org/abs/2505.11065",
+  note:"May 2025 (NeurIPS). 'Time travel is cheating': live evaluation on post-cutoff market data."},
+ {d:"2025-06", lane:"bias", label:"Paleka et al", url:"https://arxiv.org/abs/2506.00723",
+  note:"May/Jun 2025. Pitfalls in evaluating LM forecasters: the temporal-leakage channels in question creation, retrieval and resolution."},
+ {d:"2025-06", lane:"bias", label:"Crane–Karra–Soto (Fed) ⚠", sure:false, url:"https://doi.org/10.17016/feds.2025.044",
+  note:"Jun 2025, FEDS. LLMs smooth across data vintages and believe they hold data not yet released."},
+ {d:"2025-12", lane:"bias", label:"Merchant–Levy (logit steering)", url:"https://arxiv.org/abs/2512.06607",
+  note:"Dec 2025. A fast fix: steer a large model's logits with two small models, one tuned to forget and one to keep."},
+ {d:"2026-02", lane:"bias", label:"All Leaks Count", url:"https://arxiv.org/abs/2602.17234",
+  note:"Feb 2026. Zhang, Chen, Stadie: Shapley-weighted claim-level leakage rate; TimeSPEC grounds predictions in date-filtered evidence."},
+ {d:"2026-04", lane:"bias", label:"Gao–Jiang–Yan (SFT)", url:"https://arxiv.org/abs/2604.02921",
+  note:"Apr 2026. Debiasing extrapolation bias by LoRA fine-tuning where prompts failed."},
+ {d:"2026-05", lane:"bias", label:"Levy (JAR) ⚠", sure:false, url:"https://doi.org/10.1111/1475-679x.70058",
+  note:"2026, Journal of Accounting Research. 'Caution Ahead': poor numerical reasoning plus look-ahead bias explain much of LLMs' apparent edge."},
+ {d:"2026-05", lane:"bias", label:"TEMPO", url:"https://arxiv.org/abs/2605.18843",
+  note:"May 2026. Zhang & Stadie: temporal compliance is instance-specific; train temporal discipline with a two-mode RL reward."},
+ {d:"2026-05", lane:"bias", label:"When Alpha Disappears", url:"https://arxiv.org/abs/2605.23959",
+  note:"May 2026. Zhang, Li, Peng, Chen: one-switch benchmark of protocol-induced leakage in backtests."},
+ {d:"2026-06", lane:"bias", label:"Feature steering", url:"https://arxiv.org/abs/2606.27199",
+  note:"Jun 2026. Merchant & Levy: amplifying time-awareness SAE features cuts look-ahead bias; steering look-ahead features does nothing."},
+ {d:"2026-07", lane:"bias", label:"Fonseca (non-interference)", url:"https://arxiv.org/abs/2607.04958",
+  note:"Jul 2026. Look-ahead-freedom as temporal non-interference; decidable in linear time on the value-independent fragment."},
+ {d:"2026-07", lane:"bias", label:"HindsightBench", url:"https://arxiv.org/abs/2607.18867",
+  note:"Jul 2026. Jia: black-box audit of parametric hindsight at probe cost."},
+ {d:"2026-08", lane:"bias", label:"Zhang–Stadie (measurement)", big:true, url:"https://arxiv.org/abs/2608.02985",
+  note:"Aug 2026. The pre/post-cutoff check is provably uninformative; leakage measurement needs a known cutoff or a matched clean control."},
  // --- temporal generalisation (NLP) ---
  {d:"2021-02", lane:"nlp", label:"Mind the Gap", big:true, url:"https://arxiv.org/abs/2102.01951",
   note:"Feb 2021 (NeurIPS). Lazaridou et al.: LMs degrade on text from after their training period; the case for time-stratified evaluation."},
@@ -111,6 +152,18 @@ const EVENTS = [
   note:"Nov 2025. Wongchamcharoen & Glasserman: frontier models keep local order but not a globally consistent timeline."},
  {d:"2026-06", lane:"nlp", label:"Recall-based cutoffs", url:"https://arxiv.org/abs/2606.05804",
   note:"Jun 2026. Asai et al.: recall-based prompting improves prompted cutoffs, especially on counterfactual questions."},
+ {d:"2025-02", lane:"nlp", label:"Temporal Heads", url:"https://arxiv.org/abs/2502.14258",
+  note:"Feb 2025 (ACL). Park et al.: attention heads that carry time-specific knowledge; ablatable and editable."},
+ {d:"2025-11", lane:"nlp", label:"LLMLagBench", url:"https://arxiv.org/abs/2511.12116",
+  note:"Nov 2025. Infer undeclared training cutoffs from knowledge of recent events."},
+ {d:"2026-01", lane:"nlp", label:"Simulated Ignorance Fails", big:true, url:"https://arxiv.org/abs/2601.13717",
+  note:"Jan 2026. Li et al.: a 52% gap between simulated and true ignorance across 477 forecasting questions and nine models."},
+ {d:"2026-05", lane:"nlp", label:"Temporal Critique (TCFT)", url:"https://arxiv.org/abs/2605.14636",
+  note:"May 2026. Ding et al.: ex-ante correctness is a relation between answer and cutoff; train a critic."},
+ {d:"2026-05", lane:"nlp", label:"Geometry of Forgetting", url:"https://arxiv.org/abs/2605.09195",
+  note:"May 2026. Staleness is encoded orthogonally to correctness and uncertainty."},
+ {d:"2026-08", lane:"nlp", label:"Current year probes", url:"https://arxiv.org/abs/2608.15507",
+  note:"Aug 2026. van Adrichem et al.: associative and declarative 'current year' use different mechanisms; nothing updates both."},
  // --- temporal knowledge & benchmarks ---
  {d:"2022-04", lane:"bench", label:"TemporalWiki", url:"https://arxiv.org/abs/2204.14211",
   note:"Apr 2022 (EMNLP). Jang et al.: a lifelong benchmark from consecutive Wikipedia snapshots."},
@@ -126,9 +179,19 @@ const EVENTS = [
   note:"Oct 2024. Deng et al.: annually updated benchmark of new terms; >20% degradation."},
  {d:"2026-05", lane:"bench", label:"TempoMed-Bench", url:"https://arxiv.org/abs/2605.13045",
   note:"May 2026. Guan et al.: LLMs lack temporal awareness of medical knowledge; evolving clinical guidelines as the test."},
+ {d:"2025-03", lane:"bench", label:"Date-controlled tools", url:"https://arxiv.org/abs/2503.04188",
+  note:"Mar 2025. Xian et al.: date-restricted search as a stress test for agent temporal knowledge."},
+ {d:"2025-09", lane:"bench", label:"Facts Fade Fast", url:"https://arxiv.org/abs/2509.04304",
+  note:"Sep 2025 (EMNLP). MedChangeQA: 512 questions where medical consensus changed; all models answer with the old consensus."},
+ {d:"2025-09", lane:"bench", label:"EvolveCast", url:"https://arxiv.org/abs/2509.23936",
+  note:"Sep 2025. Do models update forecasts with post-cutoff evidence? Right direction, far too little."},
+ {d:"2026-08", lane:"bench", label:"Synthetic Worlds", url:"https://arxiv.org/abs/2609.00184",
+  note:"Aug 2026. Zheng et al.: fictional future worlds for contamination-free temporal evaluation."},
  // --- data & beyond finance ---
  {d:"2023-08", lane:"beyond", label:"American Stories", url:"https://arxiv.org/abs/2308.12477",
   note:"Aug 2023 (NeurIPS Datasets). Dell et al.: article-level text from ~20M Chronicling America scans; training data for StoriesLM."},
+ {d:"2024-06", lane:"beyond", label:"Newswire", url:"https://arxiv.org/abs/2406.09490",
+  note:"Jun 2024 (NeurIPS Datasets). Silcock, Arora, D'Amico-Wong, Dell: 2.7M unique newswire articles 1878–1977, reconstructed from 138M local-paper articles."},
  {d:"2024-10", lane:"beyond", label:"Varnum et al (PNAS) ⚠", sure:false, url:"https://doi.org/10.1073/pnas.2407639121",
   note:"Oct 2024, PNAS. Historical LLMs as informative tools for behavioural science: simulated informants from past populations."},
 ];
@@ -145,7 +208,9 @@ const wrap = document.getElementById("timeline");
 const W = wrap.clientWidth, H = wrap.clientHeight;
 const svg = d3.select("#timeline").append("svg").attr("width", W).attr("height", H);
 const parse = d3.timeParse("%Y-%m");
-const x = d3.scaleTime().domain([parse("2020-09"), parse("2026-12")]).range([170, W - 150]);
+// piecewise scale: 2025–2026 hold most of the events, so they get most of the width
+const x = d3.scaleTime().domain([parse("2020-09"), parse("2025-01"), parse("2026-12")])
+  .range([170, 170 + 0.34 * (W - 320), W - 150]);
 // Pre-2021 events are pinned to the left edge with a break marker.
 function px(d) { const t = parse(d); return t < x.domain()[0] ? x.range()[0] : x(t); }
 
@@ -171,7 +236,7 @@ for (const dv of DIVIDERS) {
      .attr("fill", "#4a3aff").text(dv.label);
 }
 
-// place events: within a lane, stack labels to avoid overlap
+// place events: within a lane, stack labels to avoid overlap, using measured label widths
 const tip = d3.select("#tooltip");
 const byLane = d3.group(EVENTS, e => e.lane);
 for (const [lane, evs] of byLane) {
@@ -181,13 +246,6 @@ for (const [lane, evs] of byLane) {
   const lastEnd = new Array(rows).fill(-1e9);   // right edge of the last label placed in each row
   evs.forEach(e => {
     const cx = px(e.d);
-    const labelW = 12 + 6.3 * e.label.length;
-    let r = 0;
-    while (r < rows - 1 && cx < lastEnd[r] + 10) r++;
-    // if still colliding, take the row whose last label ends earliest
-    if (cx < lastEnd[r] + 10) r = lastEnd.indexOf(Math.min(...lastEnd));
-    lastEnd[r] = cx + labelW;
-    const cy = L.y0 + 8 + r * 22;
     const g = svg.append("g").style("cursor", "pointer")
       .on("click", () => window.open(e.url, "_blank"))
       .on("mousemove", (ev) => {
@@ -195,14 +253,21 @@ for (const [lane, evs] of byLane) {
            .html(`<b>${e.label.replace(" ⚠", "")}</b><br>${e.note}`);
       })
       .on("mouseleave", () => tip.style("display", "none"));
+    const text = g.append("text").attr("class", "evlabel").attr("font-weight", e.big ? 700 : 400).text(e.label);
+    const labelW = (e.big ? 12 : 10) + text.node().getComputedTextLength();
+    let r = 0;
+    while (r < rows - 1 && cx < lastEnd[r] + 8) r++;
+    // if still colliding, take the row whose last label ends earliest
+    if (cx < lastEnd[r] + 8) r = lastEnd.indexOf(Math.min(...lastEnd));
+    lastEnd[r] = cx + labelW;
+    const cy = L.y0 + 8 + r * 22;
     g.append("circle").attr("cx", cx).attr("cy", cy).attr("r", e.big ? 7 : 4.5)
       .attr("fill", L.color).attr("stroke", "#fff").attr("stroke-width", 1.5);
-    g.append("text").attr("class", "evlabel").attr("x", cx + (e.big ? 10 : 8)).attr("y", cy + 4)
-      .attr("font-weight", e.big ? 700 : 400).text(e.label);
+    text.attr("x", cx + (e.big ? 10 : 8)).attr("y", cy + 4);
   });
 }
 svg.append("text").attr("class", "yearlabel").attr("x", 170).attr("y", H - 8)
-   .attr("text-anchor", "start").text("← 2021–mid-2022 events pinned to the left edge");
+   .attr("text-anchor", "start").text("← 2021–2024 compressed; 2025–2026 expanded");
 
 function wrapText(text, width) {
   text.each(function () {

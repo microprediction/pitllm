@@ -140,8 +140,8 @@ table.impl td.c { text-align: center; }
 /* d3 pages (timeline, map) */
 #tl-wrap, #map-wrap { max-width: 1100px; margin: 0 auto; padding: 16px 24px; }
 #timeline, #graph { width: 100%; border: 1px solid #ddd; background: #fdfdfc; border-radius: 4px; }
-#timeline { height: 720px; }
-#graph { height: 760px; }
+#timeline { height: 1075px; }
+#graph { height: 1000px; }
 .legend { font-size: 0.85em; color: #444; display: flex; flex-wrap: wrap; gap: 14px 22px; margin: 10px 0; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }

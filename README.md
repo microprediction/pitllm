@@ -2,17 +2,18 @@
 
 A resource that summarizes and connects research on Point-in-Time (chronologically consistent) Large Language Models: models trained only on text available up to a fixed cut-off date, so that sequences of them can be used for backtesting and historical analysis without look-ahead bias.
 
-**Site:** https://microprediction.github.io/pitllm/
+**Site:** https://pitllm.microprediction.org/
 
 ## What is on the site
 
-- [Home](https://microprediction.github.io/pitllm/) - the idea, the released model sequences, research threads, and a verified bibliography
-- [Models](https://microprediction.github.io/pitllm/models.html) - ChronoBERT/ChronoGPT, Scaling PiT LMs, Time Machine GPT, TimeLMs, StoriesLM, HistBERT, with a coverage chart
-- [Corpora](https://microprediction.github.io/pitllm/corpora.html) - dated text sources by domain, with licensing and temporal granularity
-- [Essay](https://microprediction.github.io/pitllm/essay.html) - point-in-time LLMs beyond finance
-- [Plans](https://microprediction.github.io/pitllm/plans.html) - three costed proposals for extending the open sequences
-- [Literature map](https://microprediction.github.io/pitllm/map.html) and [Timeline](https://microprediction.github.io/pitllm/timeline.html)
-- [Demos](https://microprediction.github.io/pitllm/demos.html) - notebooks that load a checkpoint and query it
+- [Home](https://pitllm.microprediction.org/) - the idea, the released model sequences, research threads, and a verified bibliography
+- [Models](https://pitllm.microprediction.org/models.html) - ChronoBERT/ChronoGPT, Scaling PiT LMs, Time Machine GPT, TimeLMs, StoriesLM, HistBERT, with a coverage chart
+- [Corpora](https://pitllm.microprediction.org/corpora.html) - dated text sources by domain, with licensing and temporal granularity
+- [Key ideas](https://pitllm.microprediction.org/ideas.html) - one note per paper on what is actually new
+- [Essay](https://pitllm.microprediction.org/essay.html) - point-in-time LLMs beyond finance
+- [Plans](https://pitllm.microprediction.org/plans.html) - three costed proposals for extending the open sequences
+- [Literature map](https://pitllm.microprediction.org/map.html) and [Timeline](https://pitllm.microprediction.org/timeline.html)
+- [Demos](https://pitllm.microprediction.org/demos.html) - notebooks that load a checkpoint and query it
 
 ## Repository layout
 

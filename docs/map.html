@@ -13,6 +13,7 @@
       <nav>
         <a href="./models.html">Models</a>
         <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
         <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
@@ -28,7 +29,7 @@
   <h1>Point-in-time LLMs: the literature map</h1>
   <p>Each node is a paper, dataset, or the hub concept. Colours are threads; solid edges are real
   connections (builds on, trains on, evaluates); <b style="color:#c0392b">dashed red edges are connections
-  that do not yet exist</b> as of September 2026, i.e. the research agenda. Click a node to open it; drag to
+  that do not yet exist</b> as of September 2026, i.e. the research agenda. Nodes were gathered by chasing forward citations of the core papers through Semantic Scholar and OpenAlex. Click a node to open it; drag to
   rearrange; hover for the one-line story.</p>
   <div class="legend" id="cluster-legend"></div>
   <div class="legend">
@@ -103,6 +104,36 @@ const NODES = [
  {id:"coha", label:"COHA", year:"", c:"data", url:"https://www.english-corpora.org/coha/", note:"Corpus of Historical American English, 1810–2009, decade-balanced."},
  {id:"newscrawl", label:"WMT News Crawl + Wikipedia", year:"", c:"data", url:"https://data.statmt.org/news-crawl/", note:"Yearly news and Wikipedia snapshots; Time Machine GPT's training data, released per year."},
  {id:"twitter", label:"Twitter", year:"", c:"data", url:"https://github.com/cardiffnlp/timelms", note:"Quarterly tweet samples behind TimeLMs."},
+ {id:"datedgpt", label:"DatedGPT 2026", year:2026, c:"models", r:10, url:"https://arxiv.org/abs/2603.11838", note:"Yan, Tang, Gao, Jiang: twelve 1.3B yearly models 2013–2024 plus DatedInstruct; lookahead premium priced at 26.4 bp per s.d."},
+ {id:"timoe", label:"TiMoE 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2508.08827", note:"Experts on disjoint two-year slices, masked by query date at inference: one set of weights, every cut-off."},
+ {id:"ticlm", label:"TiC-LM 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2504.02107", note:"Time-continual pretraining benchmark over 114 CC dumps; replay matches from-scratch retraining at 2.6× less compute."},
+ {id:"pilchen", label:"Pilchen et al 2026", year:2026, c:"models", url:"https://arxiv.org/abs/2605.22769", note:"Chronologically ordered pretraining gives fresher, more temporally precise knowledge than shuffled."},
+ {id:"fittschen", label:"Fittschen et al 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2504.05523", note:"Pretraining on five 10M-word time slices for diachronic discovery; beats fine-tuning on period fidelity."},
+ {id:"typewriter", label:"TypewriterLM 2026", year:2026, c:"models", url:"https://arxiv.org/abs/2606.02991", note:"7B model on pre-1913 English with leakage-mitigated corpus and lexically grounded instruction tuning."},
+ {id:"memorization", label:"Memorization Problem 2025", year:2025, c:"bias", r:10, url:"https://arxiv.org/abs/2504.14765", note:"Lopez-Lira, Tang, Zhu: in-sample forecasting skill is non-identified; recall of exact values; instructions and masking fail."},
+ {id:"crane", label:"Crane–Karra–Soto 2025", year:2025, c:"bias", url:"https://doi.org/10.17016/feds.2025.044", note:"Fed: LLMs smooth across data vintages and believe they hold unreleased data."},
+ {id:"paleka", label:"Paleka et al 2025", year:2025, c:"bias", url:"https://arxiv.org/abs/2506.00723", note:"Pitfalls in evaluating LM forecasters: temporal-leakage channels."},
+ {id:"deepfund", label:"DeepFund 2025", year:2025, c:"bias", url:"https://arxiv.org/abs/2505.11065", note:"Live fund benchmark on post-cutoff data; 'time travel is cheating'."},
+ {id:"merchantlevy", label:"Merchant–Levy 2025", year:2025, c:"bias", url:"https://arxiv.org/abs/2512.06607", note:"Logit steering by two small models, one tuned to forget and one to keep."},
+ {id:"levy", label:"Levy 2026 (JAR)", year:2026, c:"bias", url:"https://doi.org/10.1111/1475-679x.70058", note:"Poor numerical reasoning plus look-ahead bias explain much of LLMs' apparent edge in accounting and finance."},
+ {id:"allleaks", label:"All Leaks Count 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2602.17234", note:"Zhang, Chen, Stadie: Shapley-weighted claim-level leakage rate; TimeSPEC."},
+ {id:"tempo", label:"TEMPO 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2605.18843", note:"Zhang & Stadie: temporal compliance is instance-specific; train discipline with a two-mode RL reward."},
+ {id:"alpha", label:"When Alpha Disappears 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2605.23959", note:"One-switch benchmark of protocol-induced leakage in backtests."},
+ {id:"featsteer", label:"Feature steering 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2606.27199", note:"Merchant & Levy: amplify time-awareness SAE features; steering look-ahead features does nothing."},
+ {id:"fonseca", label:"Fonseca 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2607.04958", note:"Look-ahead-freedom as temporal non-interference; type-checkable on the value-independent fragment."},
+ {id:"hindsight", label:"HindsightBench 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2607.18867", note:"Black-box audit of parametric hindsight at probe cost; date-trigger reflex tracks recency."},
+ {id:"zhangstadie", label:"Zhang–Stadie 2026", year:2026, c:"bias", r:10, url:"https://arxiv.org/abs/2608.02985", note:"Pre/post-cutoff comparison is provably uninformative; need a known cutoff or a matched clean control."},
+ {id:"simign", label:"Simulated Ignorance Fails 2026", year:2026, c:"prompt", r:10, url:"https://arxiv.org/abs/2601.13717", note:"52% gap between simulated and true ignorance across 477 questions and nine models."},
+ {id:"tcft", label:"Temporal Critique 2026", year:2026, c:"prompt", url:"https://arxiv.org/abs/2605.14636", note:"Ding et al.: ex-ante correctness is a relation between answer and cutoff; train a critic."},
+ {id:"llmlag", label:"LLMLagBench 2025", year:2025, c:"prompt", url:"https://arxiv.org/abs/2511.12116", note:"Infer undeclared cutoffs from knowledge of recent events."},
+ {id:"curyear", label:"Current year probes 2026", year:2026, c:"prompt", url:"https://arxiv.org/abs/2608.15507", note:"van Adrichem et al.: associative vs declarative 'current year'; nothing updates both."},
+ {id:"tempheads", label:"Temporal Heads 2025", year:2025, c:"prompt", url:"https://arxiv.org/abs/2502.14258", note:"Park et al.: attention heads that carry time-specific knowledge."},
+ {id:"geometry", label:"Geometry of Forgetting 2026", year:2026, c:"nlp", url:"https://arxiv.org/abs/2605.09195", note:"Staleness is encoded orthogonally to correctness and uncertainty."},
+ {id:"factsfade", label:"Facts Fade Fast 2025", year:2025, c:"bench", url:"https://arxiv.org/abs/2509.04304", note:"MedChangeQA: 512 questions where medical consensus changed."},
+ {id:"evolvecast", label:"EvolveCast 2025", year:2025, c:"bench", url:"https://arxiv.org/abs/2509.23936", note:"Models update forecasts with new evidence in the right direction but far too little."},
+ {id:"dct", label:"Date-controlled tools 2025", year:2025, c:"bench", url:"https://arxiv.org/abs/2503.04188", note:"Date-restricted search as a stress test for agents."},
+ {id:"synthworlds", label:"Synthetic Worlds 2026", year:2026, c:"bench", url:"https://arxiv.org/abs/2609.00184", note:"Fictional future worlds for contamination-free temporal evaluation."},
+ {id:"newswire", label:"Newswire 2024", year:2024, c:"data", url:"https://arxiv.org/abs/2406.09490", note:"2.7M unique newswire articles 1878–1977, deduplicated from 138M local-paper articles."},
  // beyond finance
  {id:"varnum", label:"Varnum et al 2024 (PNAS)", year:2024, c:"beyond", url:"https://doi.org/10.1073/pnas.2407639121", note:"Historical LLMs as informative tools for behavioural science."},
  {id:"essay", label:"Beyond Finance (essay)", year:2025, c:"beyond", url:"./essay.html", note:"Medicine, law, history, journalism, policy, social science: experiments that become possible without look-ahead."},
@@ -147,6 +178,21 @@ const EDGES = [
  // beyond finance
  {s:"storieslm", t:"varnum", k:"builds", label:"historical LLMs"}, {s:"varnum", t:"essay", k:"builds"},
  {s:"amstories", t:"varnum", k:"trains"},
+ // additions from the citation chase
+ {s:"datedgpt", t:"hub", k:"core"}, {s:"chrono", t:"datedgpt", k:"builds", label:"instruct + premium"}, {s:"datedgpt", t:"kelly", k:"builds"},
+ {s:"timoe", t:"hub", k:"core"}, {s:"ticlm", t:"kelly", k:"builds", label:"cheaper updates"}, {s:"pilchen", t:"kelly", k:"builds"},
+ {s:"fittschen", t:"timagpt", k:"builds"}, {s:"typewriter", t:"storieslm", k:"builds", label:"history LMs"}, {s:"typewriter", t:"varnum", k:"builds"},
+ {s:"lopezlira", t:"memorization", k:"builds", label:"same authors"}, {s:"memorization", t:"labench", k:"builds"}, {s:"memorization", t:"rewind", k:"alt", label:"prompts fail"},
+ {s:"crane", t:"memorization", k:"builds"}, {s:"paleka", t:"simign", k:"builds"}, {s:"deepfund", t:"openpm", k:"builds"},
+ {s:"glasserman", t:"merchantlevy", k:"builds"}, {s:"merchantlevy", t:"featsteer", k:"builds"}, {s:"levy", t:"merchantlevy", k:"builds"},
+ {s:"sarkarvafa", t:"levy", k:"builds"}, {s:"sarkarvafa", t:"allleaks", k:"builds"}, {s:"allleaks", t:"tempo", k:"builds"}, {s:"tempo", t:"zhangstadie", k:"builds"},
+ {s:"labench", t:"alpha", k:"builds"}, {s:"labench", t:"fonseca", k:"builds"}, {s:"labench", t:"hindsight", k:"builds"}, {s:"chrono", t:"hindsight", k:"trains", label:"control"},
+ {s:"chrono", t:"zhangstadie", k:"trains", label:"clean control"}, {s:"fincad", t:"merchantlevy", k:"builds"},
+ {s:"rewind", t:"simign", k:"builds"}, {s:"simign", t:"tcft", k:"builds"}, {s:"tcft", t:"tempo", k:"builds"}, {s:"dated", t:"llmlag", k:"builds"},
+ {s:"dated", t:"curyear", k:"builds"}, {s:"setclock", t:"curyear", k:"builds"}, {s:"chroknow", t:"tempheads", k:"builds", label:"same group"},
+ {s:"zhangchoi", t:"geometry", k:"builds"}, {s:"chroknow", t:"factsfade", k:"builds"}, {s:"factsfade", t:"tempomed", k:"builds"},
+ {s:"realtimeqa", t:"evolvecast", k:"builds"}, {s:"chroknow", t:"dct", k:"builds"}, {s:"rewind", t:"synthworlds", k:"builds"},
+ {s:"amstories", t:"newswire", k:"builds", label:"same lab"}, {s:"newswire", t:"gap_mid", k:"gap"},
  // gaps
  {s:"essay", t:"gap_law", k:"gap"}, {s:"tempomed", t:"gap_med", k:"gap"}, {s:"essay", t:"gap_med", k:"gap"},
  {s:"storieslm", t:"gap_mid", k:"gap"}, {s:"chrono", t:"gap_mid", k:"gap"},
@@ -174,11 +220,11 @@ const byId = new Map(nodes.map(n => [n.id, n]));
 const links = EDGES.map(e => ({source: e.s, target: e.t, k: e.k, label: e.label}));
 
 // Radial layout: clusters occupy arcs around the hub, sized by node count; nodes alternate
-// between two rings so neighbouring labels never share a baseline. A light collision force
+// between three rings so neighbouring labels never share a baseline. A light collision force
 // then nudges any remaining overlaps; links are drawn but do not pull.
 const ORDER = ["models", "beyond", "bias", "prompt", "bench", "nlp", "data"];
 const CX = W / 2, CY = H / 2;
-const RX1 = W * 0.27, RX2 = W * 0.40, RY1 = H * 0.27, RY2 = H * 0.41;   // two elliptical rings
+const RINGS = [[W * 0.19, H * 0.20], [W * 0.29, H * 0.30], [W * 0.38, H * 0.40]];   // three elliptical rings
 const groups = ORDER.map(c => nodes.filter(n => n.c === c));
 const total = groups.reduce((a, gN) => a + gN.length, 0);
 let theta = -Math.PI / 2 - Math.PI * groups[0].length / total;   // start so "models" is centred at the top
@@ -186,16 +232,16 @@ groups.forEach(gN => {
   const span = 2 * Math.PI * gN.length / total;
   gN.forEach((n, i) => {
     const a = theta + span * (i + 0.5) / gN.length;
-    const rx = (i % 2 === 0) ? RX1 : RX2, ry = (i % 2 === 0) ? RY1 : RY2;
+    const [rx, ry] = RINGS[i % 3];
     n.x = n.tx = CX + rx * Math.cos(a); n.y = n.ty = CY + ry * Math.sin(a);
   });
   theta += span;
 });
 const hubN = byId.get("hub"); hubN.x = hubN.tx = CX; hubN.y = hubN.ty = CY; hubN.fx = CX; hubN.fy = CY;
-const labelR = d => d.r + 6 + 2.6 * d.label.length;
+const labelR = d => d.r + 6 + 2.7 * d.label.length;
 const sim = d3.forceSimulation(nodes)
   .force("link", d3.forceLink(links).id(d => d.id).strength(0))
-  .force("collide", d3.forceCollide(labelR).strength(0.7).iterations(2))
+  .force("collide", d3.forceCollide(labelR).strength(0.8).iterations(3))
   .force("x", d3.forceX(d => d.tx).strength(0.35))
   .force("y", d3.forceY(d => d.ty).strength(0.35));
 

@@ -48,7 +48,7 @@ The following projects provide sequences of ≥10 date-stamped LLM checkpoints, 
 - [TemporalWiki](https://arxiv.org/abs/2204.14211) - [GitHub Repository](https://github.com/joeljang/temporalwiki/tree/main)
 
 ### Research Papers
-The maintained, verified bibliography (grouped by thread, with arXiv identifiers checked against the arXiv API) is on the site: [Bibliography](https://microprediction.github.io/pitllm/#bibliography). A dated view is on the [timeline](https://microprediction.github.io/pitllm/timeline.html) and a graph view on the [literature map](https://microprediction.github.io/pitllm/map.html).
+The maintained, verified bibliography (grouped by thread, with arXiv identifiers checked against the arXiv API) is on the site: [Bibliography](https://pitllm.microprediction.org/#bibliography). A dated view is on the [timeline](https://pitllm.microprediction.org/timeline.html) and a graph view on the [literature map](https://pitllm.microprediction.org/map.html).
 
 ### Additional Model Sequences
 - [Time Machine GPT](https://arxiv.org/abs/2404.18543) - 12 yearly GPT-2 models, 2011-2022, trained from scratch; [weights and data](https://huggingface.co/Ti-Ma)

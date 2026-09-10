@@ -14,6 +14,7 @@
       <nav>
         <a href="./models.html">Models</a>
         <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
         <a href="./plans.html">Plans</a>
         <a href="#bibliography">Bibliography</a>
@@ -107,7 +108,7 @@
 
     <h2 id="models">Model sequences</h2>
     <p>
-      Six open efforts have released sequences of date-stamped checkpoints. They differ in domain,
+      Seven open efforts have released sequences of date-stamped checkpoints, and TiMoE serves every cut-off from one set of routed experts. They differ in domain,
       cadence, and in whether the first checkpoint was itself trained from scratch on period text or
       adapted from a modern base model (which reintroduces some leakage). Details, checkpoint lists, and
       a coverage chart are on the <a href="./models.html">models page</a>.
@@ -118,6 +119,7 @@
         <tbody>
           <tr><td><a href="./models.html#chrono">ChronoBERT / ChronoGPT</a></td><td>BERT-style encoder; GPT-style decoder; instruct variant</td><td>1999&ndash;2024</td><td>yearly (26 + 26 + 26)</td><td>chronologically filtered web and news text</td></tr>
           <tr><td><a href="./models.html#kelly">Scaling PiT LMs</a></td><td>decoder-only, up to 4B params</td><td>2013&ndash;2024</td><td>monthly</td><td>1T chronologically filtered FineWeb tokens</td></tr>
+          <tr><td><a href="./models.html#datedgpt">DatedGPT</a></td><td>decoder-only, 1.3B params; instruct variant</td><td>2013&ndash;2024</td><td>yearly (12)</td><td>~100B tokens per year, with per-year instruction data</td></tr>
           <tr><td><a href="./models.html#timagpt">Time Machine GPT</a></td><td>GPT-2</td><td>2011&ndash;2022</td><td>yearly (12)</td><td>WMT News Crawl + Wikipedia, datasets released</td></tr>
           <tr><td><a href="./models.html#timelms">TimeLMs</a></td><td>RoBERTa-base (and one large)</td><td>2019-Q4&ndash;2022-Q4</td><td>quarterly</td><td>Twitter</td></tr>
           <tr><td><a href="./models.html#storieslm">StoriesLM</a></td><td>BERT-style, expanding windows</td><td>1900&ndash;1963</td><td>yearly (64)</td><td>American Stories newspapers</td></tr>
@@ -134,19 +136,19 @@
         <h3>Building the models</h3>
         <p>Train a sequence of checkpoints on chronologically filtered text. Recent work shows the
         performance gap to unconstrained models narrows with scale.</p>
-        <p class="meta">He et al. 2025; Kelly et al. 2026; Drinkall et al. 2024; Loureiro et al. 2022</p>
+        <p class="meta">He et al. 2025; Kelly et al. 2026; Yan et al. 2026; Faro et al. 2025; Drinkall et al. 2024</p>
       </div>
       <div class="card">
         <h3>Measuring look-ahead bias</h3>
         <p>How much of an LLM&apos;s &ldquo;forecasting skill&rdquo; is memorised outcome? Detection
         statistics, fake-date tests, and finance-specific benchmarks.</p>
-        <p class="meta">Glasserman &amp; Lin 2023; Sarkar &amp; Vafa 2024; Gao et al. 2025; Benhenda 2026</p>
+        <p class="meta">Glasserman &amp; Lin 2023; Sarkar &amp; Vafa 2024; Lopez-Lira et al. 2025; Benhenda 2026; Zhang &amp; Stadie 2026</p>
       </div>
       <div class="card">
         <h3>Can prompting substitute?</h3>
         <p>Telling a model to &ldquo;pretend it is 2015&rdquo; is cheap. It works for direct queries and
         fails for causally downstream knowledge; models struggle with chronology itself.</p>
-        <p class="meta">Gao et al. 2025; Asai et al. 2026; Wongchamcharoen &amp; Glasserman 2025</p>
+        <p class="meta">Gao et al. 2025; Li et al. 2026; Wongchamcharoen &amp; Glasserman 2025; Cheng et al. 2024</p>
       </div>
       <div class="card">
         <h3>Temporal generalisation</h3>
@@ -195,7 +197,7 @@
     <div class="bib">
       <h2 id="bibliography">Bibliography</h2>
       <p>Grouped by thread. Every entry also appears on the <a href="./map.html">literature map</a> and the
-      <a href="./timeline.html">timeline</a>. arXiv identifiers were checked against the arXiv API;
+      <a href="./timeline.html">timeline</a>, and has a one-paragraph note on the <a href="./ideas.html">key ideas</a> page. arXiv identifiers were checked against the arXiv API;
       SSRN and journal items against Crossref.</p>
 
       <h3>Model sequences</h3>
@@ -208,6 +210,12 @@
         <li>Sarkar, S. K. (2024). <a href="https://doi.org/10.2139/ssrn.4881024"><em>StoriesLM: A Family of Language Models With Time-Indexed Training Data</em></a>. SSRN 4881024. <em>Sixty-four yearly models, 1900&ndash;1963, each continuing the previous year&apos;s checkpoint on that year&apos;s American Stories newspaper text.</em></li>
         <li>Qiu, W., and Xu, Y. (2022). <a href="https://arxiv.org/abs/2202.03612"><em>HistBERT: A Pre-trained Language Model for Diachronic Lexical Semantic Analysis</em></a>. arXiv:2202.03612. <em>Decade-wise BERT models continued on COHA, for tracking lexical semantic change.</em></li>
         <li>Röttger, P., and Pierrehumbert, J. B. (2021). <a href="https://arxiv.org/abs/2104.08116"><em>Temporal Adaptation of BERT and Performance on Downstream Document Classification</em></a>. Findings of EMNLP 2021. <em>Early evidence on what temporal adaptation does and does not buy.</em></li>
+        <li>Yan, Y., Tang, R., Gao, Z., and Jiang, W. (2026). <a href="https://arxiv.org/abs/2603.11838"><em>DatedGPT: Preventing Lookahead Bias in Large Language Models with Time-Aware Pretraining</em></a>. arXiv:2603.11838. <em>Twelve 1.3B models with annual cut-offs 2013&ndash;2024 plus a per-year instruction set; prices the &ldquo;lookahead premium&rdquo; at 26.4 bp per standard deviation in return prediction.</em></li>
+        <li>Faro, R., Fan, D., Alphaidze, T., and Jaggi, M. (2025). <a href="https://arxiv.org/abs/2508.08827"><em>TiMoE: Time-Aware Mixture of Language Experts</em></a>. arXiv:2508.08827. <em>Experts pretrained on disjoint two-year slices; at inference, experts whose window ends after the query date are masked, so one set of weights serves every cut-off.</em></li>
+        <li>Li, J., et al. (2025). <a href="https://arxiv.org/abs/2504.02107"><em>TiC-LM: A Web-Scale Benchmark for Time-Continual LLM Pretraining</em></a>. arXiv:2504.02107. <em>114 Common Crawl dumps; continual pretraining with replay matches retraining from scratch at 2.6&times; less compute.</em></li>
+        <li>Pilchen, H., Fabre, R., Signe Talla, F., and P&eacute;rez, P. (2026). <a href="https://arxiv.org/abs/2605.22769"><em>Understanding Data Temporality Impact on Large Language Models Pre-training</em></a>. arXiv:2605.22769. <em>Chronologically ordered pretraining yields fresher, more temporally precise knowledge than shuffled pretraining at no cost in general ability.</em></li>
+        <li>Fittschen, E., Li, S., Lippincott, T., and Choshen, L. (2025). <a href="https://arxiv.org/abs/2504.05523"><em>Pretraining Language Models for Diachronic Linguistic Change Discovery</em></a>. Findings of EACL 2026. <em>Five 10-million-word time slices; efficient pretraining beats fine-tuning an 8B model for period-faithful inference.</em></li>
+        <li>Luo, X., Shinnick, Z., Griesshaber, N., and Wang, Y. (2026). <a href="https://arxiv.org/abs/2606.02991"><em>Pretraining Language Models on Historical Text</em></a>. arXiv:2606.02991. <em>TypewriterLM, a 7B model on 54B tokens of pre-1913 English, with leakage-mitigated corpus construction and lexically grounded instruction tuning.</em></li>
       </ul>
 
       <h3>Look-ahead bias and training leakage</h3>
@@ -217,10 +225,24 @@
         <li>Sarkar, S. K., and Vafa, K. (2024). <a href="https://doi.org/10.2139/ssrn.4754678"><em>Lookahead Bias in Pretrained Language Models</em></a>. SSRN 4754678. <em>Direct measurement of leakage in pretrained models used for economic prediction.</em></li>
         <li>Rahimikia, E., and Drinkall, F. (2024). <a href="https://doi.org/10.2139/ssrn.4963618"><em>Re(Visiting) Large Language Models in Finance</em></a>. SSRN 4963618. <em>Financial applications revisited with point-in-time models in hand.</em></li>
         <li>Ludwig, J., Mullainathan, S., and Rambachan, A. (2024). <a href="https://arxiv.org/abs/2412.07031"><em>Large Language Models: An Applied Econometric Framework</em></a>. arXiv:2412.07031. <em>When LLM outputs can and cannot be used as data in empirical research; training leakage is one of the two central problems.</em></li>
+        <li>Lopez-Lira, A., Tang, Y., and Zhu, M. (2025). <a href="https://arxiv.org/abs/2504.14765"><em>The Memorization Problem: Can We Trust LLMs&apos; Economic Forecasts?</em></a> arXiv:2504.14765. <em>In-sample forecasting skill is non-identified; models recall exact values, and neither date instructions nor masking prevent it.</em></li>
+        <li>Crane, D., Karra, A., and Soto, P. E. (2025). <a href="https://doi.org/10.17016/feds.2025.044"><em>Total Recall? Evaluating the Macroeconomic Knowledge of Large Language Models</em></a>. Federal Reserve FEDS 2025-044. <em>LLMs smooth across data vintages and believe they hold data not yet released.</em></li>
+        <li>Paleka, D., Goel, S., Geiping, J., and Tram&egrave;r, F. (2025). <a href="https://arxiv.org/abs/2506.00723"><em>Pitfalls in Evaluating Language Model Forecasters</em></a>. arXiv:2506.00723. <em>A catalogue of temporal-leakage channels in forecaster evaluation.</em></li>
+        <li>Li, C., et al. (2025). <a href="https://arxiv.org/abs/2505.11065"><em>Time Travel is Cheating: Going Live with DeepFund for Real-Time Fund Investment Benchmarking</em></a>. NeurIPS 2025. <em>A live benchmark on post-cutoff market data; the only leak-proof backtest is a prospective one.</em></li>
+        <li>Merchant, H., and Levy, B. (2025). <a href="https://arxiv.org/abs/2512.06607"><em>A Fast and Effective Solution to the Problem of Look-ahead Bias in LLMs</em></a>. arXiv:2512.06607. <em>Logit steering of a large base model by two small models, one tuned on what to forget and one on what to keep.</em></li>
+        <li>Levy, B. (2026). <a href="https://doi.org/10.1111/1475-679x.70058"><em>Caution Ahead: Numerical Reasoning and Look-Ahead Bias in AI Models</em></a>. Journal of Accounting Research. <em>Much of LLMs&apos; apparent superhuman performance in accounting and finance is artifact: poor numerical reasoning plus look-ahead bias.</em></li>
         <li>Gao, Z., Jiang, W., and Yan, Y. (2025). <a href="https://arxiv.org/abs/2512.23847"><em>Detecting Lookahead Bias in LLM Forecasts</em></a>. arXiv:2512.23847. <em>A &ldquo;lookahead propensity&rdquo; statistic from date-only recall queries; it collapses to zero after the training cutoff.</em></li>
         <li>Eliseev, A., and Seleznev, S. (2026). <a href="https://arxiv.org/abs/2601.07992"><em>Fake Date Tests: Can We Trust In-sample Accuracy of LLMs in Macroeconomic Forecasting?</em></a> arXiv:2601.07992. <em>Prompt-sensitivity tests; none of the tested models passed.</em></li>
         <li>Benhenda, M. (2026). <a href="https://arxiv.org/abs/2601.13770"><em>Look-Ahead-Bench: a Standardized Benchmark of Look-ahead Bias in Point-in-Time LLMs for Finance</em></a>. arXiv:2601.13770. <em>Alpha decay across market regimes as the measure; standard LLMs show it, point-in-time models do not.</em></li>
         <li>Kong, Y., Lee, H., Hwang, Y., Lopez-Lira, A., Levy, B., Mehta, D., Wen, Q., Choi, C., Lee, Y., and Zohren, S. (2026). <a href="https://arxiv.org/abs/2602.14233"><em>Evaluating LLMs in Finance Requires Explicit Bias Consideration</em></a>. arXiv:2602.14233. <em>Position paper: five biases including look-ahead; a review of 164 papers finds none discussed in more than 28% of them.</em></li>
+        <li>Zhang, Z., Chen, R., and Stadie, B. C. (2026). <a href="https://arxiv.org/abs/2602.17234"><em>All Leaks Count, Some Count More: Interpretable Temporal Contamination Detection and Mitigation in LLM Backtesting</em></a>. arXiv:2602.17234. <em>Shapley-weighted, claim-level leakage rate; TimeSPEC grounds predictions in date-filtered evidence.</em></li>
+        <li>Gao, Z., Jiang, W., and Yan, Y. (2026). <a href="https://arxiv.org/abs/2604.02921"><em>Debiasing LLMs by Fine-tuning</em></a>. arXiv:2604.02921. <em>LoRA fine-tuning on rational benchmark forecasts fixes extrapolation bias where prompting could not.</em></li>
+        <li>Zhang, Z., and Stadie, B. C. (2026). <a href="https://arxiv.org/abs/2605.18843"><em>TEMPO: Temporal Enforcement via Mode-Separated Policy Optimization for Trustworthy LLM Backtesting</em></a>. arXiv:2605.18843. <em>Temporal compliance is instance-specific, so unlearning cannot work; train temporal discipline with a two-mode reward.</em></li>
+        <li>Zhang, F., Li, Z., Peng, S., and Chen, Y. (2026). <a href="https://arxiv.org/abs/2605.23959"><em>When Alpha Disappears: A One-Switch Benchmark for Decision-Time Leakage in Financial Backtests</em></a>. arXiv:2605.23959. <em>Toggle one evaluation convention at a time to measure protocol-induced inflation.</em></li>
+        <li>Merchant, H., and Levy, B. (2026). <a href="https://arxiv.org/abs/2606.27199"><em>Forecasting With LLMs: Improved Generalization Through Feature Steering</em></a>. arXiv:2606.27199. <em>Amplifying sparse-autoencoder features for time-awareness reduces look-ahead bias; steering the look-ahead features does nothing.</em></li>
+        <li>Fonseca, X. (2026). <a href="https://arxiv.org/abs/2607.04958"><em>Look-Ahead-Freedom as Temporal Non-Interference: A Verifiable Correctness Property for Backtesting and Agentic Trading Pipelines</em></a>. arXiv:2607.04958. <em>Look-ahead-freedom as an information-flow property, decidable in linear time on the value-independent fragment.</em></li>
+        <li>Jia, H. (2026). <a href="https://arxiv.org/abs/2607.18867"><em>HindsightBench: A Black-Box Behavioral Audit Protocol for Parametric Hindsight in Time-Indexed LLM Decision Tasks</em></a>. arXiv:2607.18867. <em>Probe-cost audit via a four-arm date-manipulation matrix; the date-trigger reflex tracks training recency, not scale.</em></li>
+        <li>Zhang, Z., and Stadie, B. C. (2026). <a href="https://arxiv.org/abs/2608.02985"><em>Temporal Leakage in LLM Backtesting: Measurement, Validation, and Adjusted Scores</em></a>. arXiv:2608.02985. <em>The pre/post-cutoff comparison is provably uninformative; measurement needs a known cutoff or a matched clean control.</em></li>
         <li>Li, W. W., Wang, M., and Ma, T. (2026). <a href="https://arxiv.org/abs/2605.24564"><em>Summoning the Oracle to Slay It: Mitigating Look-Ahead Bias in Financial Backtesting with LLMs</em></a>. arXiv:2605.24564. <em>&ldquo;Parametric look-ahead bias&rdquo; and an inference-time decoding fix.</em></li>
         <li>Cai, X., et al. (2026). <a href="https://arxiv.org/abs/2608.09988"><em>OpenPM: Auditable Point-in-Time Evaluation for LLM Portfolio-Management Agents</em></a>. arXiv:2608.09988. <em>Every record visible to the agent must be available at decision time; runs emit a contamination certificate.</em></li>
       </ul>
@@ -232,6 +254,11 @@
         <li>Wongchamcharoen, P. K., and Glasserman, P. (2025). <a href="https://arxiv.org/abs/2511.14214"><em>Do Large Language Models (LLMs) Understand Chronology?</em></a> arXiv:2511.14214. <em>Frontier models preserve local order but fail to maintain a globally consistent timeline, undermining prompt-based defences.</em></li>
         <li>Cheng, J., Marone, M., Weller, O., Lawrie, D., Khashabi, D., and Van Durme, B. (2024). <a href="https://arxiv.org/abs/2403.12958"><em>Dated Data: Tracing Knowledge Cutoffs in Large Language Models</em></a>. arXiv:2403.12958. <em>The effective cutoff differs from the reported one, and differs by resource.</em></li>
         <li>Zhao, B., Brumbaugh, Z., Wang, Y., Hajishirzi, H., and Smith, N. A. (2024). <a href="https://arxiv.org/abs/2402.16797"><em>Set the Clock: Temporal Alignment of Pretrained Language Models</em></a>. arXiv:2402.16797. <em>Aligning a model&apos;s internal &ldquo;now&rdquo; to a target year.</em></li>
+        <li>Park, Y., Yoon, C., Park, J., Jeong, M., et al. (2025). <a href="https://arxiv.org/abs/2502.14258"><em>Does Time Have Its Place? Temporal Heads: Where Language Models Recall Time-specific Information</em></a>. ACL 2025. <em>Specific attention heads carry time-specific knowledge and can be ablated or edited.</em></li>
+        <li>P&eogon;zik, P., Kaczy&nacute;ski, K., Szyma&nacute;ska, M., and &Zdot;arnecki, F. (2025). <a href="https://arxiv.org/abs/2511.12116"><em>LLMLagBench: Identifying Temporal Training Boundaries in Large Language Models</em></a>. arXiv:2511.12116. <em>Infer undeclared training cutoffs from knowledge of recent events.</em></li>
+        <li>Li, Z., Wang, Y., El Lahib, A., and Xia, Y.-J. (2026). <a href="https://arxiv.org/abs/2601.13717"><em>Simulated Ignorance Fails: A Systematic Study of LLM Behaviors on Forecasting Problems Before Model Knowledge Cutoff</em></a>. arXiv:2601.13717. <em>A 52% gap between simulated and true ignorance across 477 questions and nine models.</em></li>
+        <li>Ding, C., Wu, J., Luo, Y., Liu, Z., et al. (2026). <a href="https://arxiv.org/abs/2605.14636"><em>Teaching Large Language Models When Not to Know: Learning Temporal Critique for Ex-Ante Reasoning</em></a>. arXiv:2605.14636. <em>Ex-ante correctness is a relation between answer and cutoff; train a critic rather than a memory wipe.</em></li>
+        <li>van Adrichem, S., Bhaskar, A., Yang, D., and Potts, C. (2026). <a href="https://arxiv.org/abs/2608.15507"><em>Do Language Models Consistently Encode the Current Year?</em></a> arXiv:2608.15507. <em>Associative and declarative probes for the current year use different mechanisms; nothing updates both.</em></li>
       </ul>
 
       <h3>Temporal generalisation and misalignment</h3>
@@ -244,6 +271,7 @@
         <li>Jin, X., et al. (2021). <a href="https://arxiv.org/abs/2110.08534"><em>Lifelong Pretraining: Continually Adapting Language Models to Emerging Corpora</em></a>. arXiv:2110.08534.</li>
         <li>Zhang, M. J. Q., and Choi, E. (2023). <a href="https://arxiv.org/abs/2305.14824"><em>Mitigating Temporal Misalignment by Discarding Outdated Facts</em></a>. arXiv:2305.14824. <em>Predict how long a fact stays true.</em></li>
         <li>Shin, C., et al. (2025). <a href="https://arxiv.org/abs/2503.18693"><em>TARDIS: Mitigating Temporal Misalignment via Representation Steering</em></a>. arXiv:2503.18693.</li>
+        <li>Elbadry, R., Heakl, A., Zhang, F., Bouch, D., et al. (2026). <a href="https://arxiv.org/abs/2605.09195"><em>The Geometry of Forgetting: Temporal Knowledge Drift as an Independent Axis in LLM Representations</em></a>. arXiv:2605.09195. <em>Staleness is encoded orthogonally to correctness and uncertainty, so uncertainty-based detectors miss it by construction.</em></li>
       </ul>
 
       <h3>Temporal knowledge benchmarks</h3>
@@ -254,11 +282,16 @@
         <li>Kasai, J., et al. (2022). <a href="https://arxiv.org/abs/2207.13332"><em>RealTime QA: What&apos;s the Answer Right Now?</em></a> arXiv:2207.13332.</li>
         <li>Deng, H., Jiao, W., Liu, X., Zhang, M., and Tu, Z. (2024). <a href="https://arxiv.org/abs/2410.20814"><em>NewTerm: Benchmarking Real-Time New Terms for Large Language Models with Annual Updates</em></a>. arXiv:2410.20814.</li>
         <li>Guan, Z., et al. (2026). <a href="https://arxiv.org/abs/2605.13045"><em>Large Language Models Lack Temporal Awareness of Medical Knowledge</em></a>. arXiv:2605.13045. <em>TempoMed-Bench: evolving clinical guidelines as the test of &ldquo;knowing when knowledge is correct&rdquo;.</em></li>
+        <li>Vladika, J., Dhaini, M., and Matthes, F. (2025). <a href="https://arxiv.org/abs/2509.04304"><em>Facts Fade Fast: Evaluating Memorization of Outdated Medical Knowledge in Large Language Models</em></a>. EMNLP 2025. <em>MedChangeQA: 512 questions where medical consensus changed; all models tested answer with the old consensus.</em></li>
+        <li>Xian, R. P., Cui, Q., Bauer, S., and Abbasi-Asl, R. (2025). <a href="https://arxiv.org/abs/2503.04188"><em>Measuring temporal effects of agent knowledge by date-controlled tool use</em></a>. REALM 2025. <em>Date-restricted search tools as a stress test for agent temporal knowledge.</em></li>
+        <li>Yuan, Z., Ding, Z., and Vlachos, A. (2025). <a href="https://arxiv.org/abs/2509.23936"><em>Do Language Models Update their Forecasts with New Information?</em></a> arXiv:2509.23936. <em>EvolveCast: models move forecasts in the right direction but far too little given post-cutoff evidence.</em></li>
+        <li>Zheng, J., Shao, Z., Ritter, A., and Xu, W. (2026). <a href="https://arxiv.org/abs/2609.00184"><em>Synthetic Worlds for Temporal Evaluation and Knowledge Updating in LLMs</em></a>. arXiv:2609.00184. <em>Fictional but coherent future worlds give contamination-free temporal evaluation.</em></li>
       </ul>
 
       <h3>Corpora and data</h3>
       <ul>
         <li>Dell, M., et al. (2023). <a href="https://arxiv.org/abs/2308.12477"><em>American Stories: A Large-Scale Structured Text Dataset of Historical U.S. Newspapers</em></a>. NeurIPS 2023 Datasets. <em>Article-level text from nearly 20 million Chronicling America scans; the training data for StoriesLM.</em></li>
+        <li>Silcock, E., Arora, A., D&apos;Amico-Wong, L., and Dell, M. (2024). <a href="https://arxiv.org/abs/2406.09490"><em>Newswire: A Large-Scale Structured Database of a Century of Historical News</em></a>. NeurIPS 2024 Datasets. <em>2.7 million unique public-domain newswire articles, 1878&ndash;1977, reconstructed by deduplicating 138 million local-newspaper articles.</em></li>
         <li>Yang, H., Liu, X.-Y., and Wang, C. D. (2023). <a href="https://arxiv.org/abs/2306.06031"><em>FinGPT: Open-Source Financial Large Language Models</em></a>. arXiv:2306.06031. <em>Data-centric financial LLM pipeline; not point-in-time, but a source of dated financial text.</em></li>
         <li>See the <a href="./corpora.html">corpora page</a> for the full catalogue of dated text sources.</li>
       </ul>

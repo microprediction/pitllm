@@ -13,6 +13,7 @@
       <nav>
         <a href="./models.html">Models</a>
         <a class="current" href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
         <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
@@ -39,8 +40,10 @@
     </p>
     <p>
       The sequences on the <a href="./models.html">models page</a> used, respectively: FineWeb (Kelly et al.),
-      chronologically filtered web and news (ChronoBERT), WMT News Crawl and Wikipedia (Time Machine GPT),
-      Twitter (TimeLMs), American Stories (StoriesLM), and COHA (HistBERT). Everything else below is a candidate.
+      chronologically filtered web and news (ChronoBERT, DatedGPT), WMT News Crawl and Wikipedia (Time Machine GPT),
+      Twitter (TimeLMs), American Stories (StoriesLM), and COHA (HistBERT). TypewriterLM&apos;s 54B-token
+      pre-1913 corpus (Luo et al. 2026) and the TiC-LM Common Crawl dump series are the newest additions.
+      Everything else below is a candidate.
     </p>
     <div class="toc"><strong>Domains</strong><ul><li><a href="#multilingual-and-cross-lingual-corpora">Multilingual and Cross-Lingual Corpora</a></li><li><a href="#news-and-media-corpora">News and Media Corpora</a></li><li><a href="#social-media-corpora">Social Media Corpora</a></li><li><a href="#historical-and-literary-corpora">Historical and Literary Corpora</a></li><li><a href="#scientific-and-technical-corpora">Scientific and Technical Corpora</a></li><li><a href="#legal-and-government-corpora">Legal and Government Corpora</a></li><li><a href="#financial-and-economic-corpora">Financial and Economic Corpora</a></li><li><a href="#patent-and-technical-standards-corpora">Patent and Technical Standards Corpora</a></li><li><a href="#climate-and-earth-science-corpora">Climate and Earth Science Corpora</a></li></ul></div>
     <h2 id="multilingual-and-cross-lingual-corpora">Multilingual and Cross-Lingual Corpora</h2>
@@ -60,6 +63,7 @@
         <tr><td><a href="https://catalog.ldc.upenn.edu/LDC2008T19">New York Times Annotated Corpus</a></td><td>1987-2007</td><td>Daily articles</td><td><span class="tag commercial">commercial</span><br><span class="small muted">Commercial license required</span></td><td class="small">News analysis, temporal event tracking</td></tr>
         <tr><td><a href="https://www.reuters.com">Reuters News Archive</a></td><td>1987-present</td><td>Real-time updates</td><td><span class="tag commercial">commercial</span><br><span class="small muted">Commercial subscription required</span></td><td class="small">Financial analysis, event detection</td></tr>
         <tr><td><a href="https://huggingface.co/collections/PleIAs/finance-commons-66925e1095c7fa6e6828e26c">Finance Commons</a></td><td>Public-domain financial subset of Common Corpus</td><td>Snapshot-based</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Financial modeling, open-source financial analysis</td></tr>
+                <tr><td><a href="https://huggingface.co/datasets/dell-research-harvard/newswire">Newswire</a></td><td>1878-1977</td><td>Article date (daily)</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">2.7M unique U.S. newswire articles reconstructed from 138M local-newspaper articles; georeferenced and entity-linked (Silcock et al. 2024)</td></tr>
         <tr><td><a href="https://chroniclingamerica.loc.gov/">Chronicling America (Library of Congress)</a></td><td>1756-1963</td><td>Issue date (daily)</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Raw scans and OCR behind American Stories; historical research</td></tr>
         <tr><td><a href="https://data.statmt.org/news-crawl/">WMT News Crawl</a></td><td>2007-present</td><td>Yearly releases, article dates</td><td><span class="tag open">open</span><br><span class="small muted">Open access for research</span></td><td class="small">Training data for Time Machine GPT</td></tr>
       </tbody></table></div>

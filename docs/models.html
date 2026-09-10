@@ -13,6 +13,7 @@
       <nav>
         <a class="current" href="./models.html">Models</a>
         <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
         <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
@@ -38,20 +39,20 @@
     </p>
 
     <div class="diagram">
-      <svg viewBox="0 0 860 300" role="img" aria-label="Coverage of each point-in-time model sequence on a 1900 to 2026 axis">
+      <svg viewBox="0 0 860 336" role="img" aria-label="Coverage of each point-in-time model sequence on a 1900 to 2026 axis">
         <!-- axis: x = 60 + (year-1900) * 6.19 ; 1900 -> 60, 2026 -> 840 -->
         <g stroke="#e2e2e2" stroke-width="1">
-          <line x1="60" y1="20" x2="60" y2="256"/>
-          <line x1="183.8" y1="20" x2="183.8" y2="256"/>
-          <line x1="307.6" y1="20" x2="307.6" y2="256"/>
-          <line x1="431.4" y1="20" x2="431.4" y2="256"/>
-          <line x1="555.2" y1="20" x2="555.2" y2="256"/>
-          <line x1="679" y1="20" x2="679" y2="256"/>
-          <line x1="802.8" y1="20" x2="802.8" y2="256"/>
+          <line x1="60" y1="20" x2="60" y2="292"/>
+          <line x1="183.8" y1="20" x2="183.8" y2="292"/>
+          <line x1="307.6" y1="20" x2="307.6" y2="292"/>
+          <line x1="431.4" y1="20" x2="431.4" y2="292"/>
+          <line x1="555.2" y1="20" x2="555.2" y2="292"/>
+          <line x1="679" y1="20" x2="679" y2="292"/>
+          <line x1="802.8" y1="20" x2="802.8" y2="292"/>
         </g>
         <g font-size="11" fill="#9a9a9a" text-anchor="middle">
-          <text x="60" y="272">1900</text><text x="183.8" y="272">1920</text><text x="307.6" y="272">1940</text>
-          <text x="431.4" y="272">1960</text><text x="555.2" y="272">1980</text><text x="679" y="272">2000</text><text x="802.8" y="272">2020</text>
+          <text x="60" y="308">1900</text><text x="183.8" y="308">1920</text><text x="307.6" y="308">1940</text>
+          <text x="431.4" y="308">1960</text><text x="555.2" y="308">1980</text><text x="679" y="308">2000</text><text x="802.8" y="308">2020</text>
         </g>
         <!-- rows -->
         <g font-size="12" fill="#1f1d3d">
@@ -71,15 +72,18 @@
           <!-- Kelly et al 2013-2024 monthly -->
           <rect x="759.5" y="174" width="74.3" height="16" rx="3" fill="#1f1d3d"/>
           <text x="752" y="187" text-anchor="end">Scaling PiT LMs &middot; monthly &middot; FineWeb</text>
+          <!-- DatedGPT 2013-2024 yearly -->
+          <rect x="759.5" y="210" width="74.3" height="16" rx="3" fill="#4a3aff" opacity="0.85"/>
+          <text x="752" y="223" text-anchor="end">DatedGPT &middot; yearly (12) &middot; web text + per-year instructions</text>
           <!-- TimeLMs 2019Q4-2022Q4 quarterly -->
-          <rect x="797" y="210" width="21.7" height="16" rx="3" fill="#1f1d3d"/>
-          <text x="790" y="223" text-anchor="end">TimeLMs &middot; quarterly &middot; Twitter</text>
+          <rect x="797" y="246" width="21.7" height="16" rx="3" fill="#1f1d3d"/>
+          <text x="790" y="259" text-anchor="end">TimeLMs &middot; quarterly &middot; Twitter</text>
         </g>
         <g font-size="10.5" fill="#9a9a9a">
-          <text x="60" y="292">bar = span of checkpoints; light = decade steps; dark = monthly or quarterly cadence</text>
+          <text x="60" y="328">bar = span of checkpoints; light = decade steps; dark = monthly or quarterly cadence</text>
         </g>
       </svg>
-      <p class="caption">Coverage of the six released sequences. Nothing open covers 1964&ndash;1998 at yearly cadence, and nothing before 2013 at monthly cadence.</p>
+      <p class="caption">Coverage of the seven released sequences. Nothing open covers 1964&ndash;1998 at yearly cadence, and nothing before 2013 at monthly cadence.</p>
     </div>
 
     <h2 id="chrono">ChronoBERT / ChronoGPT &mdash; Manela lab</h2>
@@ -116,6 +120,21 @@
       <li>Cadence: monthly &mdash; the finest of any released sequence.</li>
       <li>Provenance: trained from scratch. <span class="tag open">leakage-free</span></li>
       <li>Weights: see the paper for release details. <span class="tag mixed">check paper</span></li>
+    </ul>
+
+    <h2 id="datedgpt">DatedGPT &mdash; Yan, Tang, Gao &amp; Jiang</h2>
+    <p>
+      <a href="https://arxiv.org/abs/2603.11838">arXiv:2603.11838</a> (2026). Twelve 1.3-billion-parameter
+      models trained from scratch on roughly 100 billion tokens each, with strict annual cut-offs from 2013 to
+      2024, plus DatedInstruct, an instruction-tuning set grounded in each year&apos;s documents so that
+      post-training cannot reintroduce leakage. Perplexity probes confirm each model&apos;s knowledge stops at its
+      year. The paper&apos;s distinctive result is a direct estimate of the &ldquo;lookahead premium&rdquo;: on
+      61,000 firm-day news headlines, models whose training covers the outcome period earn 26.4 basis points
+      per standard deviation more than the clean models, significant at the 1% level.
+    </p>
+    <ul>
+      <li>Provenance: trained from scratch; instruction data period-bounded. <span class="tag open">leakage-free</span></li>
+      <li>Weights and demo: see the paper. <span class="tag mixed">check paper</span></li>
     </ul>
 
     <h2 id="timagpt">Time Machine GPT (TiMaGPT) &mdash; Oxford</h2>
@@ -176,13 +195,17 @@
 
     <h2>Also relevant</h2>
     <ul>
+      <li><strong>TiMoE</strong> &mdash; Faro, Fan, Alphaidze &amp; Jaggi (2025), <a href="https://arxiv.org/abs/2508.08827">arXiv:2508.08827</a>. Not a checkpoint sequence but a substitute for one: GPT-style experts pretrained from scratch on disjoint two-year slices of 2013&ndash;2024, with experts whose window ends after the query date masked at inference. One set of weights answers as of any cut-off, at two-year granularity.</li>
+      <li><strong>TypewriterLM</strong> &mdash; Luo et al. (2026), <a href="https://arxiv.org/abs/2606.02991">arXiv:2606.02991</a>. A single 7.24B model trained only on English text before 1913, with a 54B-token corpus, leakage-mitigated post-training, and a benchmark that tests for leakage. The largest &ldquo;history language model&rdquo; released; a sequence could be built the same way.</li>
+      <li><strong>Diachronic slice models</strong> &mdash; Fittschen, Li, Lippincott &amp; Choshen (2025), <a href="https://arxiv.org/abs/2504.05523">arXiv:2504.05523</a>. Five small models pretrained on five 10-million-word time slices, for humanities research; argues pretraining beats fine-tuning for period fidelity.</li>
+      <li><strong>TiC-LM</strong> &mdash; Li et al. (2025), <a href="https://arxiv.org/abs/2504.02107">arXiv:2504.02107</a>. A time-continual pretraining benchmark over 114 Common Crawl dumps; shows replay schedules that match from-scratch retraining at 2.6&times; less compute, which is how a monthly sequence could be produced cheaply.</li>
       <li><strong>Pitinf models</strong> (PiT-Inference) &mdash; a small, medium, and &ldquo;frontier-level&rdquo; family of point-in-time LLMs evaluated in <a href="https://arxiv.org/abs/2601.13770">Look-Ahead-Bench</a>. Availability outside the benchmark is not documented here. <span class="tag mixed">unverified</span></li>
       <li><strong>Temporal adaptation of BERT</strong> &mdash; Röttger &amp; Pierrehumbert (2021), <a href="https://arxiv.org/abs/2104.08116">arXiv:2104.08116</a>, and Lazaridou et al. (2021), <a href="https://arxiv.org/abs/2102.01951">Mind the Gap</a>, trained time-stratified models to study degradation rather than to release a reusable sequence.</li>
       <li><strong>Prompted cut-offs</strong> are the cheap alternative to all of the above. The evidence that they are not a substitute is collected under <a href="./index.html#bibliography">Prompted cut-offs and chronology</a>.</li>
     </ul>
 
     <div class="next-steps">
-      <p><strong>Gaps.</strong> No open sequence covers 1964&ndash;1998 at yearly cadence. Nothing before 2013
+      <p><strong>Gaps.</strong> No open sequence covers 1964&ndash;1998 at yearly cadence, although Newswire (1878&ndash;1977) now supplies the text for one. Nothing before 2013
       exists at monthly cadence. No sequence targets a non-English language or a specialist domain such as
       medicine or law. The <a href="./plans.html">plans page</a> costs out ways to fill some of these.</p>
     </div>
