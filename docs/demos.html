@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Point-in-Time LLM Demos</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./essay.html">Essay</a>
+        <a href="./plans.html">Plans</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a class="current" href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Demos</h1>
+    <p class="subtitle">Notebooks that load a point-in-time checkpoint and ask it about its own present.</p>
+
+    <h2>ChronoGPT: ask a 2023 model who is president</h2>
+    <p>
+      The <a href="https://colab.research.google.com/github/microprediction/pitllm/blob/main/ChronoGPT.ipynb">ChronoGPT
+      notebook</a> in this repository lists every <code>manelalab/chrono-gpt-v1-*</code> checkpoint, downloads
+      the model class shipped with the weights, and samples answers with nucleus sampling. Change the
+      cut-off and the answers change with it.
+    </p>
+<pre><code>from huggingface_hub import hf_hub_download, HfApi
+import importlib.util, sys, torch
+from tiktoken import get_encoding
+
+# every available cut-off
+api = HfApi()
+print([m.modelId for m in api.list_models(author="manelalab") if "chrono-gpt-v1" in m.modelId])
+
+repo_id = "manelalab/chrono-gpt-v1-20231231"          # pick your cut-off
+path = hf_hub_download(repo_id=repo_id, filename="modeling_chronogpt.py")
+spec = importlib.util.spec_from_file_location("chronogpt", path)
+chronogpt = importlib.util.module_from_spec(spec); sys.modules["chronogpt"] = chronogpt
+spec.loader.exec_module(chronogpt)
+
+model = chronogpt.ChronoGPT.from_pretrained(repo_id).eval()
+enc = get_encoding("gpt2")
+
+prompt = "Q: Who was the president of the United States in 2000?\nA:"
+ids = torch.tensor(enc.encode(prompt))[None]
+# ... sample with model(ids) as in the notebook</code></pre>
+    <p class="muted small">Also available as a <a href="https://colab.research.google.com/gist/microprediction/2e365dfe9ebdc2359f74cadcd73135c7/chronogpt.ipynb">gist-backed Colab</a>.</p>
+
+    <h2>TimeLMs: route each tweet to the model that could have seen it</h2>
+    <p>
+      Cardiff NLP&apos;s <a href="https://colab.research.google.com/drive/1pmHi5GU-5VHtXhbK_QV2A-7mDGwddjp8?usp=sharing">TimeLMs
+      notebook</a> demonstrates the <code>corresponding</code> mode: perplexity of a tweet is computed with
+      the quarterly checkpoint trained only up to that tweet&apos;s date, so later language never informs an
+      earlier score.
+    </p>
+<pre><code>from timelms import TimeLMs
+tlms = TimeLMs(device="cuda:0")
+tweets = [{"text": "Looking forward to watching Squid Game tonight!", "created_at": "2021-10-11T12:34:56Z"}]
+tlms.get_pseudo_ppl(tweets, mode="corresponding")   # uses the sep2021 checkpoint</code></pre>
+
+    <h2>Time Machine GPT: a yearly model and its exact training set</h2>
+    <p>
+      Each <code>Ti-Ma/TiMaGPT2-YYYY</code> model on Hugging Face is paired with a dataset of the same
+      name, so the &ldquo;what did it see?&rdquo; question has an exact answer. Standard
+      <code>transformers</code> loading works:
+    </p>
+<pre><code>from transformers import AutoTokenizer, AutoModelForCausalLM
+tok = AutoTokenizer.from_pretrained("Ti-Ma/TiMaGPT2-2015")
+model = AutoModelForCausalLM.from_pretrained("Ti-Ma/TiMaGPT2-2015")
+out = model.generate(**tok("The most promising new technology is", return_tensors="pt"), max_new_tokens=40)
+print(tok.decode(out[0]))</code></pre>
+
+    <p class="muted">A demo that runs the same prompt across every checkpoint of a sequence, and plots how
+    the answer drifts, would be a natural addition. Contributions welcome on
+    <a href="https://github.com/microprediction/pitllm">GitHub</a>.</p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

@@ -48,32 +48,9 @@ The following projects provide sequences of ≥10 date-stamped LLM checkpoints, 
 - [TemporalWiki](https://arxiv.org/abs/2204.14211) - [GitHub Repository](https://github.com/joeljang/temporalwiki/tree/main)
 
 ### Research Papers
-#### Temporal Language Understanding
-- [Streaming LLM](https://arxiv.org/abs/2102.01951) - Efficient processing of streaming text data
-- [Time-Aware LLM as Temporal Knowledge Bases](https://arxiv.org/abs/2106.15110) - Using LLMs for temporal knowledge representation
-- [Temporal Knowledge Graph Completion](https://arxiv.org/abs/2101.02613) - Methods for temporal knowledge graph reasoning
-- [Temporal Language Models for Historical Text Analysis](https://arxiv.org/abs/2203.08474) - Analysis of historical language patterns
+The maintained, verified bibliography (grouped by thread, with arXiv identifiers checked against the arXiv API) is on the site: [Bibliography](https://microprediction.github.io/pitllm/#bibliography). A dated view is on the [timeline](https://microprediction.github.io/pitllm/timeline.html) and a graph view on the [literature map](https://microprediction.github.io/pitllm/map.html).
 
-#### Applications and Use Cases
-- [Temporal Question Answering](https://arxiv.org/abs/2205.08184) - Methods for answering time-sensitive questions
-- [Historical Event Extraction](https://arxiv.org/abs/2204.14211) - Extracting and analyzing historical events
-- [Temporal Information Extraction](https://arxiv.org/abs/2109.03241) - Extracting temporal information from text
-- [Diachronic Word Embeddings](https://arxiv.org/abs/2103.06454) - Tracking word meaning changes over time
-
-#### Technical Approaches
-- [Temporal Pre-training](https://arxiv.org/abs/2104.08685) - Pre-training methods for temporal understanding
-- [Temporal Fine-tuning](https://arxiv.org/abs/2105.03023) - Fine-tuning approaches for temporal tasks
-- [Temporal Evaluation](https://arxiv.org/abs/2106.15110) - Evaluation metrics for temporal language models
-- [Temporal Data Augmentation](https://arxiv.org/abs/2107.03051) - Data augmentation techniques for temporal tasks
-
-### Datasets and Resources
-- [TemporalWiki](https://github.com/joeljang/temporalwiki) - Temporal knowledge graph dataset
-- [ChroKnowledge](https://p-yi.github.io/ChroKnowledge/) - Benchmark for chronological knowledge
-- [Historical News Archives](https://github.com/StoriesLM) - Historical newspaper datasets
-- [Temporal Question Answering Datasets](https://github.com/temporal-qa) - Datasets for temporal QA tasks
-
-### Tools and Frameworks
-- [FinGPT](https://github.com/fingpt) - Financial temporal analysis toolkit
-- [TemporalNLP](https://github.com/temporal-nlp) - NLP tools for temporal analysis
-- [ChronoBERT](https://github.com/chronobert) - Framework for temporal language modeling
-- [TimeLM](https://github.com/cardiffnlp/timelms) - Tools for temporal language model analysis 
+### Additional Model Sequences
+- [Time Machine GPT](https://arxiv.org/abs/2404.18543) - 12 yearly GPT-2 models, 2011-2022, trained from scratch; [weights and data](https://huggingface.co/Ti-Ma)
+- [Scaling Point-in-Time Language Models](https://arxiv.org/abs/2607.11889) - decoder-only models up to 4B parameters, monthly checkpoints 2013-2024
+- [ChronoGPT-instruct](https://arxiv.org/abs/2510.11677) - instruction-tuned ChronoGPT per cut-off year

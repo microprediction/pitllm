@@ -1,26 +1,37 @@
 # Point-in-Time Large Language Models (PITLLM)
 
-This repository serves as a comprehensive resource collating ideas about Point-in-Time (chronologically consistent) Large Language Models and their uses.
+A resource that summarizes and connects research on Point-in-Time (chronologically consistent) Large Language Models: models trained only on text available up to a fixed cut-off date, so that sequences of them can be used for backtesting and historical analysis without look-ahead bias.
 
-## Repository Contents
+**Site:** https://microprediction.github.io/pitllm/
 
-- [GOALS.md](GOALS.md) - Overview of the repository's purpose and goals
-- [ESSAY.md](ESSAY.md) - In-depth exploration of PITLLM applications across various fields
-- [LLM-PROJECT-LISTING.md](LLM-PROJECT-LISTING.md) - Comprehensive list of PITLLM projects and resources
+## What is on the site
 
-## Key Model Sequences
+- [Home](https://microprediction.github.io/pitllm/) - the idea, the released model sequences, research threads, and a verified bibliography
+- [Models](https://microprediction.github.io/pitllm/models.html) - ChronoBERT/ChronoGPT, Scaling PiT LMs, Time Machine GPT, TimeLMs, StoriesLM, HistBERT, with a coverage chart
+- [Corpora](https://microprediction.github.io/pitllm/corpora.html) - dated text sources by domain, with licensing and temporal granularity
+- [Essay](https://microprediction.github.io/pitllm/essay.html) - point-in-time LLMs beyond finance
+- [Plans](https://microprediction.github.io/pitllm/plans.html) - three costed proposals for extending the open sequences
+- [Literature map](https://microprediction.github.io/pitllm/map.html) and [Timeline](https://microprediction.github.io/pitllm/timeline.html)
+- [Demos](https://microprediction.github.io/pitllm/demos.html) - notebooks that load a checkpoint and query it
 
-- [TimeLM](https://github.com/cardiffnlp/timelms/blob/main/README.md) - RoBERTa-base models trained on quarterly Twitter updates
-- [ChronoBERT](https://arxiv.org/abs/2502.21206) - Chronologically consistent Models ([Hugging Face Collection](https://huggingface.co/collections/manelalab/chronobert-67c1ca6c2382e03aaec446f8))
-- [StoriesLM](https://huggingface.co/StoriesLM/StoriesLM-v1-1963) - Yearly models from 1900-1963
+## Repository layout
 
-## Related Projects and Research
+- `docs/` - the static site (plain HTML and CSS, D3 for the map and timeline), deployed by `.github/workflows/pages.yml`
+- `ESSAY.md`, `PIT-CORPUSES.md`, `CORPUS-GRANULARITY.md` - source documents rendered on the site
+- `SMALL-BUDGET-PLAN.md`, `SMALL-BUDGET-CORPUS-PLAN.md`, `SMALL-BUDGET-CORPUS-SUBNET-PLAN.md` - the plans
+- `LLM-PROJECT-LISTING.md` - short list of model sequences and tools
+- `projects/` - summaries and PDFs of individual papers
+- `ChronoGPT.ipynb` - Colab notebook for sampling from ChronoGPT checkpoints
 
-### Benchmarks and Tools
-- [ChroKnowledge](https://p-yi.github.io/ChroKnowledge/) - Benchmark for chronological knowledge
-- [FinGPT](https://arxiv.org/abs/2306.06031) - Toolkit for continuous learning
-- [TemporalWiki](https://arxiv.org/abs/2204.14211) - [GitHub Repository](https://github.com/joeljang/temporalwiki/tree/main)
+## Key model sequences
 
-### Research Papers
-- [Streaming LLM](https://arxiv.org/abs/2102.01951)
-- [Time-Aware LLM as Temporal Knowledge Bases](https://arxiv.org/abs/2106.15110)
+- [ChronoBERT / ChronoGPT](https://arxiv.org/abs/2502.21206) - 26 yearly checkpoints, 1999-2024 ([Hugging Face](https://huggingface.co/collections/manelalab/chronobert-67c1ca6c2382e03aaec446f8))
+- [Scaling Point-in-Time Language Models](https://arxiv.org/abs/2607.11889) - monthly checkpoints, 2013-2024, up to 4B parameters
+- [Time Machine GPT](https://arxiv.org/abs/2404.18543) - 12 yearly GPT-2 models, 2011-2022 ([Hugging Face](https://huggingface.co/Ti-Ma))
+- [TimeLMs](https://github.com/cardiffnlp/timelms) - quarterly RoBERTa checkpoints on Twitter, 2019-2022
+- [StoriesLM](https://huggingface.co/StoriesLM) - 64 yearly models, 1900-1963
+- [HistBERT](https://github.com/wendyqiu/diachronicBert) - decade-wise BERT on COHA
+
+## Contributing
+
+Open an issue or pull request with a model sequence, corpus, or paper that is missing. References on the site are verified against the arXiv API or Crossref before they are added.

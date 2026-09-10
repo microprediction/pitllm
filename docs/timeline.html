@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Point-in-Time LLM Timeline</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./essay.html">Essay</a>
+        <a href="./plans.html">Plans</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a class="current" href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+<div id="tl-wrap">
+  <h1>Point-in-time language models: a timeline</h1>
+  <p>One lane per thread. Events sit at their earliest public date (preprint, not journal acceptance).
+  The NLP community noticed temporal degradation first (2021); finance supplied the motive (2023) once
+  ChatGPT appeared to forecast returns; leakage-free model sequences and leakage benchmarks followed.
+  The dashed line marks the arrival of from-scratch, multi-year, general-purpose sequences (ChronoBERT,
+  February 2025). Hover for details; click to open. Dates marked &#9888; are month-approximate.</p>
+  <div class="legend" id="lane-legend"></div>
+  <div id="timeline"></div>
+  <p class="hint">Corrections welcome &mdash; file an issue on
+  <a href="https://github.com/microprediction/pitllm">microprediction/pitllm</a>.</p>
+</div>
+<div id="tooltip"></div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+const LANES = {
+  models:   {label:"Model sequences",                     color:"#4a3aff", y0:50,  h:150},
+  bias:     {label:"Look-ahead bias & leakage (finance)", color:"#27ae60", y0:230, h:170},
+  nlp:      {label:"Temporal generalisation (NLP)",       color:"#2980b9", y0:430, h:110},
+  bench:    {label:"Temporal knowledge & benchmarks",     color:"#d68910", y0:570, h:90},
+  beyond:   {label:"Data & beyond finance",               color:"#8e44ad", y0:680, h:40},
+};
+// d: YYYY-MM (earliest public date). sure:false => month-approximate
+const EVENTS = [
+ // --- model sequences ---
+ {d:"2021-04", lane:"models", label:"Röttger–Pierrehumbert", url:"https://arxiv.org/abs/2104.08116",
+  note:"Apr 2021. Temporal adaptation of BERT on social media: what continued pretraining on period text does and does not buy for downstream classification."},
+ {d:"2022-02", lane:"models", label:"TimeLMs", big:true, url:"https://arxiv.org/abs/2202.03829",
+  note:"Feb 2022 (ACL demo). Cardiff NLP: quarterly RoBERTa checkpoints on Twitter, 2019-Q4 onward, with a library that routes each tweet to the checkpoint that could have seen it."},
+ {d:"2022-02", lane:"models", label:"HistBERT", url:"https://arxiv.org/abs/2202.03612",
+  note:"Feb 2022. Qiu & Xu: decade-wise BERT models continued on COHA (1900s–2000s) for diachronic lexical semantics."},
+ {d:"2024-03", lane:"models", label:"TiMaGPT weights", sure:false, url:"https://huggingface.co/Ti-Ma",
+  note:"Mar 2024 (Hugging Face upload). Twelve yearly GPT-2 models 2011–2022 with their exact training sets."},
+ {d:"2024-04", lane:"models", label:"Time Machine GPT", big:true, url:"https://arxiv.org/abs/2404.18543",
+  note:"Apr 2024 (NAACL Findings). Drinkall, Rahimikia, Pierrehumbert, Zohren: 'nonprognosticative' point-in-time LLMs trained from scratch on WMT News Crawl and Wikipedia."},
+ {d:"2024-06", lane:"models", label:"StoriesLM ⚠", sure:false, url:"https://doi.org/10.2139/ssrn.4881024",
+  note:"Mid-2024 (SSRN 4881024). Sarkar: 64 yearly models 1900–1963 on American Stories, each continuing the previous year's checkpoint."},
+ {d:"2025-02", lane:"models", label:"ChronoBERT / ChronoGPT", big:true, url:"https://arxiv.org/abs/2502.21206",
+  note:"Feb 28, 2025 (arXiv:2502.21206). He, Lv, Manela, Wu: 26 yearly cut-offs 1999–2024, trained from scratch on chronologically filtered text; competitive with BERT-class models. The first general-purpose, multi-decade, leakage-free sequence."},
+ {d:"2025-10", lane:"models", label:"ChronoGPT-instruct", url:"https://arxiv.org/abs/2510.11677",
+  note:"Oct 2025. Instruction-tuned ChronoGPT per cut-off year: a chat interface that is free of look-ahead bias by construction."},
+ {d:"2026-04", lane:"models", label:"Scaling PiT LMs (Kelly et al)", big:true, url:"https://arxiv.org/abs/2607.11889",
+  note:"Apr 2026. Kelly, Malamud, Schwab, Xu: decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens; monthly checkpoints 2013–2024. The gap to unconstrained models narrows with scale."},
+ // --- look-ahead bias & leakage ---
+ {d:"2023-04", lane:"bias", label:"Lopez-Lira–Tang", big:true, url:"https://arxiv.org/abs/2304.07619",
+  note:"Apr 2023. 'Can ChatGPT Forecast Stock Price Movements?' The result that made training leakage an urgent question in finance."},
+ {d:"2023-09", lane:"bias", label:"Glasserman–Lin", url:"https://arxiv.org/abs/2309.17322",
+  note:"Sep 2023. Assessing look-ahead bias in GPT sentiment predictions by anonymising firms and dates."},
+ {d:"2024-03", lane:"bias", label:"Sarkar–Vafa ⚠", sure:false, url:"https://doi.org/10.2139/ssrn.4754678",
+  note:"Early 2024 (SSRN 4754678). 'Lookahead Bias in Pretrained Language Models': direct measurement of leakage in models used for economic prediction."},
+ {d:"2024-10", lane:"bias", label:"Rahimikia–Drinkall ⚠", sure:false, url:"https://doi.org/10.2139/ssrn.4963618",
+  note:"Late 2024 (SSRN 4963618). 'Re(Visiting) Large Language Models in Finance' with point-in-time models available."},
+ {d:"2024-12", lane:"bias", label:"Ludwig–Mullainathan–Rambachan", url:"https://arxiv.org/abs/2412.07031",
+  note:"Dec 2024. 'LLMs: An Applied Econometric Framework': training leakage is one of two obstacles to using LLM outputs as data in empirical work."},
+ {d:"2025-12", lane:"bias", label:"Gao–Jiang–Yan", url:"https://arxiv.org/abs/2512.23847",
+  note:"Dec 2025. 'Detecting Lookahead Bias in LLM Forecasts': a lookahead-propensity statistic from date-only recall; positive in-sample, zero after the cutoff."},
+ {d:"2026-01", lane:"bias", label:"Fake Date Tests", url:"https://arxiv.org/abs/2601.07992",
+  note:"Jan 2026. Eliseev & Seleznev: prompt-sensitivity tests for lookahead and context bias in macro forecasts; no tested model passed."},
+ {d:"2026-01", lane:"bias", label:"Look-Ahead-Bench", big:true, url:"https://arxiv.org/abs/2601.13770",
+  note:"Jan 2026. Benhenda: a standardized benchmark of look-ahead bias for point-in-time LLMs in realistic financial workflows, measured by alpha decay across regimes."},
+ {d:"2026-02", lane:"bias", label:"Kong et al (position)", url:"https://arxiv.org/abs/2602.14233",
+  note:"Feb 2026. 'Evaluating LLMs in Finance Requires Explicit Bias Consideration': five biases; of 164 papers reviewed, none of the biases is discussed in more than 28%."},
+ {d:"2026-05", lane:"bias", label:"FinCAD", url:"https://arxiv.org/abs/2605.24564",
+  note:"May 2026. Li, Wang, Ma: 'parametric look-ahead bias' and an inference-time decoding fix."},
+ {d:"2026-08", lane:"bias", label:"OpenPM", url:"https://arxiv.org/abs/2608.09988",
+  note:"Aug 2026. Auditable point-in-time evaluation for LLM portfolio agents; runs emit a contamination certificate."},
+ // --- temporal generalisation (NLP) ---
+ {d:"2021-02", lane:"nlp", label:"Mind the Gap", big:true, url:"https://arxiv.org/abs/2102.01951",
+  note:"Feb 2021 (NeurIPS). Lazaridou et al.: LMs degrade on text from after their training period; the case for time-stratified evaluation."},
+ {d:"2021-06", lane:"nlp", label:"Dhingra et al", url:"https://arxiv.org/abs/2106.15110",
+  note:"Jun 2021 (TACL). 'Time-Aware Language Models as Temporal Knowledge Bases': prefix training text with its date."},
+ {d:"2021-10", lane:"nlp", label:"Continual knowledge learning", url:"https://arxiv.org/abs/2110.03215",
+  note:"Oct 2021. Jang et al. (ICLR 2022) and Jin et al. (Lifelong Pretraining, arXiv:2110.08534): continually updating LMs on emerging corpora."},
+ {d:"2021-11", lane:"nlp", label:"Time Waits for No One", url:"https://arxiv.org/abs/2111.07408",
+  note:"Nov 2021. Luu et al.: analysis and challenges of temporal misalignment; also Agarwal & Nenkova (arXiv:2111.12790) on temporal effects for downstream tasks."},
+ {d:"2023-05", lane:"nlp", label:"Zhang–Choi", url:"https://arxiv.org/abs/2305.14824",
+  note:"May 2023. Mitigating temporal misalignment by predicting how long a fact stays true."},
+ {d:"2024-02", lane:"nlp", label:"Set the Clock", url:"https://arxiv.org/abs/2402.16797",
+  note:"Feb 2024. Zhao et al.: temporal alignment of a pretrained LM to a target year."},
+ {d:"2025-03", lane:"nlp", label:"TARDIS", url:"https://arxiv.org/abs/2503.18693",
+  note:"Mar 2025. Representation steering to mitigate temporal misalignment without retraining."},
+ {d:"2025-10", lane:"nlp", label:"Can prompts rewind time?", url:"https://arxiv.org/abs/2510.02340",
+  note:"Sep/Oct 2025. Gao et al.: prompted knowledge cutoffs work for direct queries and fail for semantic shift and causally related knowledge."},
+ {d:"2025-11", lane:"nlp", label:"Do LLMs understand chronology?", url:"https://arxiv.org/abs/2511.14214",
+  note:"Nov 2025. Wongchamcharoen & Glasserman: frontier models keep local order but not a globally consistent timeline."},
+ {d:"2026-06", lane:"nlp", label:"Recall-based cutoffs", url:"https://arxiv.org/abs/2606.05804",
+  note:"Jun 2026. Asai et al.: recall-based prompting improves prompted cutoffs, especially on counterfactual questions."},
+ // --- temporal knowledge & benchmarks ---
+ {d:"2022-04", lane:"bench", label:"TemporalWiki", url:"https://arxiv.org/abs/2204.14211",
+  note:"Apr 2022 (EMNLP). Jang et al.: a lifelong benchmark from consecutive Wikipedia snapshots."},
+ {d:"2022-05", lane:"bench", label:"StreamingQA", url:"https://arxiv.org/abs/2205.11388",
+  note:"May 2022 (ICML). Liška et al.: adaptation to new knowledge over time in QA."},
+ {d:"2022-07", lane:"bench", label:"RealTime QA", url:"https://arxiv.org/abs/2207.13332",
+  note:"Jul 2022. Kasai et al.: what's the answer right now?"},
+ {d:"2024-03", lane:"bench", label:"Dated Data", url:"https://arxiv.org/abs/2403.12958",
+  note:"Mar 2024. Cheng et al.: the effective knowledge cutoff differs from the reported one, resource by resource."},
+ {d:"2024-10", lane:"bench", label:"ChroKnowledge", big:true, url:"https://arxiv.org/abs/2410.09870",
+  note:"Oct 2024 (ICLR 2025). Park et al.: ChroKnowBench across general, biomedical, legal, commonsense and mathematical knowledge; evolving vs constant facts."},
+ {d:"2024-10", lane:"bench", label:"NewTerm", url:"https://arxiv.org/abs/2410.20814",
+  note:"Oct 2024. Deng et al.: annually updated benchmark of new terms; >20% degradation."},
+ {d:"2026-05", lane:"bench", label:"TempoMed-Bench", url:"https://arxiv.org/abs/2605.13045",
+  note:"May 2026. Guan et al.: LLMs lack temporal awareness of medical knowledge; evolving clinical guidelines as the test."},
+ // --- data & beyond finance ---
+ {d:"2023-08", lane:"beyond", label:"American Stories", url:"https://arxiv.org/abs/2308.12477",
+  note:"Aug 2023 (NeurIPS Datasets). Dell et al.: article-level text from ~20M Chronicling America scans; training data for StoriesLM."},
+ {d:"2024-10", lane:"beyond", label:"Varnum et al (PNAS) ⚠", sure:false, url:"https://doi.org/10.1073/pnas.2407639121",
+  note:"Oct 2024, PNAS. Historical LLMs as informative tools for behavioural science: simulated informants from past populations."},
+];
+const DIVIDERS = [
+  {d:"2025-02", label:"from-scratch, multi-decade sequences (ChronoBERT)"},
+];
+
+const legend = d3.select("#lane-legend");
+for (const [k, l] of Object.entries(LANES)) {
+  legend.append("span").html(`<span class="dot" style="background:${l.color}"></span>${l.label}`);
+}
+
+const wrap = document.getElementById("timeline");
+const W = wrap.clientWidth, H = wrap.clientHeight;
+const svg = d3.select("#timeline").append("svg").attr("width", W).attr("height", H);
+const parse = d3.timeParse("%Y-%m");
+const x = d3.scaleTime().domain([parse("2020-09"), parse("2026-12")]).range([170, W - 150]);
+// Pre-2021 events are pinned to the left edge with a break marker.
+function px(d) { const t = parse(d); return t < x.domain()[0] ? x.range()[0] : x(t); }
+
+// lane bands
+for (const [k, l] of Object.entries(LANES)) {
+  svg.append("rect").attr("x", 0).attr("y", l.y0 - 8).attr("width", W).attr("height", l.h + 16)
+     .attr("fill", l.color).attr("opacity", 0.05);
+  svg.append("text").attr("class", "lanelabel").attr("x", 10).attr("y", l.y0 + 6).text(l.label)
+     .call(wrapText, 150);
+}
+// year ticks
+const years = d3.timeYear.range(parse("2021-01"), parse("2027-01"));
+svg.append("g").selectAll("line").data(years).join("line")
+   .attr("x1", d => x(d)).attr("x2", d => x(d)).attr("y1", 28).attr("y2", H - 20)
+   .attr("stroke", "#e6e6e6");
+svg.append("g").selectAll("text").data(years).join("text").attr("class", "yearlabel")
+   .attr("x", d => x(d)).attr("y", 20).attr("text-anchor", "middle").text(d => d.getFullYear());
+// dividers
+for (const dv of DIVIDERS) {
+  svg.append("line").attr("x1", px(dv.d)).attr("x2", px(dv.d)).attr("y1", 30).attr("y2", H - 20)
+     .attr("stroke", "#4a3aff").attr("stroke-dasharray", "5 4").attr("opacity", 0.6);
+  svg.append("text").attr("class", "yearlabel").attr("x", px(dv.d) + 5).attr("y", H - 8)
+     .attr("fill", "#4a3aff").text(dv.label);
+}
+
+// place events: within a lane, stack labels to avoid overlap
+const tip = d3.select("#tooltip");
+const byLane = d3.group(EVENTS, e => e.lane);
+for (const [lane, evs] of byLane) {
+  const L = LANES[lane];
+  evs.sort((a, b) => parse(a.d) - parse(b.d));
+  const rows = Math.max(1, Math.floor(L.h / 22));
+  const lastEnd = new Array(rows).fill(-1e9);   // right edge of the last label placed in each row
+  evs.forEach(e => {
+    const cx = px(e.d);
+    const labelW = 12 + 6.3 * e.label.length;
+    let r = 0;
+    while (r < rows - 1 && cx < lastEnd[r] + 10) r++;
+    // if still colliding, take the row whose last label ends earliest
+    if (cx < lastEnd[r] + 10) r = lastEnd.indexOf(Math.min(...lastEnd));
+    lastEnd[r] = cx + labelW;
+    const cy = L.y0 + 8 + r * 22;
+    const g = svg.append("g").style("cursor", "pointer")
+      .on("click", () => window.open(e.url, "_blank"))
+      .on("mousemove", (ev) => {
+        tip.style("display", "block").style("left", (ev.pageX + 14) + "px").style("top", (ev.pageY + 14) + "px")
+           .html(`<b>${e.label.replace(" ⚠", "")}</b><br>${e.note}`);
+      })
+      .on("mouseleave", () => tip.style("display", "none"));
+    g.append("circle").attr("cx", cx).attr("cy", cy).attr("r", e.big ? 7 : 4.5)
+      .attr("fill", L.color).attr("stroke", "#fff").attr("stroke-width", 1.5);
+    g.append("text").attr("class", "evlabel").attr("x", cx + (e.big ? 10 : 8)).attr("y", cy + 4)
+      .attr("font-weight", e.big ? 700 : 400).text(e.label);
+  });
+}
+svg.append("text").attr("class", "yearlabel").attr("x", 170).attr("y", H - 8)
+   .attr("text-anchor", "start").text("← 2021–mid-2022 events pinned to the left edge");
+
+function wrapText(text, width) {
+  text.each(function () {
+    const t = d3.select(this), words = t.text().split(/\s+/).reverse();
+    let word, line = [], lineNumber = 0, y = t.attr("y"), x0 = t.attr("x");
+    let tspan = t.text(null).append("tspan").attr("x", x0).attr("y", y);
+    while ((word = words.pop())) {
+      line.push(word); tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width && line.length > 1) {
+        line.pop(); tspan.text(line.join(" ")); line = [word];
+        tspan = t.append("tspan").attr("x", x0).attr("y", y).attr("dy", ++lineNumber * 14).text(word);
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

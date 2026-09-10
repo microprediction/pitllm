@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Point-in-Time Model Sequences</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a class="current" href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./essay.html">Essay</a>
+        <a href="./plans.html">Plans</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Model sequences</h1>
+    <p class="subtitle">Released families of date-stamped checkpoints, what they were trained on, and how strictly they avoid the future.</p>
+
+    <p class="lead">
+      Two questions decide how useful a sequence is for backtesting. <strong>Cadence</strong>: yearly
+      checkpoints suit slow-moving questions; monthly or quarterly ones are needed for markets and
+      news. <strong>Provenance of the first checkpoint</strong>: a model trained from scratch on period text
+      is leakage-free by construction, whereas a model adapted from a modern base (BERT, RoBERTa) carries
+      whatever its base had already read. Both kinds are listed; the distinction is noted for each.
+    </p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 860 300" role="img" aria-label="Coverage of each point-in-time model sequence on a 1900 to 2026 axis">
+        <!-- axis: x = 60 + (year-1900) * 6.19 ; 1900 -> 60, 2026 -> 840 -->
+        <g stroke="#e2e2e2" stroke-width="1">
+          <line x1="60" y1="20" x2="60" y2="256"/>
+          <line x1="183.8" y1="20" x2="183.8" y2="256"/>
+          <line x1="307.6" y1="20" x2="307.6" y2="256"/>
+          <line x1="431.4" y1="20" x2="431.4" y2="256"/>
+          <line x1="555.2" y1="20" x2="555.2" y2="256"/>
+          <line x1="679" y1="20" x2="679" y2="256"/>
+          <line x1="802.8" y1="20" x2="802.8" y2="256"/>
+        </g>
+        <g font-size="11" fill="#9a9a9a" text-anchor="middle">
+          <text x="60" y="272">1900</text><text x="183.8" y="272">1920</text><text x="307.6" y="272">1940</text>
+          <text x="431.4" y="272">1960</text><text x="555.2" y="272">1980</text><text x="679" y="272">2000</text><text x="802.8" y="272">2020</text>
+        </g>
+        <!-- rows -->
+        <g font-size="12" fill="#1f1d3d">
+          <!-- HistBERT 1900-2009 decadal -->
+          <rect x="60" y="30" width="681" height="16" rx="3" fill="#cfcaff"/>
+          <g fill="#4a3aff"><rect x="60" y="30" width="2" height="16"/><rect x="121.9" y="30" width="2" height="16"/><rect x="183.8" y="30" width="2" height="16"/><rect x="245.7" y="30" width="2" height="16"/><rect x="307.6" y="30" width="2" height="16"/><rect x="369.5" y="30" width="2" height="16"/><rect x="431.4" y="30" width="2" height="16"/><rect x="493.3" y="30" width="2" height="16"/><rect x="555.2" y="30" width="2" height="16"/><rect x="617.1" y="30" width="2" height="16"/></g>
+          <text x="748" y="43">HistBERT &middot; decadal &middot; COHA</text>
+          <!-- StoriesLM 1900-1963 yearly -->
+          <rect x="60" y="66" width="396" height="16" rx="3" fill="#4a3aff" opacity="0.85"/>
+          <text x="462" y="79">StoriesLM &middot; yearly (64) &middot; American Stories</text>
+          <!-- ChronoBERT/GPT 1999-2024 yearly -->
+          <rect x="672.8" y="102" width="160.9" height="16" rx="3" fill="#4a3aff" opacity="0.85"/>
+          <text x="666" y="115" text-anchor="end">ChronoBERT / ChronoGPT &middot; yearly (26) &middot; web + news</text>
+          <!-- TiMaGPT 2011-2022 -->
+          <rect x="747.1" y="138" width="74.3" height="16" rx="3" fill="#4a3aff" opacity="0.85"/>
+          <text x="740" y="151" text-anchor="end">Time Machine GPT &middot; yearly (12) &middot; News Crawl + Wikipedia</text>
+          <!-- Kelly et al 2013-2024 monthly -->
+          <rect x="759.5" y="174" width="74.3" height="16" rx="3" fill="#1f1d3d"/>
+          <text x="752" y="187" text-anchor="end">Scaling PiT LMs &middot; monthly &middot; FineWeb</text>
+          <!-- TimeLMs 2019Q4-2022Q4 quarterly -->
+          <rect x="797" y="210" width="21.7" height="16" rx="3" fill="#1f1d3d"/>
+          <text x="790" y="223" text-anchor="end">TimeLMs &middot; quarterly &middot; Twitter</text>
+        </g>
+        <g font-size="10.5" fill="#9a9a9a">
+          <text x="60" y="292">bar = span of checkpoints; light = decade steps; dark = monthly or quarterly cadence</text>
+        </g>
+      </svg>
+      <p class="caption">Coverage of the six released sequences. Nothing open covers 1964&ndash;1998 at yearly cadence, and nothing before 2013 at monthly cadence.</p>
+    </div>
+
+    <h2 id="chrono">ChronoBERT / ChronoGPT &mdash; Manela lab</h2>
+    <p>
+      He, Lv, Manela &amp; Wu (2025), <a href="https://arxiv.org/abs/2502.21206">arXiv:2502.21206</a>.
+      Twenty-six yearly cut-offs from 1999-12-31 to 2024-12-31, each trained only on text that was
+      available at that date. ChronoBERT is a BERT-style encoder; ChronoGPT a GPT-style decoder. Despite
+      the restriction the models match or outperform BERT on standard NLP benchmarks and stay competitive
+      with larger open-weight models. The paper&apos;s finance application shows that look-ahead bias is
+      model- and application-specific: a weaker but chronologically clean model can still deliver the
+      predictability that survives once leakage is removed.
+    </p>
+    <p>
+      A second family, <a href="https://arxiv.org/abs/2510.11677">chrono-gpt-instruct</a> (October 2025),
+      instruction-tunes each yearly ChronoGPT so it can be used through a chat interface while remaining
+      free of post-cutoff data.
+    </p>
+    <ul>
+      <li>Weights: <a href="https://huggingface.co/collections/manelalab/chronobert-67c1ca6c2382e03aaec446f8">Hugging Face collection</a> &mdash; <code>manelalab/chrono-bert-v1-YYYY1231</code>, <code>chrono-gpt-v1-YYYY1231</code>, <code>chrono-gpt-instruct-v1-YYYY1231</code> (78 repos in total).</li>
+      <li>Provenance: trained from scratch on chronologically filtered data. <span class="tag open">leakage-free</span></li>
+      <li>Try it: the <a href="./demos.html">ChronoGPT notebook</a> loads any cut-off and samples from it.</li>
+    </ul>
+
+    <h2 id="kelly">Scaling Point-in-Time Language Models &mdash; Kelly, Malamud, Schwab &amp; Xu</h2>
+    <p>
+      <a href="https://arxiv.org/abs/2607.11889">arXiv:2607.11889</a> (2026). Decoder-only transformers
+      with up to 4 billion parameters trained on one trillion chronologically filtered tokens from FineWeb,
+      producing monthly checkpoints spanning 2013&ndash;2024. The headline result is that the well-known
+      performance gap between point-in-time and unconstrained models narrows substantially with scale:
+      on common-sense reasoning and language-understanding benchmarks the models approach leading
+      open-weight models of similar size.
+    </p>
+    <ul>
+      <li>Cadence: monthly &mdash; the finest of any released sequence.</li>
+      <li>Provenance: trained from scratch. <span class="tag open">leakage-free</span></li>
+      <li>Weights: see the paper for release details. <span class="tag mixed">check paper</span></li>
+    </ul>
+
+    <h2 id="timagpt">Time Machine GPT (TiMaGPT) &mdash; Oxford</h2>
+    <p>
+      Drinkall, Rahimikia, Pierrehumbert &amp; Zohren (2024), Findings of NAACL,
+      <a href="https://arxiv.org/abs/2404.18543">arXiv:2404.18543</a>. Twelve yearly GPT-2 models with
+      cut-offs from 2011-12-31 to 2022-12-31, designed to be &ldquo;nonprognosticative&rdquo;: uninformed about
+      future facts and future language. Unlike most predecessors the models are trained from scratch on
+      period data rather than adapted from a modern base, and the exact training set for each year is
+      published alongside the weights.
+    </p>
+    <ul>
+      <li>Weights: <a href="https://huggingface.co/Ti-Ma">huggingface.co/Ti-Ma</a> &mdash; <code>Ti-Ma/TiMaGPT2-2011</code> &hellip; <code>TiMaGPT2-2022</code>, licence CC0.</li>
+      <li>Data: <code>Ti-Ma/TiMaGPT2-YYYY</code> and <code>Ti-Ma/wikipedia_YYYY</code> datasets (WMT News Crawl and yearly Wikipedia snapshots).</li>
+      <li>Provenance: trained from scratch. <span class="tag open">leakage-free</span></li>
+    </ul>
+
+    <h2 id="timelms">TimeLMs &mdash; Cardiff NLP</h2>
+    <p>
+      Loureiro, Barbieri, Neves, Espinosa Anke &amp; Camacho-Collados (2022), ACL demo,
+      <a href="https://arxiv.org/abs/2202.03829">arXiv:2202.03829</a>. RoBERTa-base checkpoints trained
+      on Twitter, released quarterly from 2019-12 through 2022-12 (plus a 2022 RoBERTa-large). The
+      accompanying <a href="https://github.com/cardiffnlp/timelms">library</a> has a
+      <code>corresponding</code> mode that routes each tweet to the checkpoint trained only up to that
+      tweet&apos;s quarter, which is exactly the point-in-time discipline. Built for studying language-model
+      degradation and cultural shift on social media.
+    </p>
+    <ul>
+      <li>Weights: <code>cardiffnlp/twitter-roberta-base-2019-90m</code>, <code>-mar2020</code> &hellip; <code>-sep2022</code>, <code>-2022-154m</code>.</li>
+      <li>Provenance: the 2019 base continues pretraining from RoBERTa-base, which itself saw web text to 2019. Later quarters are incremental. <span class="tag academic">base leakage</span></li>
+    </ul>
+
+    <h2 id="storieslm">StoriesLM &mdash; Sarkar</h2>
+    <p>
+      Sarkar (2024), <a href="https://doi.org/10.2139/ssrn.4881024">SSRN 4881024</a>. Sixty-four models,
+      one per year from 1900 to 1963, trained on the <a href="https://arxiv.org/abs/2308.12477">American
+      Stories</a> dataset of historical U.S. newspapers. The 1900 model is trained on 1900 text; each
+      subsequent model continues the previous year&apos;s checkpoint on the next year&apos;s articles, so the
+      pretraining window expands sequentially. The only released sequence covering the first half of the
+      twentieth century at yearly cadence.
+    </p>
+    <ul>
+      <li>Weights: <a href="https://huggingface.co/StoriesLM">huggingface.co/StoriesLM</a> &mdash; <code>StoriesLM/StoriesLM-v1-1900</code> &hellip; <code>-1963</code>, MIT licence.</li>
+      <li>Provenance: sequentially expanding windows over period text. <span class="tag open">leakage-free</span></li>
+    </ul>
+
+    <h2 id="histbert">HistBERT &mdash; Qiu &amp; Xu</h2>
+    <p>
+      Qiu &amp; Xu (2022), <a href="https://arxiv.org/abs/2202.03612">arXiv:2202.03612</a>. BERT-base
+      continued on the Corpus of Historical American English, one model per decade from the 1900s to the
+      2000s, built to track diachronic lexical semantic change. Code and training recipe on
+      <a href="https://github.com/wendyqiu/diachronicBert">GitHub</a>.
+    </p>
+    <ul>
+      <li>Provenance: continued pretraining from modern BERT-base. <span class="tag academic">base leakage</span></li>
+      <li>COHA itself requires academic access.</li>
+    </ul>
+
+    <h2>Also relevant</h2>
+    <ul>
+      <li><strong>Pitinf models</strong> (PiT-Inference) &mdash; a small, medium, and &ldquo;frontier-level&rdquo; family of point-in-time LLMs evaluated in <a href="https://arxiv.org/abs/2601.13770">Look-Ahead-Bench</a>. Availability outside the benchmark is not documented here. <span class="tag mixed">unverified</span></li>
+      <li><strong>Temporal adaptation of BERT</strong> &mdash; Röttger &amp; Pierrehumbert (2021), <a href="https://arxiv.org/abs/2104.08116">arXiv:2104.08116</a>, and Lazaridou et al. (2021), <a href="https://arxiv.org/abs/2102.01951">Mind the Gap</a>, trained time-stratified models to study degradation rather than to release a reusable sequence.</li>
+      <li><strong>Prompted cut-offs</strong> are the cheap alternative to all of the above. The evidence that they are not a substitute is collected under <a href="./index.html#bibliography">Prompted cut-offs and chronology</a>.</li>
+    </ul>
+
+    <div class="next-steps">
+      <p><strong>Gaps.</strong> No open sequence covers 1964&ndash;1998 at yearly cadence. Nothing before 2013
+      exists at monthly cadence. No sequence targets a non-English language or a specialist domain such as
+      medicine or law. The <a href="./plans.html">plans page</a> costs out ways to fill some of these.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Point-in-Time LLM Literature Map</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./essay.html">Essay</a>
+        <a href="./plans.html">Plans</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a class="current" href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+<div id="map-wrap">
+  <h1>Point-in-time LLMs: the literature map</h1>
+  <p>Each node is a paper, dataset, or the hub concept. Colours are threads; solid edges are real
+  connections (builds on, trains on, evaluates); <b style="color:#c0392b">dashed red edges are connections
+  that do not yet exist</b> as of September 2026, i.e. the research agenda. Click a node to open it; drag to
+  rearrange; hover for the one-line story.</p>
+  <div class="legend" id="cluster-legend"></div>
+  <div class="legend">
+    <span><span class="line" style="border-color:#888"></span> builds on / responds to</span>
+    <span><span class="line" style="border-color:#2471a3; border-top-width:3.5px"></span> trains on / evaluates with</span>
+    <span><span class="line" style="border-top-style:dotted; border-color:#7d3c98"></span> alternative to (prompting vs retraining)</span>
+    <span><span class="line" style="border-top-style:dashed; border-color:#c0392b"></span> GAP — does not exist yet</span>
+  </div>
+  <div id="graph"></div>
+  <p class="hint">Items marked &#9888; are provisional pending verification. Corrections welcome on
+  <a href="https://github.com/microprediction/pitllm">microprediction/pitllm</a>.</p>
+</div>
+<div id="tooltip"></div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+const CLUSTERS = {
+  hub:     {label: "Point-in-time LLMs (core)",      color: "#222222"},
+  models:  {label: "Model sequences",                color: "#4a3aff"},
+  bias:    {label: "Look-ahead bias (finance)",      color: "#27ae60"},
+  prompt:  {label: "Prompted cut-offs",              color: "#7d3c98"},
+  nlp:     {label: "Temporal generalisation (NLP)",  color: "#2980b9"},
+  bench:   {label: "Temporal knowledge benchmarks",  color: "#d68910"},
+  data:    {label: "Corpora",                        color: "#5d6d7e"},
+  beyond:  {label: "Beyond finance",                 color: "#c0392b"},
+};
+const NODES = [
+ {id:"hub", label:"POINT-IN-TIME LLMs", year:"", c:"hub", r:16, url:"./index.html", note:"A sequence of models, each trained only on text available at its cut-off date. Look-ahead bias removed by construction."},
+ // model sequences
+ {id:"chrono", label:"ChronoBERT/GPT 2025", year:2025, c:"models", r:11, url:"https://arxiv.org/abs/2502.21206", note:"He, Lv, Manela, Wu: 26 yearly cut-offs 1999–2024, from scratch; competitive with BERT-class models."},
+ {id:"chronoinst", label:"ChronoGPT-instruct 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2510.11677", note:"Instruction-tuned ChronoGPT per year: a chat interface free of look-ahead bias."},
+ {id:"kelly", label:"Scaling PiT LMs 2026", year:2026, c:"models", r:11, url:"https://arxiv.org/abs/2607.11889", note:"Kelly, Malamud, Schwab, Xu: up to 4B params, 1T FineWeb tokens, monthly checkpoints 2013–2024; gap to unconstrained models narrows with scale."},
+ {id:"timagpt", label:"Time Machine GPT 2024", year:2024, c:"models", r:10, url:"https://arxiv.org/abs/2404.18543", note:"Drinkall, Rahimikia, Pierrehumbert, Zohren: 12 yearly GPT-2 models 2011–2022 from scratch; training sets released."},
+ {id:"timelms", label:"TimeLMs 2022", year:2022, c:"models", url:"https://arxiv.org/abs/2202.03829", note:"Cardiff NLP: quarterly RoBERTa checkpoints on Twitter, 2019-Q4 to 2022-Q4."},
+ {id:"storieslm", label:"StoriesLM 2024", year:2024, c:"models", url:"https://doi.org/10.2139/ssrn.4881024", note:"Sarkar: 64 yearly models 1900–1963 on American Stories, sequentially expanding windows."},
+ {id:"histbert", label:"HistBERT 2022", year:2022, c:"models", url:"https://arxiv.org/abs/2202.03612", note:"Qiu & Xu: decade-wise BERT continued on COHA for lexical semantic change."},
+ {id:"rottger", label:"Röttger–Pierrehumbert 2021", year:2021, c:"models", url:"https://arxiv.org/abs/2104.08116", note:"Temporal adaptation of BERT: what continued pretraining on period text buys downstream."},
+ // look-ahead bias
+ {id:"lopezlira", label:"Lopez-Lira–Tang 2023", year:2023, c:"bias", r:10, url:"https://arxiv.org/abs/2304.07619", note:"'Can ChatGPT Forecast Stock Price Movements?' The in-sample result that made leakage urgent."},
+ {id:"glasserman", label:"Glasserman–Lin 2023", year:2023, c:"bias", url:"https://arxiv.org/abs/2309.17322", note:"Anonymise firms and dates to separate sentiment signal from memorised outcomes."},
+ {id:"sarkarvafa", label:"Sarkar–Vafa 2024", year:2024, c:"bias", url:"https://doi.org/10.2139/ssrn.4754678", note:"Lookahead bias in pretrained language models, measured directly."},
+ {id:"rahimikia", label:"Rahimikia–Drinkall 2024", year:2024, c:"bias", url:"https://doi.org/10.2139/ssrn.4963618", note:"Re(Visiting) LLMs in finance with point-in-time models."},
+ {id:"ludwig", label:"Ludwig et al 2024", year:2024, c:"bias", url:"https://arxiv.org/abs/2412.07031", note:"Applied econometric framework for LLMs; training leakage as a central obstacle to using LLM output as data."},
+ {id:"gaojiang", label:"Gao–Jiang–Yan 2025", year:2025, c:"bias", url:"https://arxiv.org/abs/2512.23847", note:"Lookahead-propensity statistic from date-only recall queries."},
+ {id:"fakedate", label:"Fake Date Tests 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2601.07992", note:"Eliseev & Seleznev: prompt-sensitivity tests; no tested model passed."},
+ {id:"labench", label:"Look-Ahead-Bench 2026", year:2026, c:"bias", r:10, url:"https://arxiv.org/abs/2601.13770", note:"Benhenda: standardized benchmark of look-ahead bias for point-in-time LLMs in finance; alpha decay across regimes."},
+ {id:"kong", label:"Kong et al 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2602.14233", note:"Position paper: five finance biases; none discussed in more than 28% of 164 papers."},
+ {id:"fincad", label:"FinCAD 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2605.24564", note:"Parametric look-ahead bias and an inference-time decoding fix."},
+ {id:"openpm", label:"OpenPM 2026", year:2026, c:"bias", url:"https://arxiv.org/abs/2608.09988", note:"Auditable point-in-time evaluation of LLM portfolio agents; contamination certificates."},
+ // prompted cut-offs
+ {id:"rewind", label:"Can prompts rewind time? 2025", year:2025, c:"prompt", r:10, url:"https://arxiv.org/abs/2510.02340", note:"Gao et al.: prompted cutoffs work for direct queries, fail for semantic shift and causally related knowledge."},
+ {id:"recall", label:"Recall-based cutoffs 2026", year:2026, c:"prompt", url:"https://arxiv.org/abs/2606.05804", note:"Asai et al.: recall-based prompting improves prompted cutoffs, especially on counterfactuals."},
+ {id:"chronology", label:"Do LLMs understand chronology? 2025", year:2025, c:"prompt", url:"https://arxiv.org/abs/2511.14214", note:"Wongchamcharoen & Glasserman: local order preserved, global timeline not; undermines prompt-based defences."},
+ {id:"dated", label:"Dated Data 2024", year:2024, c:"prompt", url:"https://arxiv.org/abs/2403.12958", note:"Cheng et al.: effective cutoffs differ from reported ones."},
+ {id:"setclock", label:"Set the Clock 2024", year:2024, c:"prompt", url:"https://arxiv.org/abs/2402.16797", note:"Zhao et al.: align a model's internal 'now' to a target year."},
+ // NLP temporal generalisation
+ {id:"mindgap", label:"Mind the Gap 2021", year:2021, c:"nlp", r:10, url:"https://arxiv.org/abs/2102.01951", note:"Lazaridou et al.: LMs degrade on text after their training period; time-stratified evaluation."},
+ {id:"dhingra", label:"Dhingra et al 2021", year:2021, c:"nlp", url:"https://arxiv.org/abs/2106.15110", note:"Time-aware LMs as temporal knowledge bases: prefix training text with its date."},
+ {id:"luu", label:"Time Waits for No One 2021", year:2021, c:"nlp", url:"https://arxiv.org/abs/2111.07408", note:"Luu et al.: temporal misalignment across tasks and domains."},
+ {id:"ckl", label:"Continual knowledge learning 2021", year:2021, c:"nlp", url:"https://arxiv.org/abs/2110.03215", note:"Jang et al.; with Jin et al. (Lifelong Pretraining): continual updating on emerging corpora."},
+ {id:"zhangchoi", label:"Zhang–Choi 2023", year:2023, c:"nlp", url:"https://arxiv.org/abs/2305.14824", note:"Fact-duration prediction to discard outdated facts."},
+ {id:"tardis", label:"TARDIS 2025", year:2025, c:"nlp", url:"https://arxiv.org/abs/2503.18693", note:"Representation steering against temporal misalignment."},
+ // benchmarks
+ {id:"chroknow", label:"ChroKnowledge 2024", year:2024, c:"bench", r:10, url:"https://arxiv.org/abs/2410.09870", note:"Park et al. (ICLR 2025): ChroKnowBench across five domains; evolving vs constant knowledge."},
+ {id:"temporalwiki", label:"TemporalWiki 2022", year:2022, c:"bench", url:"https://arxiv.org/abs/2204.14211", note:"Lifelong benchmark from consecutive Wikipedia snapshots."},
+ {id:"streamingqa", label:"StreamingQA 2022", year:2022, c:"bench", url:"https://arxiv.org/abs/2205.11388", note:"Adaptation to new knowledge over time in QA."},
+ {id:"realtimeqa", label:"RealTime QA 2022", year:2022, c:"bench", url:"https://arxiv.org/abs/2207.13332", note:"What's the answer right now?"},
+ {id:"newterm", label:"NewTerm 2024", year:2024, c:"bench", url:"https://arxiv.org/abs/2410.20814", note:"Annually updated benchmark of new terms."},
+ {id:"tempomed", label:"TempoMed-Bench 2026", year:2026, c:"bench", url:"https://arxiv.org/abs/2605.13045", note:"Guan et al.: temporal awareness of medical knowledge via evolving guidelines."},
+ // corpora
+ {id:"amstories", label:"American Stories 2023", year:2023, c:"data", url:"https://arxiv.org/abs/2308.12477", note:"Dell et al.: article-level text from ~20M Chronicling America scans."},
+ {id:"fineweb", label:"FineWeb", year:"", c:"data", url:"https://huggingface.co/datasets/HuggingFaceFW/fineweb", note:"Common Crawl derivative with per-dump dates; chronologically filtered by Kelly et al."},
+ {id:"coha", label:"COHA", year:"", c:"data", url:"https://www.english-corpora.org/coha/", note:"Corpus of Historical American English, 1810–2009, decade-balanced."},
+ {id:"newscrawl", label:"WMT News Crawl + Wikipedia", year:"", c:"data", url:"https://data.statmt.org/news-crawl/", note:"Yearly news and Wikipedia snapshots; Time Machine GPT's training data, released per year."},
+ {id:"twitter", label:"Twitter", year:"", c:"data", url:"https://github.com/cardiffnlp/timelms", note:"Quarterly tweet samples behind TimeLMs."},
+ // beyond finance
+ {id:"varnum", label:"Varnum et al 2024 (PNAS)", year:2024, c:"beyond", url:"https://doi.org/10.1073/pnas.2407639121", note:"Historical LLMs as informative tools for behavioural science."},
+ {id:"essay", label:"Beyond Finance (essay)", year:2025, c:"beyond", url:"./essay.html", note:"Medicine, law, history, journalism, policy, social science: experiments that become possible without look-ahead."},
+ {id:"gap_law", label:"PiT legal LLM ⚠", year:"", c:"beyond", gap:true, url:"./essay.html#law-legal-reasoning-and-precedent-over-time", note:"GAP: no point-in-time model trained on dated case law exists. Proposed in the essay."},
+ {id:"gap_med", label:"PiT medical LLM ⚠", year:"", c:"beyond", gap:true, url:"./essay.html#medicine-historical-medical-knowledge-and-diagnostics", note:"GAP: TempoMed-Bench measures the problem; no point-in-time medical model addresses it."},
+ {id:"gap_mid", label:"1964–1998 coverage ⚠", year:"", c:"models", gap:true, url:"./models.html", note:"GAP: no open yearly sequence covers 1964–1998; StoriesLM ends 1963, ChronoBERT starts 1999."},
+];
+const EDGES = [
+ // hub structure
+ {s:"chrono", t:"hub", k:"core"}, {s:"kelly", t:"hub", k:"core"}, {s:"timagpt", t:"hub", k:"core"},
+ {s:"timelms", t:"hub", k:"core"}, {s:"storieslm", t:"hub", k:"core"}, {s:"histbert", t:"hub", k:"core"},
+ // lineage
+ {s:"rottger", t:"timagpt", k:"builds", label:"same group"},
+ {s:"timelms", t:"timagpt", k:"builds", label:"from-scratch instead of adapted"},
+ {s:"chrono", t:"chronoinst", k:"builds", label:"instruction-tuned"},
+ {s:"chrono", t:"kelly", k:"builds", label:"scaled 26× data, monthly"},
+ {s:"timagpt", t:"rahimikia", k:"trains", label:"used in"},
+ {s:"chrono", t:"labench", k:"trains", label:"PiT models benchmarked"},
+ // data
+ {s:"amstories", t:"storieslm", k:"trains"}, {s:"coha", t:"histbert", k:"trains"},
+ {s:"fineweb", t:"kelly", k:"trains"}, {s:"newscrawl", t:"timagpt", k:"trains"}, {s:"twitter", t:"timelms", k:"trains"},
+ // finance motive
+ {s:"lopezlira", t:"glasserman", k:"builds", label:"is it leakage?"},
+ {s:"lopezlira", t:"sarkarvafa", k:"builds"}, {s:"sarkarvafa", t:"chrono", k:"builds", label:"motivates"},
+ {s:"glasserman", t:"chronology", k:"builds"}, {s:"ludwig", t:"chrono", k:"builds", label:"cites as remedy"},
+ {s:"gaojiang", t:"lopezlira", k:"builds", label:"tests"}, {s:"fakedate", t:"lopezlira", k:"builds", label:"tests"},
+ {s:"labench", t:"kong", k:"builds"}, {s:"fincad", t:"lopezlira", k:"builds", label:"mitigates"},
+ {s:"openpm", t:"labench", k:"builds"},
+ // prompting as alternative
+ {s:"rewind", t:"chrono", k:"alt", label:"prompt vs retrain"}, {s:"recall", t:"rewind", k:"builds"},
+ {s:"chronology", t:"rewind", k:"builds", label:"why prompting fails"}, {s:"dated", t:"rewind", k:"builds"},
+ {s:"setclock", t:"rewind", k:"builds"}, {s:"fakedate", t:"rewind", k:"alt"},
+ // NLP thread
+ {s:"mindgap", t:"dhingra", k:"builds"}, {s:"mindgap", t:"luu", k:"builds"}, {s:"mindgap", t:"timelms", k:"builds", label:"motivates"},
+ {s:"dhingra", t:"ckl", k:"builds"}, {s:"ckl", t:"temporalwiki", k:"builds", label:"same authors"},
+ {s:"luu", t:"zhangchoi", k:"builds"}, {s:"zhangchoi", t:"tardis", k:"builds"},
+ {s:"mindgap", t:"streamingqa", k:"builds", label:"same group"}, {s:"streamingqa", t:"realtimeqa", k:"builds"},
+ {s:"realtimeqa", t:"newterm", k:"builds"},
+ // benchmarks
+ {s:"temporalwiki", t:"chroknow", k:"builds"}, {s:"chroknow", t:"tempomed", k:"builds", label:"domain-specific"},
+ {s:"chroknow", t:"hub", k:"trains", label:"evaluates"},
+ // beyond finance
+ {s:"storieslm", t:"varnum", k:"builds", label:"historical LLMs"}, {s:"varnum", t:"essay", k:"builds"},
+ {s:"amstories", t:"varnum", k:"trains"},
+ // gaps
+ {s:"essay", t:"gap_law", k:"gap"}, {s:"tempomed", t:"gap_med", k:"gap"}, {s:"essay", t:"gap_med", k:"gap"},
+ {s:"storieslm", t:"gap_mid", k:"gap"}, {s:"chrono", t:"gap_mid", k:"gap"},
+];
+const STYLE = {
+  core:   {stroke:"#bbb", w:1.2, dash:null},
+  builds: {stroke:"#888", w:1.4, dash:null},
+  trains: {stroke:"#2471a3", w:2.4, dash:null},
+  alt:    {stroke:"#7d3c98", w:1.6, dash:"2 4"},
+  gap:    {stroke:"#c0392b", w:1.8, dash:"6 5"},
+};
+
+const legend = d3.select("#cluster-legend");
+for (const [k, c] of Object.entries(CLUSTERS)) legend.append("span").html(`<span class="dot" style="background:${c.color}"></span>${c.label}`);
+
+const el = document.getElementById("graph");
+const W = el.clientWidth, H = el.clientHeight;
+const svg = d3.select("#graph").append("svg").attr("viewBox", [0, 0, W, H]).attr("width", W).attr("height", H);
+const g = svg.append("g");
+svg.call(d3.zoom().scaleExtent([0.4, 3]).on("zoom", (ev) => g.attr("transform", ev.transform)));
+const tip = d3.select("#tooltip");
+
+const nodes = NODES.map(n => ({...n, r: n.r || 7}));
+const byId = new Map(nodes.map(n => [n.id, n]));
+const links = EDGES.map(e => ({source: e.s, target: e.t, k: e.k, label: e.label}));
+
+// Radial layout: clusters occupy arcs around the hub, sized by node count; nodes alternate
+// between two rings so neighbouring labels never share a baseline. A light collision force
+// then nudges any remaining overlaps; links are drawn but do not pull.
+const ORDER = ["models", "beyond", "bias", "prompt", "bench", "nlp", "data"];
+const CX = W / 2, CY = H / 2;
+const RX1 = W * 0.27, RX2 = W * 0.40, RY1 = H * 0.27, RY2 = H * 0.41;   // two elliptical rings
+const groups = ORDER.map(c => nodes.filter(n => n.c === c));
+const total = groups.reduce((a, gN) => a + gN.length, 0);
+let theta = -Math.PI / 2 - Math.PI * groups[0].length / total;   // start so "models" is centred at the top
+groups.forEach(gN => {
+  const span = 2 * Math.PI * gN.length / total;
+  gN.forEach((n, i) => {
+    const a = theta + span * (i + 0.5) / gN.length;
+    const rx = (i % 2 === 0) ? RX1 : RX2, ry = (i % 2 === 0) ? RY1 : RY2;
+    n.x = n.tx = CX + rx * Math.cos(a); n.y = n.ty = CY + ry * Math.sin(a);
+  });
+  theta += span;
+});
+const hubN = byId.get("hub"); hubN.x = hubN.tx = CX; hubN.y = hubN.ty = CY; hubN.fx = CX; hubN.fy = CY;
+const labelR = d => d.r + 6 + 2.6 * d.label.length;
+const sim = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id).strength(0))
+  .force("collide", d3.forceCollide(labelR).strength(0.7).iterations(2))
+  .force("x", d3.forceX(d => d.tx).strength(0.35))
+  .force("y", d3.forceY(d => d.ty).strength(0.35));
+
+const link = g.append("g").selectAll("line").data(links).join("line")
+  .attr("stroke", d => STYLE[d.k].stroke).attr("stroke-width", d => STYLE[d.k].w)
+  .attr("stroke-dasharray", d => STYLE[d.k].dash).attr("opacity", 0.9);
+const elabel = g.append("g").selectAll("text").data(links.filter(l => l.label)).join("text")
+  .attr("class", "edgelabel").attr("text-anchor", "middle").attr("fill", d => STYLE[d.k].stroke).text(d => d.label);
+
+const node = g.append("g").selectAll("g").data(nodes).join("g").style("cursor", "pointer")
+  .call(d3.drag().on("start", (ev, d) => { d.fx = d.x; d.fy = d.y; sim.alphaTarget(0.3).restart(); })
+                 .on("drag", (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
+                 .on("end", (ev, d) => { if (d.id !== "hub") { d.fx = null; d.fy = null; } sim.alphaTarget(0); }))
+  .on("click", (ev, d) => { if (d.url) window.open(d.url, d.url.startsWith("./") ? "_self" : "_blank"); })
+  .on("mousemove", (ev, d) => tip.style("display", "block").style("left", (ev.pageX + 14) + "px").style("top", (ev.pageY + 14) + "px")
+       .html(`<b>${d.label.replace(" ⚠", "")}</b>${d.year ? " · " + d.year : ""}<br>${d.note}`))
+  .on("mouseleave", () => tip.style("display", "none"));
+node.append("circle").attr("r", d => d.r)
+  .attr("fill", d => d.gap ? "#fdfdfc" : CLUSTERS[d.c].color)
+  .attr("stroke", d => d.gap ? "#c0392b" : "#fff").attr("stroke-width", d => d.gap ? 2 : 1.5)
+  .attr("stroke-dasharray", d => d.gap ? "3 3" : null);
+const label = node.append("text").attr("class", "nodelabel").attr("y", 4)
+  .attr("font-weight", d => d.c === "hub" || d.r >= 10 ? 700 : 400).text(d => d.label);
+
+function render() {
+  // keep every node, and its label, inside the frame
+  nodes.forEach(d => {
+    const lw = 6 * d.label.length + d.r + 10;
+    d.x = Math.max(d.x < W / 2 ? lw : d.r + 8, Math.min(d.x < W / 2 ? W - d.r - 8 : W - lw, d.x));
+    d.y = Math.max(d.r + 14, Math.min(H - d.r - 14, d.y));
+  });
+  link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+  elabel.attr("x", d => (d.source.x + d.target.x) / 2).attr("y", d => (d.source.y + d.target.y) / 2 - 3);
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+  // labels face away from the centre, so the crowded middle stays legible
+  label.attr("text-anchor", d => d.x < W / 2 ? "end" : "start").attr("x", d => d.x < W / 2 ? -(d.r + 4) : d.r + 4);
+}
+// settle the layout before first paint, then keep ticking for drags
+sim.stop();
+for (let i = 0; i < 300; i++) sim.tick();
+render();
+sim.on("tick", render);
+</script>
+</body>
+</html>

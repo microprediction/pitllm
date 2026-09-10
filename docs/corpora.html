@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Point-in-Time Corpora</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a class="current" href="./corpora.html">Corpora</a>
+        <a href="./essay.html">Essay</a>
+        <a href="./plans.html">Plans</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wide">
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Corpora</h1>
+    <p class="subtitle">Dated text one could train, extend, or evaluate a point-in-time model on, by domain.</p>
+    <p class="lead">
+      A point-in-time model needs text with trustworthy dates and no later edits. That rules out much of the
+      web as crawled today and favours archives with publication dates: newspapers, filings, court opinions,
+      parliamentary records, preprints. The table gives each source&apos;s span, the finest temporal
+      granularity it supports, and its licence. <span class="tag open">open</span> means public domain or an
+      open licence; <span class="tag academic">academic</span> means access is gated but free for research;
+      <span class="tag commercial">commercial</span> means a paid licence; <span class="tag mixed">mixed</span>
+      means it varies by sub-source or by API terms.
+    </p>
+    <p>
+      The sequences on the <a href="./models.html">models page</a> used, respectively: FineWeb (Kelly et al.),
+      chronologically filtered web and news (ChronoBERT), WMT News Crawl and Wikipedia (Time Machine GPT),
+      Twitter (TimeLMs), American Stories (StoriesLM), and COHA (HistBERT). Everything else below is a candidate.
+    </p>
+    <div class="toc"><strong>Domains</strong><ul><li><a href="#multilingual-and-cross-lingual-corpora">Multilingual and Cross-Lingual Corpora</a></li><li><a href="#news-and-media-corpora">News and Media Corpora</a></li><li><a href="#social-media-corpora">Social Media Corpora</a></li><li><a href="#historical-and-literary-corpora">Historical and Literary Corpora</a></li><li><a href="#scientific-and-technical-corpora">Scientific and Technical Corpora</a></li><li><a href="#legal-and-government-corpora">Legal and Government Corpora</a></li><li><a href="#financial-and-economic-corpora">Financial and Economic Corpora</a></li><li><a href="#patent-and-technical-standards-corpora">Patent and Technical Standards Corpora</a></li><li><a href="#climate-and-earth-science-corpora">Climate and Earth Science Corpora</a></li></ul></div>
+    <h2 id="multilingual-and-cross-lingual-corpora">Multilingual and Cross-Lingual Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://hplt-project.org">HPLT (High-Performance Language Technologies)</a></td><td>75 languages, 5.6T tokens</td><td>Snapshot-based (v2.0, 2025-05)</td><td><span class="tag open">open</span><br><span class="small muted">Open source (OSI compliant)</span></td><td class="small">Multilingual temporal modeling, cross-lingual evolution studies</td></tr>
+        <tr><td><a href="https://huggingface.co/datasets/PleIAs/common_corpus">Common Corpus</a></td><td>500B words public-domain</td><td>Snapshot-based</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Multilingual pre-training, temporal analysis across languages</td></tr>
+        <tr><td><a href="https://huggingface.co/datasets/HuggingFaceFW/fineweb">FineWeb</a></td><td>2013-present (per Common Crawl dump)</td><td>Crawl dump (roughly monthly)</td><td><span class="tag mixed">mixed</span><br><span class="small muted">ODC-By</span></td><td class="small">Chronologically filtered by crawl date for Scaling PiT LMs (Kelly et al. 2026)</td></tr>
+        <tr><td><a href="https://dumps.wikimedia.org/">Wikipedia dumps</a></td><td>2001-present</td><td>Twice-monthly dumps; full revision history</td><td><span class="tag open">open</span><br><span class="small muted">CC BY-SA</span></td><td class="small">Yearly snapshots used by Time Machine GPT; consecutive snapshots used by TemporalWiki</td></tr>
+      </tbody></table></div>
+    <h2 id="news-and-media-corpora">News and Media Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://huggingface.co/datasets/dell-research-harvard/AmericanStories">American Stories Dataset</a></td><td>1800-1963 (19th-mid-20th century)</td><td>Yearly clustering</td><td><span class="tag open">open</span><br><span class="small muted">Open source</span></td><td class="small">Historical research, cultural studies, media analysis</td></tr>
+        <tr><td><a href="https://catalog.ldc.upenn.edu/LDC2008T19">New York Times Annotated Corpus</a></td><td>1987-2007</td><td>Daily articles</td><td><span class="tag commercial">commercial</span><br><span class="small muted">Commercial license required</span></td><td class="small">News analysis, temporal event tracking</td></tr>
+        <tr><td><a href="https://www.reuters.com">Reuters News Archive</a></td><td>1987-present</td><td>Real-time updates</td><td><span class="tag commercial">commercial</span><br><span class="small muted">Commercial subscription required</span></td><td class="small">Financial analysis, event detection</td></tr>
+        <tr><td><a href="https://huggingface.co/collections/PleIAs/finance-commons-66925e1095c7fa6e6828e26c">Finance Commons</a></td><td>Public-domain financial subset of Common Corpus</td><td>Snapshot-based</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Financial modeling, open-source financial analysis</td></tr>
+        <tr><td><a href="https://chroniclingamerica.loc.gov/">Chronicling America (Library of Congress)</a></td><td>1756-1963</td><td>Issue date (daily)</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Raw scans and OCR behind American Stories; historical research</td></tr>
+        <tr><td><a href="https://data.statmt.org/news-crawl/">WMT News Crawl</a></td><td>2007-present</td><td>Yearly releases, article dates</td><td><span class="tag open">open</span><br><span class="small muted">Open access for research</span></td><td class="small">Training data for Time Machine GPT</td></tr>
+      </tbody></table></div>
+    <h2 id="social-media-corpora">Social Media Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/cardiffnlp/timelms">Twitter TimeLMs Corpus</a></td><td>2019-Q4 → 2022-Q4</td><td>Quarterly snapshots</td><td><span class="tag open">open</span><br><span class="small muted">Open source</span></td><td class="small">Social media analysis, language change studies</td></tr>
+        <tr><td><a href="https://pushshift.io">Reddit Historical Data</a></td><td>2005-present</td><td>Monthly dumps</td><td><span class="tag open">open</span><br><span class="small muted">Open source</span></td><td class="small">Community analysis, trend tracking</td></tr>
+      </tbody></table></div>
+    <h2 id="historical-and-literary-corpora">Historical and Literary Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.english-corpora.org/coha/">Corpus of Historical American English (COHA)</a></td><td>1810-2009</td><td>Decade-by-decade sampling</td><td><span class="tag academic">academic</span><br><span class="small muted">Academic access required</span></td><td class="small">Historical linguistics, cultural studies</td></tr>
+        <tr><td><a href="https://books.google.com/ngrams">Google Books Ngram Corpus</a></td><td>1500-2019</td><td>Yearly word frequencies</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">Lexical change, cultural trends</td></tr>
+      </tbody></table></div>
+    <h2 id="scientific-and-technical-corpora">Scientific and Technical Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.ncbi.nlm.nih.gov/pmc/">PubMed Central Archive</a></td><td>1781-present</td><td>Publication date</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">Scientific progress tracking, medical history</td></tr>
+        <tr><td><a href="https://arxiv.org">arXiv Papers</a></td><td>1991-present</td><td>Publication date</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">Scientific progress analysis, knowledge evolution</td></tr>
+      </tbody></table></div>
+    <h2 id="legal-and-government-corpora">Legal and Government Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.courtlistener.com">U.S. Supreme Court Opinions</a></td><td>1791-present</td><td>Decision date</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Legal history, precedent analysis</td></tr>
+        <tr><td><a href="https://eur-lex.europa.eu">EU Court of Justice Decisions</a></td><td>1952-present</td><td>Decision date</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">EU legal history, cross-jurisdictional analysis</td></tr>
+        <tr><td><a href="https://treaties.un.org">UN Treaty Collections</a></td><td>1945-present</td><td>Treaty date</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">International law research, treaty analysis</td></tr>
+        <tr><td><a href="https://www.congress.gov">Congressional Record</a></td><td>1873-present</td><td>Daily proceedings</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Political history, policy analysis</td></tr>
+        <tr><td><a href="https://hansard.parliament.uk">UK Hansard (Parliamentary Proceedings)</a></td><td>1803-present</td><td>Daily proceedings</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">Political history, policy analysis, parliamentary studies</td></tr>
+        <tr><td><a href="https://www.europarl.europa.eu">EU ParlSpeech</a></td><td>European Parliament proceedings</td><td>Session-based</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">EU policy analysis, parliamentary studies</td></tr>
+        <tr><td><a href="https://case.law/">Caselaw Access Project</a></td><td>1658-2018</td><td>Decision date</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">All published U.S. state and federal case law digitised from Harvard Law Library</td></tr>
+      </tbody></table></div>
+    <h2 id="financial-and-economic-corpora">Financial and Economic Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.sec.gov/edgar">SEC EDGAR Database</a></td><td>1993-present</td><td>Filing date</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Financial analysis, regulatory compliance</td></tr>
+        <tr><td><a href="https://fred.stlouisfed.org">Federal Reserve Economic Data (FRED)</a></td><td>1774-present</td><td>Varies by series</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">Economic analysis, policy research</td></tr>
+      </tbody></table></div>
+    <h2 id="patent-and-technical-standards-corpora">Patent and Technical Standards Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://patentsview.org/">USPTO Bulk Patent Data</a></td><td>1790-present</td><td>Patent filing date</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Innovation studies, technical evolution, patent analysis</td></tr>
+        <tr><td><a href="https://www.epo.org">EPO BigPatent</a></td><td>European patents</td><td>Patent filing date</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">European innovation studies, technical evolution</td></tr>
+      </tbody></table></div>
+    <h2 id="climate-and-earth-science-corpora">Climate and Earth Science Corpora</h2>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Source</th><th>Coverage</th><th>Granularity</th><th>Licence</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.ipcc.ch">IPCC Reports</a></td><td>1990-present</td><td>Report publication date</td><td><span class="tag open">open</span><br><span class="small muted">Open access</span></td><td class="small">Climate science evolution, environmental policy analysis</td></tr>
+        <tr><td><a href="https://ntrs.nasa.gov">NASA Technical Reports</a></td><td>NASA research publications</td><td>Publication date</td><td><span class="tag open">open</span><br><span class="small muted">Public domain</span></td><td class="small">Space science evolution, Earth science analysis</td></tr>
+      </tbody></table></div>
+    <h2 id="granularity">How fine can the clock tick?</h2>
+    <p>
+      The cadence of a checkpoint sequence is bounded by the cadence of its data. Most sources support daily
+      dating, but a useful corpus at a given cadence needs enough tokens per step to move the model. The
+      recommendations below, from the <a href="https://github.com/microprediction/pitllm/blob/main/CORPUS-GRANULARITY.md">granularity guide</a>
+      in the repository, balance temporal precision against tokens per checkpoint.
+    </p>
+    <div class="table-wrap"><table class="impl compact">
+      <thead><tr><th>Data source</th><th>Finest practical</th><th>Recommended cadence</th></tr></thead>
+      <tbody>
+        <tr><td>Twitter (academic API)</td><td>hourly</td><td>quarterly</td></tr>
+        <tr><td>Reddit (Pushshift)</td><td>daily</td><td>monthly</td></tr>
+        <tr><td>Wikipedia dumps</td><td>daily</td><td>monthly</td></tr>
+        <tr><td>SEC EDGAR</td><td>daily</td><td>quarterly</td></tr>
+        <tr><td>Financial news (Common Crawl)</td><td>daily</td><td>monthly</td></tr>
+        <tr><td>FRED economic releases</td><td>daily</td><td>monthly</td></tr>
+        <tr><td>arXiv / PubMed</td><td>daily</td><td>monthly</td></tr>
+        <tr><td>Historical newspapers (Chronicling America)</td><td>daily</td><td>yearly</td></tr>
+        <tr><td>COHA</td><td>yearly</td><td>decadal</td></tr>
+        <tr><td>Congressional Record / Hansard</td><td>daily</td><td>yearly</td></tr>
+        <tr><td>Court opinions</td><td>daily</td><td>yearly</td></tr>
+      </tbody></table></div>
+    <p class="muted small">Source: <a href="https://github.com/microprediction/pitllm/blob/main/PIT-CORPUSES.md">PIT-CORPUSES.md</a> and
+    <a href="https://github.com/microprediction/pitllm/blob/main/CORPUS-GRANULARITY.md">CORPUS-GRANULARITY.md</a>. Some entries in the
+    source list are descriptive rather than pointing at a single dataset; where no canonical link exists the name is left unlinked.
+    Corrections welcome.</p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>
