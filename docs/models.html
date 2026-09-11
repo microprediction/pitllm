@@ -43,8 +43,8 @@
       before the cut-off. This is the strong form. It does not require retraining from scratch every year:
       continuing a genuinely clean earlier checkpoint preserves chronological consistency, so annual
       restarts are a convenience rather than a requirement. Released corpora make the claim auditable, but
-      open data by itself does not prove the timestamps are right or the selection unbiased &mdash; OCR
-      and misdated reprints put future text in nominally historical corpora.</li>
+      open data by itself does not prove the timestamps are right or the selection unbiased. OCR
+      errors and misdated reprints put future text in nominally historical corpora.</li>
       <li><strong>Verified post-training.</strong> Instruction tuning or alignment that is itself
       constrained and checked. Every instruct variant below rests on a screening or grounding procedure,
       not a proof, and the procedures differ in what they actually test. Each entry says which.</li>
@@ -123,7 +123,7 @@
       A second family, <a href="https://arxiv.org/abs/2510.11677">chrono-gpt-instruct</a> (October 2025),
       instruction-tunes each yearly ChronoGPT for chat use. The instruction data are not historical
       documents. The three curriculum stages draw on a from-scratch tutorial set, a GPT-3 self-instruct
-      corpus, and AllenAI&apos;s Tulu-3 SFT mixture &mdash; all modern. Each candidate pair is then screened
+      corpus, and AllenAI&apos;s Tulu-3 SFT mixture, all of them modern. Each candidate pair is then screened
       by a GPT-4.1 classifier and retained only when labelled &ldquo;knowledge available pre-2000&rdquo;
       with sufficient confidence. That is classifier-based anachronism screening with empirical validation,
       which is a real precaution but does not establish that every retained example contains only
@@ -151,7 +151,7 @@
       makes the affordability claim concrete rather than rhetorical.
     </p>
     <p>
-      The two stages deserve separate verdicts. The pretraining is filtered by crawl date and is the solid
+      The two stages need separate verdicts. The pretraining is filtered by crawl date and is the solid
       part. The instruction-tuned variants are not, because the post-training filter asks the wrong
       question. Appendix B screens the SFT and DPO sets with gpt-5-nano, keeping only examples judged
       &ldquo;timeless&rdquo;, where the stated test is whether the text states &ldquo;facts that could
@@ -160,7 +160,7 @@
       change. But durability and availability are different properties: a fact can be true forever and
       still have been unknown before the cut-off, and a tutorial can teach a technology that did not yet
       exist. The prompt&apos;s own worked example retains &ldquo;React 18 introduced concurrent
-      rendering&rdquo; as a stable technical fact &mdash; exactly the sort of item a 2013 checkpoint should
+      rendering&rdquo; as a stable technical fact. That is exactly the sort of item a 2013 checkpoint should
       never have seen. This is a substantive weakness in the post-training argument, and it leaves the
       chronologically pretrained base models useful while the instruct variants&apos; cut-offs are
       unverified.
@@ -181,8 +181,8 @@
       knowledge stops at its year.
     </p>
     <p>
-      The paper&apos;s distinctive result is the &ldquo;lookahead premium&rdquo;, and its estimand is worth
-      stating exactly. On 61,000 firm-day news headlines the authors split the leaky sentiment signal as
+      The paper&apos;s distinctive result is the &ldquo;lookahead premium&rdquo;. Its estimand is narrower
+      than the name suggests. On 61,000 firm-day news headlines the authors split the leaky sentiment signal as
       <em>s</em><sup>b</sup> = <em>s</em><sup>f</sup> + (<em>s</em><sup>b</sup> &minus; <em>s</em><sup>f</sup>),
       where <em>s</em><sup>f</sup> is the historically admissible signal (vintage <em>y</em>&minus;1 scoring
       year <em>y</em> headlines) and <em>s</em><sup>b</sup> the family&apos;s latest vintage applied to
@@ -190,7 +190,7 @@
       + &beta;<sub>1</sub><em>s</em><sup>f</sup> + &beta;<sub>2</sub>(<em>s</em><sup>b</sup> &minus;
       <em>s</em><sup>f</sup>) with firm and date fixed effects. The 26.4 basis points (<em>t</em> = 10.65)
       is &beta;&#770;<sub>2</sub> scaled by a standard deviation: the next-day return associated with the
-      residual &mdash; the information only the later vintage had &mdash; conditional on the admissible
+      residual, the information only the later vintage had, conditional on the admissible
       signal. It is not an extra portfolio return attributable to leakage. The portfolio comparison is
       reported separately, an annualised Sharpe of 3.20 lookahead-free against 3.65 lookahead-biased. The
       leakage interpretation is the authors&apos;, and it carries an assumption: even matched vintages of
@@ -214,7 +214,7 @@
     <ul>
       <li>Weights: <a href="https://huggingface.co/Ti-Ma">huggingface.co/Ti-Ma</a> &mdash; <code>Ti-Ma/TiMaGPT2-2011</code> &hellip; <code>TiMaGPT2-2022</code>, licence CC0.</li>
       <li>Data: <code>Ti-Ma/TiMaGPT2-YYYY</code> and <code>Ti-Ma/wikipedia_YYYY</code> datasets (WMT News Crawl and yearly Wikipedia snapshots).</li>
-      <li>Pretraining: from scratch on period data, and because each year&apos;s corpus is released the claim is auditable &mdash; which is not the same as proven, since correct timestamps and unbiased selection still have to hold. <span class="tag open">restricted pretraining</span></li>
+      <li>Pretraining: from scratch on period data, and because each year&apos;s corpus is released the claim is auditable. That is not the same as proven: correct timestamps and unbiased selection still have to hold. <span class="tag open">restricted pretraining</span></li>
     </ul>
 
     <h2 id="timelms">TimeLMs &mdash; Cardiff NLP</h2>
@@ -226,7 +226,7 @@
       <code>corresponding</code> mode that matches each tweet to its own quarter&apos;s checkpoint. That is
       a temporal-adaptation interface, not a point-in-time cut-off. Quarters run Jan&ndash;Mar,
       Apr&ndash;Jun and so on, and each quarter&apos;s model is trained on that whole quarter, so the
-      paper&apos;s own example &mdash; a tweet dated 1 February 2021 routed to the 2021-Q1 model &mdash;
+      paper&apos;s own example, a tweet dated 1 February 2021 routed to the 2021-Q1 model,
       scores it with a model that has read late February and March. For a historical forecast, choose a
       checkpoint whose training window ends before the forecast origin, which usually means the preceding
       quarter. Built for studying language-model degradation and cultural shift on social media.
@@ -268,7 +268,7 @@
     <h2>Also relevant</h2>
     <ul>
       <li><strong>TiMoE</strong> &mdash; Faro, Fan, Alphaidze &amp; Jaggi (2025), <a href="https://arxiv.org/abs/2508.08827">arXiv:2508.08827</a>. A collection of separate GPT-style expert models, each pretrained from scratch on a disjoint two-year slice of 2013&ndash;2024, with experts whose window ends after the query date masked at inference. The chronological justification is clearest for <code>TiMoE-Avg</code>, which aggregates the surviving clean experts with fixed weights and needs no extra training. Learned routing is weaker: the router is a one-layer MLP trained on the whole multi-period corpus, and <code>TiMoE-CoAdapt</code> jointly updates the router and the &ldquo;present&rdquo; expert for each document. An earlier query can therefore receive mixture weights shaped by later training data even when the later experts are masked. That is a vulnerability in the stated guarantee rather than proof that any particular prediction leaked, but learned routing needs its own cut-off controls, including during co-adaptation. Two-year granularity.</li>
-      <li><strong>TypewriterLM</strong> &mdash; Luo et al. (2026), <a href="https://arxiv.org/abs/2606.02991">arXiv:2606.02991</a>. A single 7.24B model trained only on English text before 1913, with a 54B-token corpus and a post-training stage constrained by &ldquo;lexical grounding&rdquo;: a response is accepted only if every lexical token is derivable from the source passage plus a small allowlist of function words, with limited morphological normalisation and OCR repair, enforced by a verifier that discards non-compliant responses. Instruction generation and judging still use modern LLMs, and the authors add human review of the small LIMA-style set together with explicit leakage evaluations. Three things are worth keeping apart: source vocabulary, meaning genuinely supported by the source, and historical availability. The constraint establishes the first. It does not establish the second or third, since old words can be rearranged &mdash; or source passages selected &mdash; to convey something learned later. The largest &ldquo;history language model&rdquo; released; a sequence could be built the same way.</li>
+      <li><strong>TypewriterLM</strong> &mdash; Luo et al. (2026), <a href="https://arxiv.org/abs/2606.02991">arXiv:2606.02991</a>. A single 7.24B model trained only on English text before 1913, with a 54B-token corpus and a post-training stage constrained by &ldquo;lexical grounding&rdquo;: a response is accepted only if every lexical token is derivable from the source passage plus a small allowlist of function words, with limited morphological normalisation and OCR repair, enforced by a verifier that discards non-compliant responses. Instruction generation and judging still use modern LLMs, and the authors add human review of the small LIMA-style set together with explicit leakage evaluations. Source vocabulary, meaning supported by the source, and historical availability are three different things. The constraint establishes the first only. Old words can be rearranged, and source passages chosen, to convey something learned later. The largest &ldquo;history language model&rdquo; released; a sequence could be built the same way.</li>
       <li><strong>Diachronic slice models</strong> &mdash; Fittschen, Li, Lippincott &amp; Choshen (2025), <a href="https://arxiv.org/abs/2504.05523">arXiv:2504.05523</a>. Five small models pretrained on five 10-million-word time slices, for humanities research; argues pretraining beats fine-tuning for period fidelity.</li>
       <li><strong>TiC-LM</strong> &mdash; Li et al. (2025), <a href="https://arxiv.org/abs/2504.02107">arXiv:2504.02107</a>. A time-continual pretraining benchmark over 114 Common Crawl dumps; shows replay schedules that match from-scratch retraining at 2.6&times; less compute, which is how a monthly sequence could be produced cheaply.</li>
       <li><strong>Pitinf models</strong> (PiT-Inference) &mdash; a small, medium, and &ldquo;frontier-level&rdquo; family of point-in-time LLMs evaluated in <a href="https://arxiv.org/abs/2601.13770">Look-Ahead-Bench</a>. Availability outside the benchmark is not documented here. <span class="tag mixed">unverified</span></li>

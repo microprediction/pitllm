@@ -109,11 +109,16 @@
     <p>
       Six open efforts have released sequences of date-stamped checkpoints, TiMoE serves every cut-off
       from a set of date-masked experts, and HistBERT offers two multi-decade variants rather than a
-      sequence. They differ in domain, cadence, and in what the cut-off claim rests on: pretraining
-      restricted to text published before the date, or a modern base adapted on period text, which shifts
-      style without restricting knowledge. Post-training is a third, weaker layer &mdash; every instruct
-      variant relies on a screening or grounding procedure rather than a proof. Details, checkpoint lists,
-      and a coverage chart are on the <a href="./models.html">models page</a>.
+      sequence. They differ in domain, cadence, and in what the cut-off claim rests on.
+    </p>
+    <p>
+      Two training stages carry that claim, and they fail differently.
+      <strong>Pretraining</strong> is the bulk run that builds the model&apos;s knowledge from
+      raw text; restricting its corpus to text published before the date is what makes a cut-off claim
+      meaningful. <strong>Post-training</strong> is the much smaller instruction-tuning and alignment pass
+      that turns the result into something you can prompt. A sequence can be clean at the first stage and
+      leak at the second, and most of them are. Details, checkpoint lists, and a coverage chart are on the
+      <a href="./models.html">models page</a>.
     </p>
     <div class="table-wrap">
       <table class="impl">
