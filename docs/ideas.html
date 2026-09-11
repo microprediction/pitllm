@@ -146,7 +146,7 @@
       <p class="who"><a href="https://doi.org/10.2139/ssrn.4881024">Sarkar (2024)</a> &middot; StoriesLM</p>
       <p class="tags"><span class="tg tg-topic">pretraining</span><span class="tg tg-resource">resource</span></p>
       <p><strong>Sequentially expanding pretraining windows over a century of newspapers.</strong> Each of 64 yearly models continues the previous year&apos;s checkpoint on that year&apos;s American Stories text, so a historian can pick a model as of any year from 1900 to 1963.</p>
-      <p class="so">The only released sequence covering the early twentieth century; it is what makes the &ldquo;simulated historical informant&rdquo; programme concrete.</p>
+      <p class="so">The sequence that makes the &ldquo;simulated historical informant&rdquo; programme concrete for the early twentieth century. We could not retrieve the full paper, so the claim that it is the only such released sequence is unverified here.</p>
     </div>
     <div class="idea big" data-topic="pretrain" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2502.21206">He, Lv, Manela &amp; Wu (2025)</a> &middot; Chronologically Consistent LLMs</p>
@@ -163,8 +163,8 @@
     <div class="idea" data-topic="pretrain" data-kind="empirical">
       <p class="who"><a href="https://arxiv.org/abs/2504.05523">Fittschen, Li, Lippincott &amp; Choshen (2025)</a> &middot; Pretraining for Diachronic Linguistic Change Discovery</p>
       <p class="tags"><span class="tg tg-topic">pretraining</span><span class="tg tg-empirical">empirical</span></p>
-      <p><strong>Domain-restricted pretraining is the only guarantee of period-restricted inference, and it is cheaper than assumed.</strong> Small models pretrained on five 10-million-word time slices train faster than parameter-efficient fine-tunes of an 8B model and behave more faithfully to their period. Includes a date-attribution pipeline for undated text.</p>
-      <p class="so">Argues against fine-tuning as a substitute for period pretraining in the humanities, on both cost and fidelity grounds.</p>
+      <p><strong>Period pretraining beat fine-tuning on both cost and fidelity in the settings tested.</strong> Small models pretrained on five 10-million-word time slices train faster than parameter-efficient fine-tunes of an 8B model and behave more faithfully to their period. The cost comparison is specific to those architectures and setups. Includes a date-attribution pipeline for undated text.</p>
+      <p class="so">Argues against fine-tuning as a substitute for period pretraining in the humanities. Restricting the pretraining corpus is the more direct route to period-restricted inference, which the paper demonstrates rather than proves.</p>
     </div>
     <div class="idea" data-topic="pretrain" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2504.02107">Li et al. (2025)</a> &middot; TiC-LM</p>
@@ -214,20 +214,20 @@
     <div class="idea big" data-topic="detect" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2309.17322">Glasserman &amp; Lin (2023)</a> &middot; Assessing Look-Ahead Bias in GPT Sentiment</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-method">method</span></p>
-      <p><strong>Two distinct biases, and anonymisation handles both.</strong> Look-ahead is knowing what the stock did; &ldquo;distraction&rdquo; is general knowledge of the company contaminating the sentiment read. Removing company identifiers from headlines improved in-sample performance, meaning distraction dominated look-ahead.</p>
-      <p class="so">Introduced the cheapest mitigation in the literature and the surprising finding that the bias people feared most was not the larger one.</p>
+      <p><strong>Two distinct biases, and one cheap intervention that improves on both counts at once.</strong> Look-ahead is knowing what the stock did; &ldquo;distraction&rdquo; is general knowledge of the company contaminating the sentiment read. Removing company identifiers from headlines improved in-sample performance.</p>
+      <p class="so">Introduced the cheapest mitigation in the literature. The reading that distraction dominates look-ahead is an interpretation of one net improvement, which does not on its own separate the two channels or size them individually.</p>
     </div>
     <div class="idea big" data-topic="detect" data-kind="empirical">
       <p class="who"><a href="https://doi.org/10.2139/ssrn.4754678">Sarkar &amp; Vafa (2024)</a> &middot; Lookahead Bias in Pretrained Language Models</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-empirical">empirical</span></p>
-      <p><strong>Test for leakage with events that are unpredictable by construction.</strong> If a model predicts election winners from candidate biographies, or risk factors before they materialised, better than the information set allows, it has seen the future. Prompting cannot fix this; only pretraining data restricted to the analysis period can.</p>
-      <p class="so">The identification argument behind every later detection statistic, and an early statement that point-in-time pretraining is the remedy.</p>
+      <p><strong>Test for leakage on events chosen to be hard to predict from the information available at the time.</strong> If a model predicts election winners from candidate biographies, or risk factors before they materialised, better than the information set allows, it has seen the future. The argument is that prompting does not fix this and restricted pretraining data does.</p>
+      <p class="so">The identification argument behind every later detection statistic, and an early statement that point-in-time pretraining is the remedy. We could not retrieve the full paper. Candidate biographies alone do not make an election unpredictable, so the close-election design is the part to check before relying on the claim.</p>
     </div>
     <div class="idea" data-topic="detect" data-kind="empirical">
       <p class="who"><a href="https://doi.org/10.2139/ssrn.4963618">Rahimikia &amp; Drinkall (2024)</a> &middot; Re(Visiting) Large Language Models in Finance</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-empirical">empirical</span></p>
-      <p><strong>Re-run finance LLM results with point-in-time models in hand.</strong> Uses the Time Machine GPT sequence to separate what survives a clean cut-off from what does not. <span class="tag mixed">abstract not retrieved</span></p>
-      <p class="so">The natural follow-up to TiMaGPT by the same group; details should be checked against the paper.</p>
+      <p><strong>Re-runs finance LLM results using the Time Machine GPT sequence.</strong> Neither the abstract nor the full text could be retrieved, so this entry records what the title and surrounding literature indicate and no more. No findings are summarised. <span class="tag mixed">not retrieved</span></p>
+      <p class="so">The natural follow-up to TiMaGPT by the same group. Treat any account of its results, here or elsewhere, as unverified until the paper is read.</p>
     </div>
     <div class="idea" data-topic="protocol" data-kind="theory">
       <p class="who"><a href="https://arxiv.org/abs/2412.07031">Ludwig, Mullainathan &amp; Rambachan (2024)</a> &middot; An Applied Econometric Framework</p>
@@ -252,7 +252,7 @@
       <p class="who"><a href="https://doi.org/10.17016/feds.2025.044">Crane, Karra &amp; Soto (2025)</a> &middot; Total Recall? (Federal Reserve)</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-empirical">empirical</span></p>
       <p><strong>LLMs smooth across data vintages.</strong> They recall recent macro statistics precisely but blend first prints with later revisions, and blend past with future reference periods; on any given day the model believes it holds data that had not yet been released.</p>
-      <p class="so">Vintage awareness is a separate failure from knowledge cutoff, and one that only real-time datasets can test.</p>
+      <p class="so">Vintage awareness is a separate failure from knowledge cutoff, and one that real-time datasets are needed to test. The direct vintage and release-date findings are the strong part. The within-vintage leakage test in &sect;4.2 leans on SPF forecasts capturing predictable future variation, and the authors call that evidence preliminary.</p>
     </div>
     <div class="idea" data-topic="protocol" data-kind="position">
       <p class="who"><a href="https://arxiv.org/abs/2506.00723">Paleka, Goel, Geiping &amp; Tram&egrave;r (2025)</a> &middot; Pitfalls in Evaluating LM Forecasters</p>
@@ -263,32 +263,32 @@
     <div class="idea" data-topic="protocol" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2505.11065">Li et al. (2025)</a> &middot; DeepFund</p>
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-resource">resource</span></p>
-      <p><strong>The only leak-proof backtest is a live one.</strong> A benchmark that feeds LLM fund managers real-time market data published after each model&apos;s cutoff, so &ldquo;time travel&rdquo; is impossible.</p>
-      <p class="so">Trades statistical power for validity; the complement to point-in-time models, which trade the other way.</p>
+      <p><strong>A prospective benchmark, where time travel is impossible by construction.</strong> LLM fund managers are fed real-time market data published after each model&apos;s cutoff. The sample is short and execution frictions are omitted.</p>
+      <p class="so">Trades statistical power for validity, and complements point-in-time models, which trade the other way. Live testing is one way to rule out leakage rather than the only valid design: a matched clean model on historical data is the other.</p>
     </div>
     <div class="idea" data-topic="steering" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2512.06607">Merchant &amp; Levy (2025)</a> &middot; A Fast and Effective Solution to Look-ahead Bias</p>
       <p class="tags"><span class="tg tg-topic">steering &amp; decoding</span><span class="tg tg-method">method</span></p>
-      <p><strong>Logit arithmetic with two small models.</strong> Steer a large base model at inference using a small model fine-tuned on what to forget and another on what to keep. Removes both verbatim and semantic knowledge of the period without retraining the frontier model.</p>
-      <p class="so">The practical answer for people who cannot retrain: unlearning by decoding rather than by weights.</p>
+      <p><strong>Logit arithmetic with two small models.</strong> Steer a large base model at inference using a small model fine-tuned on what to forget and another on what to keep. Suppresses both verbatim and semantic recall of the period under the elicitation methods tested, without retraining the frontier model.</p>
+      <p class="so">The practical answer for people who cannot retrain: unlearning by decoding rather than by weights. The base weights are untouched and only the logits change, so this is measured suppression rather than a guarantee that the knowledge is beyond reach.</p>
     </div>
     <div class="idea" data-topic="detect" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2512.23847">Gao, Jiang &amp; Yan (2025)</a> &middot; Detecting Lookahead Bias in LLM Forecasts</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-method">method</span></p>
       <p><strong>Lookahead Propensity: ask the model, from the date alone, what happened.</strong> The recall probability is high throughout the training window and collapses to zero after the cutoff. Its interaction with forecast accuracy in a regression is a test for contamination, and it fires on both headline&ndash;return and earnings-call&ndash;capex tasks.</p>
-      <p class="so">A cheap diagnostic that needs no clean model, only a recall query per firm-date.</p>
+      <p class="so">A cheap diagnostic that needs no clean model, only a recall query per firm-date. The detection result in Appendix B assumes exogeneity and conditional moment restrictions, with monotonicity for the positive-interaction claim. Absent those, recall propensity can track question difficulty, coverage or signal calibration instead of contamination.</p>
     </div>
     <div class="idea" data-topic="detect" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2601.07992">Eliseev &amp; Seleznev (2026)</a> &middot; Fake Date Tests</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-method">method</span></p>
-      <p><strong>Lie to the model about today&apos;s date and see if its in-sample forecast moves.</strong> Sensitivity to the fake date separates lookahead bias from context bias. No modern LLM passed.</p>
-      <p class="so">A one-line test any macro forecaster can run before trusting a backtest.</p>
+      <p><strong>Lie to the model about today&apos;s date and see if its in-sample forecast moves.</strong> Sensitivity to the fake date separates lookahead bias from context bias. No modern LLM passed. Proposition 1 maintains a date-invariance assumption, which the paper states and discusses.</p>
+      <p class="so">A one-line test any macro forecaster can run before trusting a backtest, read as a joint test: a failure can mean the date-invariance restriction broke rather than that the model leaked.</p>
     </div>
     <div class="idea big" data-topic="bench" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2601.13770">Benhenda (2026)</a> &middot; Look-Ahead-Bench</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-resource">resource</span></p>
       <p><strong>Measure bias as alpha decay, not as recall.</strong> Instead of asking whether the model knows post-cutoff facts, run it through realistic financial workflows across temporally distinct regimes and watch performance decay. Standard LLMs decay; point-in-time models do not, and improve with scale.</p>
-      <p class="so">The first standardised behavioural benchmark for the property, and the one later work benchmarks against.</p>
+      <p class="so">A standardised behavioural benchmark for the property, and a useful comparison across models. Decay on its own is not a causal leakage estimate: regime change, task difficulty and model staleness move it too.</p>
     </div>
     <div class="idea" data-topic="protocol" data-kind="position">
       <p class="who"><a href="https://arxiv.org/abs/2602.14233">Kong et al. (2026)</a> &middot; Evaluating LLMs in Finance Requires Explicit Bias Consideration</p>
@@ -335,8 +335,8 @@
     <div class="idea" data-topic="protocol" data-kind="position">
       <p class="who"><a href="https://doi.org/10.1111/1475-679x.70058">Levy (2026)</a> &middot; Caution Ahead (Journal of Accounting Research)</p>
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-position">position</span></p>
-      <p><strong>Much of LLMs&apos; apparent superhuman performance in accounting and finance is modelling artifact.</strong> Two culprits: very poor numerical reasoning, and look-ahead bias in commercial models that may account for a large share of their predictive ability.</p>
-      <p class="so">The accounting literature&apos;s formal notice that its headline AI results need re-examination.</p>
+      <p><strong>Much of LLMs&apos; apparent superhuman performance in accounting and finance is modelling artifact.</strong> Two culprits: very poor numerical reasoning, and look-ahead bias in commercial models that may account for a large share of their predictive ability. The numerical failures are not intrinsic: giving the model a code tool raises the statement-tallying and DuPont tasks to 100% accuracy, which matters for how the result should be read.</p>
+      <p class="so">The accounting literature&apos;s formal notice that its headline AI results need re-examination. One technical slip in &sect;2.3.1, which does not affect the accounting experiments: it treats decoding temperature and Concrete-relaxation temperature as the same knob. For softmax((z + Gumbel)/&tau;) the hard argmax does not depend on &tau; at all, whereas ordinary categorical sampling from softmax(z/T) does move with T.</p>
     </div>
     <div class="idea" data-topic="posttrain" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2605.18843">Zhang &amp; Stadie (2026)</a> &middot; TEMPO</p>
@@ -382,13 +382,13 @@
     <div class="idea" data-topic="steering" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2605.24564">Li, Wang &amp; Ma (2026)</a> &middot; FinCAD</p>
       <p class="tags"><span class="tg tg-topic">steering &amp; decoding</span><span class="tg tg-method">method</span></p>
-      <p><strong>Find the prompt that wakes the model&apos;s memory of the outcome, then subtract that memory at decode time.</strong> An adversarial pipeline learns a model-specific memory-activating prompt; context-aware decoding attenuates its contribution, scaled per entity and date by a confidence signal. Largest in-sample return correction &minus;67%; out-of-sample performance and general benchmarks essentially unchanged.</p>
+      <p><strong>Find the prompt that wakes the model&apos;s memory of the outcome, then subtract that memory at decode time.</strong> An adversarial pipeline learns a model-specific memory-activating prompt; context-aware decoding attenuates its contribution, scaled per entity and date by a confidence signal. The largest model-level mean in-sample return correction is &minus;67.1%, which is a change in returns rather than a measured fraction of memory removed. The v2 abstract limits near-preservation of 2025 out-of-sample returns to three larger models, and the authors acknowledge that removal is incomplete.</p>
       <p class="so">Names &ldquo;parametric look-ahead bias&rdquo; and offers the most surgical inference-time fix so far.</p>
     </div>
     <div class="idea" data-topic="steering" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2606.27199">Merchant &amp; Levy (2026)</a> &middot; Feature Steering</p>
       <p class="tags"><span class="tg tg-topic">steering &amp; decoding</span><span class="tg tg-method">method</span></p>
-      <p><strong>Time-awareness is a steerable feature; look-ahead bias is not.</strong> Sparse autoencoders find features for time-aware and for look-ahead-biased reasoning. Amplifying the time-awareness features cuts look-ahead bias across a different domain; steering the look-ahead features does nothing.</p>
+      <p><strong>Time-awareness steered well; the look-ahead features they found did not.</strong> Sparse autoencoders surface features for time-aware and for look-ahead-biased reasoning. Amplifying the time-awareness features cuts look-ahead bias across a different domain, while steering the look-ahead features does nothing. That is a result about the features this autoencoder surfaced, not a demonstration that no steerable look-ahead feature exists.</p>
       <p class="so">Suggests the bias is diffuse and the fix is to strengthen the model&apos;s sense of &ldquo;when&rdquo; rather than to delete what it knows.</p>
     </div>
     <div class="idea" data-topic="protocol" data-kind="theory">
@@ -430,7 +430,7 @@
       <p class="who"><a href="https://arxiv.org/abs/2608.09988">Cai et al. (2026)</a> &middot; OpenPM</p>
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-resource">resource</span></p>
       <p><strong>Point-in-time discipline for agents, with a certificate.</strong> Every record visible to a portfolio agent must be available at decision time; natural-language risk mandates become typed constraints enforced on the executed book; each run emits a contamination certificate and a cost-sensitivity curve.</p>
-      <p class="so">Extends the cut-off idea from training data to the whole agent loop, including retrieval and execution.</p>
+      <p class="so">Extends the cut-off idea from training data to the whole agent loop, including retrieval and execution. The certificate covers the availability and execution constraints the pipeline records and enforces. Checking timestamps on retrieved records says nothing about what an opaque base model absorbed during training.</p>
     </div>
 
     <h2 id="prompt">Prompted cut-offs and the model&apos;s sense of time</h2>
@@ -445,7 +445,7 @@
       <p class="who"><a href="https://arxiv.org/abs/2403.12958">Cheng et al. (2024)</a> &middot; Dated Data</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-empirical">empirical</span></p>
       <p><strong>The effective cutoff differs from the reported one, resource by resource.</strong> Probing across versions of the same data shows where a model&apos;s knowledge actually stops. Two causes: Common Crawl dumps contain large amounts of old data, and deduplication misses semantic and lexical near-duplicates.</p>
-      <p class="so">A &ldquo;cutoff date&rdquo; is a distribution, not a date; any point-in-time claim has to be made at the resource level.</p>
+      <p class="so">Effective recall boundaries vary by resource, so a point-in-time claim has to be made resource by resource. The date a corpus was actually frozen can still be a single number; what varies is how much of each resource survives in the model.</p>
     </div>
     <div class="idea" data-topic="steering" data-kind="empirical">
       <p class="who"><a href="https://arxiv.org/abs/2502.14258">Park et al. (2025)</a> &middot; Temporal Heads</p>
@@ -502,7 +502,7 @@
       <p class="who"><a href="https://arxiv.org/abs/2606.05804">Asai et al. (2026)</a> &middot; Recall-Based Prompting</p>
       <p class="tags"><span class="tg tg-topic">prompting</span><span class="tg tg-method">method</span></p>
       <p><strong>Ask the model to restate its cutoff and to recall what it validly knows before answering.</strong> Self-Recall and Question-Recall beat direct answering and step-by-step reasoning, with the largest gains on counterfactual questions. A multi-cutoff benchmark shows performance varies with distance to the cutoff.</p>
-      <p class="so">The best prompting can do; still not a substitute for a clean model.</p>
+      <p class="so">The strongest prompting result so far, and still not a substitute for a clean model. Nothing shows these are the best prompts available.</p>
     </div>
     <div class="idea" data-topic="steering" data-kind="empirical">
       <p class="who"><a href="https://arxiv.org/abs/2608.15507">van Adrichem, Bhaskar, Yang &amp; Potts (2026)</a> &middot; Do LMs Consistently Encode the Current Year?</p>
@@ -516,8 +516,8 @@
     <div class="idea big" data-topic="pretrain" data-kind="empirical">
       <p class="who"><a href="https://arxiv.org/abs/2102.01951">Lazaridou et al. (2021)</a> &middot; Mind the Gap</p>
       <p class="tags"><span class="tg tg-topic">pretraining</span><span class="tg tg-empirical">empirical</span></p>
-      <p><strong>Language models get worse on text from after their training period, and scale does not help; continual updating does.</strong> Proposes time-stratified train/test splits as the realistic evaluation.</p>
-      <p class="so">The founding paper of the NLP thread; everything about temporal misalignment descends from it.</p>
+      <p><strong>Language models get worse on text from after their training period, and in the models tested scale did not fix it; continual updating did.</strong> Proposes time-stratified train/test splits as the realistic evaluation.</p>
+      <p class="so">An early and influential statement of the problem. Much of the NLP thread follows its evaluation design.</p>
     </div>
     <div class="idea" data-topic="pretrain" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2106.15110">Dhingra et al. (2021)</a> &middot; Time-Aware LMs as Temporal Knowledge Bases</p>
@@ -528,7 +528,7 @@
     <div class="idea" data-topic="pretrain" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2110.03215">Jang et al. (2021)</a> &middot; Continual Knowledge Learning</p>
       <p class="tags"><span class="tg tg-topic">pretraining</span><span class="tg tg-resource">resource</span></p>
-      <p><strong>Updating world knowledge is its own continual-learning problem.</strong> Three things must happen at once: retain invariant knowledge, update outdated knowledge, acquire new knowledge. Standard CL methods fail; parameter expansion is needed.</p>
+      <p><strong>Updating world knowledge is its own continual-learning problem.</strong> Three things must happen at once: retain invariant knowledge, update outdated knowledge, acquire new knowledge. Standard continual-learning methods struggle, and parameter expansion did best among the methods tested, which is not the same as showing it is required.</p>
       <p class="so">Defines the metric that TemporalWiki and later benchmarks measure.</p>
     </div>
     <div class="idea" data-topic="pretrain" data-kind="empirical">
@@ -546,8 +546,8 @@
     <div class="idea" data-topic="pretrain" data-kind="empirical">
       <p class="who"><a href="https://arxiv.org/abs/2111.12790">Agarwal &amp; Nenkova (2021)</a> &middot; Temporal Effects on Pre-trained Models</p>
       <p class="tags"><span class="tg tg-topic">pretraining</span><span class="tg tg-empirical">empirical</span></p>
-      <p><strong>Separate temporal deterioration from temporal domain adaptation.</strong> Deterioration is not always a problem; adaptation always helps. Self-labelling on new data beats even human annotation for NER adaptation.</p>
-      <p class="so">Terminology the later literature adopted, plus a cheap adaptation trick.</p>
+      <p><strong>Separate temporal deterioration from temporal domain adaptation.</strong> Deterioration is not always a problem, and adaptation helped in every setting they evaluated. Self-labelling on new data beats even human annotation for NER adaptation.</p>
+      <p class="so">Terminology the later literature adopted, plus a cheap adaptation trick. The evaluated settings do not establish that adaptation helps for every task or distribution.</p>
     </div>
     <div class="idea" data-topic="pretrain" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2305.14824">Zhang &amp; Choi (2023)</a> &middot; Discarding Outdated Facts</p>
@@ -582,13 +582,13 @@
       <p class="who"><a href="https://arxiv.org/abs/2204.14211">Jang et al. (2022)</a> &middot; TemporalWiki</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-resource">resource</span></p>
       <p><strong>Use the diff between consecutive Wikipedia snapshots as the training set, and the Wikidata diff as the test.</strong> Training on diffs matches training on the whole snapshot at one twelfth the compute.</p>
-      <p class="so">A renewable benchmark and the cheapest possible update schedule.</p>
+      <p class="so">A renewable benchmark, and a twelve-fold reported saving on update cost. Whether that is the cheapest schedule possible is not established.</p>
     </div>
     <div class="idea" data-topic="bench" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2205.11388">Li&scaron;ka et al. (2022)</a> &middot; StreamingQA</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-resource">resource</span></p>
       <p><strong>A question-answering benchmark where every question is stamped with the date it was asked.</strong> StreamingQA builds 14 years of English news into a dated corpus, then asks questions that can only be answered from articles published by that date. Models are re-evaluated each quarter as the corpus grows. Two findings: a model whose weights are updated on new text keeps its old answers rather than forgetting them, and a retrieval system paired with an outdated language model does worse than the same retrieval paired with a retrained one.</p>
-      <p class="so">Bolting retrieval onto a stale model does not make it current. The knowledge baked into the weights still shows up in the answers, which is why a point-in-time sequence needs dated pretraining and not just a dated search index.</p>
+      <p class="so">A stale parametric model limits the retrieval system built on top of it, so retrieval alone does not make a model current. It does still improve one. The lesson for point-in-time work is that dated pretraining and a dated index are complements, not substitutes.</p>
     </div>
     <div class="idea" data-topic="bench" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2207.13332">Kasai et al. (2022)</a> &middot; RealTime QA</p>
@@ -617,7 +617,7 @@
     <div class="idea" data-topic="bench" data-kind="empirical">
       <p class="who"><a href="https://arxiv.org/abs/2509.04304">Vladika, Dhaini &amp; Matthes (2025)</a> &middot; Facts Fade Fast</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-empirical">empirical</span></p>
-      <p><strong>512 medical questions where consensus changed, and all eight models tested answer with the old consensus.</strong> Built from systematic reviews; a general set of 16,501 pairs accompanies it.</p>
+      <p><strong>512 medical questions where consensus changed, and every one of the eight models tested gives the superseded answer on some of them.</strong> Built from systematic reviews; a general set of 16,501 pairs accompanies it.</p>
       <p class="so">The medical instance of outdated memorisation, with a dataset that isolates exactly the facts that flipped.</p>
     </div>
     <div class="idea" data-topic="bench" data-kind="empirical">
@@ -629,14 +629,14 @@
     <div class="idea" data-topic="bench" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2605.13045">Guan et al. (2026)</a> &middot; TempoMed-Bench</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-resource">resource</span></p>
-      <p><strong>Medical knowledge in LLMs declines linearly with time rather than stopping at a cutoff, and models are worse at recalling superseded guidance than current guidance.</strong> Built from evolving clinical guidelines.</p>
-      <p class="so">Parametric medical knowledge is not bounded by the stated cutoff, which complicates any point-in-time claim in medicine.</p>
+      <p><strong>Medical knowledge in LLMs fades gradually rather than stopping at a cutoff, declining roughly linearly over the period measured, and models recall superseded guidance worse than current guidance.</strong> Built from evolving clinical guidelines.</p>
+      <p class="so">Parametric medical knowledge is not bounded by the stated cutoff, which complicates any point-in-time claim in medicine. The trend is measured on these guidelines over this window, not a general law of how medical knowledge decays.</p>
     </div>
     <div class="idea" data-topic="bench" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2609.00184">Zheng, Shao, Ritter &amp; Xu (2026)</a> &middot; Synthetic Worlds</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-resource">resource</span></p>
       <p><strong>Evaluate knowledge updating on fictional but coherent future worlds, so contamination is impossible.</strong> ParallelEvents generates consistent event trajectories; Synapse uses model-generated data to insert them via mid-training and instruction tuning, beating prior methods by 14%.</p>
-      <p class="so">A way to test temporal updating that never expires, unlike real-event benchmarks.</p>
+      <p class="so">A way to test temporal updating that does not expire the way real-event benchmarks do. Fresh instances cut the memorisation risk; published ones can still enter a later training run, and transfer from synthetic events to real ones needs validating.</p>
     </div>
 
     <h2 id="data">Corpora</h2>
@@ -645,7 +645,7 @@
       <p class="who"><a href="https://arxiv.org/abs/2308.12477">Dell et al. (2023)</a> &middot; American Stories</p>
       <p class="tags"><span class="tg tg-topic">corpora</span><span class="tg tg-resource">resource</span></p>
       <p><strong>Layout-aware extraction turns 20 million newspaper scans into article-level text.</strong> Layout detection, legibility classification, custom OCR, and cross-box article association, built on mobile-scale architectures so it runs at that volume.</p>
-      <p class="so">The dated corpus behind StoriesLM and much historical-LLM work; without article segmentation, newspaper text is unusable for pretraining.</p>
+      <p class="so">The dated corpus behind StoriesLM and much historical-LLM work. Article segmentation raises corpus quality substantially. Unsegmented scan text is worse for pretraining, not categorically unusable.</p>
     </div>
     <div class="idea" data-topic="corpus" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2406.09490">Silcock, Arora, D&apos;Amico-Wong &amp; Dell (2024)</a> &middot; Newswire</p>
@@ -666,7 +666,7 @@
       <p class="who"><a href="https://doi.org/10.1073/pnas.2407639121">Varnum, Baumard, Atari &amp; Gray (2024)</a> &middot; Historical LLMs for Behavioral Science</p>
       <p class="tags"><span class="tg tg-topic">applications</span><span class="tg tg-position">position</span></p>
       <p><strong>Train on the texts of a past population and you get a simulated informant from it.</strong> Behavioural science cannot survey the dead; a model trained only on their writing is the closest available proxy, and early attempts reproduce period worldviews rather than modern ones.</p>
-      <p class="so">The programme that gives StoriesLM and TypewriterLM a purpose outside finance.</p>
+      <p class="so">The programme that gives StoriesLM and TypewriterLM a purpose outside finance. We could not retrieve the full paper. The obvious hazard is that surviving period writing is not a representative sample of the period&apos;s population, which bears directly on any behavioural inference drawn this way.</p>
     </div>
     <div class="idea" data-topic="apps" data-kind="position">
       <p class="who"><a href="./essay.html">This site</a> &middot; Point-in-Time LLMs Beyond Finance</p>
