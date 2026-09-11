@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reviews</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    table.rev { border-collapse: collapse; width: 100%; font-size: 0.9rem; margin: 14px 0; }
+    table.rev th, table.rev td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    table.rev thead th { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
+    table.rev td.k { white-space: nowrap; }
+    .kchip { display: inline-block; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em;
+             text-transform: uppercase; padding: 1px 7px; border-radius: 9px; white-space: nowrap; }
+    .k-proof { background: #fbe9e7; color: var(--bad); }
+    .k-infer { background: #fdf2dc; color: var(--warn); }
+    .k-minor { background: #ededed; color: var(--muted); }
+    details.cov { margin: 18px 0; }
+    details.cov summary { cursor: pointer; font-weight: 600; }
+    table.cov { border-collapse: collapse; width: 100%; font-size: 0.82rem; margin-top: 10px; }
+    table.cov th, table.cov td { padding: 4px 7px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    table.cov td.n { text-align: right; color: var(--faint); width: 2.4em; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Reviews</h1>
+    <p class="subtitle">Where a paper on the reading list does not support what it claims, and how much of it survives.</p>
+
+    <p class="lead">
+      The <a href="./ideas.html">ideas page</a> summarises what each paper claims. This section records
+      what did not hold up on checking. Eight papers have a finding substantial enough for its own page.
+      Each names the exact claim and section, gives the counterexample or the missing assumption, and
+      says what still stands.
+    </p>
+
+    <p class="key">A red note means a demonstrable error, a failed inference, or a material
+    contradiction. Ordinary qualifications, for limited generalisability or an unverified priority claim,
+    are folded into the summaries themselves rather than raised here. Three rules of thumb generate most
+    of the findings below: a null experiment is not a universal impossibility proof, a diagnostic is not
+    automatically an identified causal quantity, and a clean output is not evidence that hidden future
+    information went unused.</p>
+
+    <div class="table-wrap"><table class="rev">
+      <thead><tr><th style="width:26%">Paper</th><th>Finding</th><th style="width:44%">What it comes to</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><a href="./review-fonseca.html"><strong>Look-Ahead-Freedom as Temporal Non-Interference</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">The halting reduction does not gate the future value</span></td>
+          <td class="k"><span class="kchip k-proof">Proof error</span></td>
+          <td>Section 7 claims the constructed pipeline leaks exactly when a simulated machine halts. Under the evaluation rules the paper gives in &sect;6.2, the future value reaches the output in the never-halting case too, so the reduction does not establish what it is used for.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-geometry.html"><strong>The Geometry of Forgetting</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">Orthogonality does not prove impossibility</span></td>
+          <td class="k"><span class="kchip k-infer">Invalid inference</span></td>
+          <td>The paper infers that uncertainty-based detectors must be blind to staleness from near-orthogonal probe directions and the failure of the detectors it tested. Near-orthogonality does not support a universal impossibility claim.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-tcft.html"><strong>Temporal Critique Fine-Tuning</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">Cutoff dependence is compatible with supervised learning</span></td>
+          <td class="k"><span class="kchip k-infer">Invalid inference</span></td>
+          <td>The paper argues that supervised fine-tuning cannot teach temporal admissibility because admissibility depends on the cutoff. Supervised objectives condition on inputs, and the cutoff can be one of them. The paper's own appendix writes that objective.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-tempo.html"><strong>TEMPO</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">The gradient alignment claim has a counterexample</span></td>
+          <td class="k"><span class="kchip k-proof">Proof error</span></td>
+          <td>Proposition 1 asserts that the leakage-mode gradient descends the leakage cost. Its proof changes the weighting distribution without changing the centering means. Two independent witnesses make the inner product positive.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-memorization.html"><strong>The Memorization Problem</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">Softmax reaches only the interior of the simplex</span></td>
+          <td class="k"><span class="kchip k-minor">Mathematical error, repairable</span></td>
+          <td>Appendix C.3 claims finite real logits realize every distribution on a finite label set. That fails at the boundary. The error is local and repairable, and the paper's central non-identification result does not depend on it.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-backtest-leakage.html"><strong>Temporal Leakage in LLM Backtesting</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">Three different clocks</span></td>
+          <td class="k"><span class="kchip k-infer">Definition mismatch</span></td>
+          <td>Leakage is defined against the forecast as-of date, but Assumption 1 treats outcomes resolving after the training cutoff as clean. Those are different boundaries, and news in between can leak.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-simulated-ignorance.html"><strong>Simulated Ignorance Fails</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">A performance gap is not an amount of leakage</span></td>
+          <td class="k"><span class="kchip k-infer">Identification overclaim</span></td>
+          <td>The headline 52% is the share of a performance gap left after a prompting intervention. The comparison that produces it changes the model as well as the cutoff, so the number is not an identified leakage quantity.</td>
+        </tr>
+        <tr>
+          <td><a href="./review-shapley-dclr.html"><strong>All Leaks Count, Some Count More</strong></a><br>
+              <span style="color:var(--muted);font-size:0.85rem">Influence under re-prompting is not internal provenance</span></td>
+          <td class="k"><span class="kchip k-infer">Attribution limitation</span></td>
+          <td>Shapley-DCLR attributes influence to visible rationale claims by re-prompting on subsets of them. That measures the effect of a later prompt, not what caused the original answer.</td>
+        </tr>
+      </tbody>
+    </table></div>
+
+    <h2>Coverage and limits</h2>
+    <p>
+      All 72 paper entries on the ideas page were inventoried. Primary text was available for 68. The
+      broad pass compared each summary against the abstract and conclusions where those could be
+      extracted; selected papers received deeper checks of methods, assumptions and proofs. Four full
+      texts were not reachable: StoriesLM, Sarkar &amp; Vafa, Re(Visiting), and the
+      historical-behavioural-science paper. Those are marked as access gaps and are not treated as
+      verified.
+    </p>
+    <p>
+      This is a screening audit with targeted proof checks. It is not a line-by-line verification of
+      every paper, and it reproduces no training experiments. &ldquo;No error identified&rdquo; is
+      limited to the material inspected.
+    </p>
+
+    <details class="cov">
+      <summary>Per-entry coverage and suggested corrections (72 entries)</summary>
+      <div class="table-wrap"><table class="cov">
+        <thead><tr><th class="n">#</th><th style="width:34%">Entry and version</th><th>Finding / coverage</th></tr></thead>
+        <tbody>
+        <tr><td class="n">1</td><td>Röttger &amp; Pierrehumbert (2021) · Temporal Adaptation of BERT <a href="https://arxiv.org/abs/2104.08116">2104.08116v2</a></td><td>Screen: summary matches the reported downstream negative result; not a general impossibility.</td></tr>
+        <tr><td class="n">2</td><td>Loureiro et al. (2022) · TimeLMs <a href="https://arxiv.org/abs/2202.03829">2202.03829v2</a></td><td>Screen: the page already explains the within-quarter routing problem.</td></tr>
+        <tr><td class="n">3</td><td>Qiu &amp; Xu (2022) · HistBERT <a href="https://arxiv.org/abs/2202.03612">2202.03612v1</a></td><td>Screen: historical adaptation is distinguished correctly from a clean historical base.</td></tr>
+        <tr><td class="n">4</td><td>Drinkall, Rahimikia, Pierrehumbert &amp; Zohren (2024) · Time Machine GPT <a href="https://arxiv.org/abs/2404.18543">2404.18543v1</a></td><td>Screen: retain the page’s caveats about timestamp validation and clean continuation.</td></tr>
+        <tr><td class="n">5</td><td>Sarkar (2024) · StoriesLM</td><td>Access gap: full paper unavailable. The uniqueness claim is unverified.</td></tr>
+        <tr><td class="n">6</td><td>He, Lv, Manela &amp; Wu (2025) · Chronologically Consistent LLMs <a href="https://arxiv.org/abs/2502.21206">2502.21206v3</a></td><td>Screen: the page already explains why cross-model Sharpe differences do not identify leakage.</td></tr>
+        <tr><td class="n">7</td><td>He, Lv, Manela &amp; Wu (2025) · Instruction Tuning Chronologically Consistent LMs <a href="https://arxiv.org/abs/2510.11677">2510.11677v2</a></td><td>Screen: the page correctly distinguishes classifier screening from historical availability.</td></tr>
+        <tr><td class="n">8</td><td>Fittschen, Li, Lippincott &amp; Choshen (2025) · Pretraining for Diachronic Linguistic Change Discovery <a href="https://arxiv.org/abs/2504.05523">2504.05523v3</a></td><td>Summary correction: remove the universal guarantee language; cost comparisons are architecture- and setup-specific.</td></tr>
+        <tr><td class="n">9</td><td>Li et al. (2025) · TiC-LM <a href="https://arxiv.org/abs/2504.02107">2504.02107v3</a></td><td>Screen: 2.6× is a reported compute comparison, not a universal scaling law.</td></tr>
+        <tr><td class="n">10</td><td>Faro, Fan, Alphaidze &amp; Jaggi (2025) · TiMoE <a href="https://arxiv.org/abs/2508.08827">2508.08827v1</a></td><td>Screen: the page already flags leakage through learned routing/co-adaptation.</td></tr>
+        <tr><td class="n">11</td><td>Yan, Tang, Gao &amp; Jiang (2026) · DatedGPT <a href="https://arxiv.org/abs/2603.11838">2603.11838v2</a></td><td>Screen: preserve the distinction between the regression premium and portfolio return.</td></tr>
+        <tr><td class="n">12</td><td>Kelly, Malamud, Schwab &amp; Xu (2026) · Scaling Point-in-Time Language Models <a href="https://arxiv.org/abs/2607.11889">2607.11889v2</a></td><td>Screen: the page already flags the post-training filter’s different criterion.</td></tr>
+        <tr><td class="n">13</td><td>Pilchen, Fabre, Signe Talla &amp; Pérez (2026) · Data Temporality in Pre-training <a href="https://arxiv.org/abs/2605.22769">2605.22769v2</a></td><td>Screen: temporal ordering result is empirical; no general zero-cost guarantee.</td></tr>
+        <tr><td class="n">14</td><td>Luo, Shinnick, Griesshaber &amp; Wang (2026) · TypewriterLM <a href="https://arxiv.org/abs/2606.02991">2606.02991v1</a></td><td>Screen: the page already explains why lexical grounding need not establish semantic provenance.</td></tr>
+        <tr><td class="n">15</td><td>Lopez-Lira &amp; Tang (2023) · Can ChatGPT Forecast Stock Price Movements? <a href="https://arxiv.org/abs/2304.07619">2304.07619v6</a></td><td>Screen: post-cutoff news design supported; inference applies to the evaluated setup.</td></tr>
+        <tr><td class="n">16</td><td>Glasserman &amp; Lin (2023) · Assessing Look-Ahead Bias in GPT Sentiment <a href="https://arxiv.org/abs/2309.17322">2309.17322v1</a></td><td>Summary correction: anonymization’s net benefit does not uniquely decompose distraction and lookahead.</td></tr>
+        <tr><td class="n">17</td><td>Sarkar &amp; Vafa (2024) · Lookahead Bias in Pretrained Language Models</td><td>Access gap: full paper unavailable. Candidate biographies alone do not make elections unpredictable; inspect the close-election design before endorsing that claim.</td></tr>
+        <tr><td class="n">18</td><td>Rahimikia &amp; Drinkall (2024) · Re(Visiting) Large Language Models in Finance</td><td>Access gap: page admits missing abstract while describing findings. Remove or mark those descriptions as unverified.</td></tr>
+        <tr><td class="n">19</td><td>Ludwig, Mullainathan &amp; Rambachan (2024) · An Applied Econometric Framework <a href="https://arxiv.org/abs/2412.07031">2412.07031v4</a></td><td>Focused check: inspected the basic Bayes-rule and bias decompositions; no algebraic error found there. Universal statements retain their assumptions.</td></tr>
+        <tr><td class="n">20</td><td>Lopez-Lira, Tang &amp; Zhu (2025) · The Memorization Problem <a href="https://arxiv.org/abs/2504.14765">2504.14765v2</a></td><td>Focused math check: finite-softmax reachability error; core non-identification result is narrower and survives.</td></tr>
+        <tr><td class="n">21</td><td>Crane, Karra &amp; Soto (2025) · Total Recall? (Federal Reserve)June 2025 PDF</td><td>Focused source check: vintage results supported; within-vintage test is explicitly preliminary and conditional.</td></tr>
+        <tr><td class="n">22</td><td>Paleka, Goel, Geiping &amp; Tramèr (2025) · Pitfalls in Evaluating LM Forecasters <a href="https://arxiv.org/abs/2506.00723">2506.00723v1</a></td><td>Screen: useful concrete evaluation criticism; authors explicitly do not prove all affected performance claims are inflated.</td></tr>
+        <tr><td class="n">23</td><td>Li et al. (2025) · DeepFund <a href="https://arxiv.org/abs/2505.11065">2505.11065v2</a></td><td>Summary correction: live prospective testing is useful, but is not the only valid design; paper also omits execution frictions and has a short sample.</td></tr>
+        <tr><td class="n">24</td><td>Merchant &amp; Levy (2025) · A Fast and Effective Solution to Look-ahead Bias <a href="https://arxiv.org/abs/2512.06607">2512.06607v1</a></td><td>Focused method check: suppression results do not certify absence of all future knowledge.</td></tr>
+        <tr><td class="n">25</td><td>Gao, Jiang &amp; Yan (2025) · Detecting Lookahead Bias in LLM Forecasts <a href="https://arxiv.org/abs/2512.23847">2512.23847v2</a></td><td>Focused proof check: detection relies on exogeneity, conditional moments and monotonicity.</td></tr>
+        <tr><td class="n">26</td><td>Eliseev &amp; Seleznev (2026) · Fake Date Tests <a href="https://arxiv.org/abs/2601.07992">2601.07992v2</a></td><td>Focused assumption check: fake-date rejection is conditional on date invariance.</td></tr>
+        <tr><td class="n">27</td><td>Benhenda (2026) · Look-Ahead-Bench <a href="https://arxiv.org/abs/2601.13770">2601.13770v1</a></td><td>Screen: alpha decay is confounded with regime change and staleness.</td></tr>
+        <tr><td class="n">28</td><td>Kong et al. (2026) · Evaluating LLMs in Finance Requires Explicit Bias ConsiderationEarlier review</td><td>Earlier review: taxonomy is proposed, not authoritative or exhaustive; mention frequency is not actual bias prevalence.</td></tr>
+        <tr><td class="n">29</td><td>Zhang, Chen &amp; Stadie (2026) · All Leaks Count, Some Count More <a href="https://arxiv.org/abs/2602.17234">2602.17234v2</a></td><td>Focused metric check: rationale re-prompting attribution is not internal causal provenance.</td></tr>
+        <tr><td class="n">30</td><td>Gao, Jiang &amp; Yan (2026) · Debiasing LLMs by Fine-tuning <a href="https://arxiv.org/abs/2604.02921">2604.02921v2</a></td><td>Screen: evaluates extrapolation bias; do not generalize success to lookahead removal.</td></tr>
+        <tr><td class="n">31</td><td>Levy (2026) · Caution Ahead (Journal of Accounting Research)Wiley, May 2026</td><td>Focused source check: restore the code-tool results; correct the Concrete-temperature explanation.</td></tr>
+        <tr><td class="n">32</td><td>Zhang &amp; Stadie (2026) · TEMPOEarlier review</td><td>Earlier proof review, counterexample rerun: gradient claim fails; finite-sample gate is not a hard constraint.</td></tr>
+        <tr><td class="n">33</td><td>Zhang, Li, Peng &amp; Chen (2026) · When Alpha Disappears <a href="https://arxiv.org/abs/2605.23959">2605.23959v1</a></td><td>Screen: controlled toggles are useful; violation ranking is specific to tested data/models.</td></tr>
+        <tr><td class="n">34</td><td>Li, Wang &amp; Ma (2026) · FinCAD <a href="https://arxiv.org/abs/2605.24564">2605.24564v2</a></td><td>Focused method/results check: return correction is not identified leakage removal; OOS qualification omitted.</td></tr>
+        <tr><td class="n">35</td><td>Merchant &amp; Levy (2026) · Feature Steering <a href="https://arxiv.org/abs/2606.27199">2606.27199v2</a></td><td>Summary correction: failure to steer selected bias features does not establish unsteerability in general.</td></tr>
+        <tr><td class="n">36</td><td>Fonseca (2026) · Look-Ahead-Freedom as Temporal Non-Interference <a href="https://arxiv.org/abs/2607.04958">2607.04958v1</a></td><td>Focused proof check against HTML and PDF: broken halting reduction and unsupported semantic-decidability frontier.</td></tr>
+        <tr><td class="n">37</td><td>Jia (2026) · HindsightBench <a href="https://arxiv.org/abs/2607.18867">2607.18867v2</a></td><td>Screen: probes audit behavior; no certificate of total parametric cleanliness.</td></tr>
+        <tr><td class="n">38</td><td>Zhang &amp; Stadie (2026) · Temporal Leakage in LLM Backtesting <a href="https://arxiv.org/abs/2608.02985">2608.02985v1</a></td><td>Focused formal check: post-resolution cutoff assumption misses bridge news; corollary prose drops a condition.</td></tr>
+        <tr><td class="n">39</td><td>Cai et al. (2026) · OpenPM <a href="https://arxiv.org/abs/2608.09988">2608.09988v1</a></td><td>Focused scope check: certificate applies to recorded pipeline constraints, not all parametric knowledge.</td></tr>
+        <tr><td class="n">40</td><td>Zhao, Brumbaugh, Wang, Hajishirzi &amp; Smith (2024) · Set the Clock <a href="https://arxiv.org/abs/2402.16797">2402.16797v2</a></td><td>Screen: factual temporal alignment is not a guarantee of historical forecasting validity.</td></tr>
+        <tr><td class="n">41</td><td>Cheng et al. (2024) · Dated Data <a href="https://arxiv.org/abs/2403.12958">2403.12958v2</a></td><td>Summary correction: effective recall boundaries vary; a genuine last-data timestamp can still be a scalar.</td></tr>
+        <tr><td class="n">42</td><td>Park et al. (2025) · Temporal Heads <a href="https://arxiv.org/abs/2502.14258">2502.14258v2</a></td><td>Screen: tested head ablations affect temporal recall; no universal isolation of all date knowledge.</td></tr>
+        <tr><td class="n">43</td><td>Gao et al. (2025) · Can Prompts Rewind Time for LLMs? <a href="https://arxiv.org/abs/2510.02340">2510.02340v2</a></td><td>Screen: failure on tested indirect knowledge is supported; universal failure of every prompt is not proved.</td></tr>
+        <tr><td class="n">44</td><td>Wongchamcharoen &amp; Glasserman (2025) · Do LLMs Understand Chronology? <a href="https://arxiv.org/abs/2511.14214">2511.14214v2</a></td><td>Screen: ordering degradation supported. Exact-match rates also compound ordinary individual errors with length.</td></tr>
+        <tr><td class="n">45</td><td>Pęzik et al. (2025) · LLMLagBench <a href="https://arxiv.org/abs/2511.12116">2511.12116v1</a></td><td>Screen: estimates a behavioral freshness boundary, not an audited last-training timestamp.</td></tr>
+        <tr><td class="n">46</td><td>Li et al. (2026) · Simulated Ignorance Fails <a href="https://arxiv.org/abs/2601.13717">2601.13717v1</a></td><td>Focused design check: residual performance gap is not an identified leakage amount.</td></tr>
+        <tr><td class="n">47</td><td>Ding et al. (2026) · Temporal Critique Fine-Tuning <a href="https://arxiv.org/abs/2605.14636">2605.14636v1</a></td><td>Focused objective/metric check: invalid SFT impossibility argument; QA metric can reward abstention.</td></tr>
+        <tr><td class="n">48</td><td>Asai et al. (2026) · Recall-Based Prompting <a href="https://arxiv.org/abs/2606.05804">2606.05804v1</a></td><td>Summary correction: the tested prompts improve results; no proof they are the best possible prompts.</td></tr>
+        <tr><td class="n">49</td><td>van Adrichem, Bhaskar, Yang &amp; Potts (2026) · Do LMs Consistently Encode the Current Year? <a href="https://arxiv.org/abs/2608.15507">2608.15507v1</a></td><td>Screen: failure of evaluated interventions is supported; no impossibility theorem about joint updating.</td></tr>
+        <tr><td class="n">50</td><td>Lazaridou et al. (2021) · Mind the Gap <a href="https://arxiv.org/abs/2102.01951">2102.01951v2</a></td><td>Summary correction: scale failed to solve drift in the tested models; avoid universal and historical-priority claims.</td></tr>
+        <tr><td class="n">51</td><td>Dhingra et al. (2021) · Time-Aware LMs as Temporal Knowledge Bases <a href="https://arxiv.org/abs/2106.15110">2106.15110v2</a></td><td>Screen: temporal conditioning and refresh results are empirical; no clear summary error identified.</td></tr>
+        <tr><td class="n">52</td><td>Jang et al. (2021) · Continual Knowledge Learning <a href="https://arxiv.org/abs/2110.03215">2110.03215v4</a></td><td>Summary correction: parameter expansion performed best among tested methods; necessity is not established.</td></tr>
+        <tr><td class="n">53</td><td>Jin et al. (2021) · Lifelong Pretraining <a href="https://arxiv.org/abs/2110.08534">2110.08534v3</a></td><td>Screen: reported distillation advantage is scoped to the evaluated streams.</td></tr>
+        <tr><td class="n">54</td><td>Luu et al. (2021) · Time Waits for No One! <a href="https://arxiv.org/abs/2111.07408">2111.07408v2</a></td><td>Screen: summary matches the comparison of continued pretraining and target-period task labels.</td></tr>
+        <tr><td class="n">55</td><td>Agarwal &amp; Nenkova (2021) · Temporal Effects on Pre-trained Models <a href="https://arxiv.org/abs/2111.12790">2111.12790v2</a></td><td>Summary correction: adaptation helped the evaluated settings; not a guarantee for every task or distribution.</td></tr>
+        <tr><td class="n">56</td><td>Zhang &amp; Choi (2023) · Discarding Outdated Facts <a href="https://arxiv.org/abs/2305.14824">2305.14824v3</a></td><td>Screen: duration prediction improves evaluated calibration; not a historical admissibility test.</td></tr>
+        <tr><td class="n">57</td><td>Shin et al. (2025) · TARDIS <a href="https://arxiv.org/abs/2503.18693">2503.18693v2</a></td><td>Screen: the page correctly calls this adaptation rather than leakage removal.</td></tr>
+        <tr><td class="n">58</td><td>Elbadry et al. (2026) · The Geometry of Forgetting <a href="https://arxiv.org/abs/2605.09195">2605.09195v1</a></td><td>Focused logic/method check: empirical orthogonality does not establish universal detector impossibility.</td></tr>
+        <tr><td class="n">59</td><td>Jang et al. (2022) · TemporalWiki <a href="https://arxiv.org/abs/2204.14211">2204.14211v3</a></td><td>Summary correction: reported 12× saving is useful; minimal possible update cost is not proved.</td></tr>
+        <tr><td class="n">60</td><td>Liška et al. (2022) · StreamingQA <a href="https://arxiv.org/abs/2205.11388">2205.11388v1</a></td><td>Summary correction: stale parametric models can limit retrieval systems; retrieval can still improve them.</td></tr>
+        <tr><td class="n">61</td><td>Kasai et al. (2022) · RealTime QA <a href="https://arxiv.org/abs/2207.13332">2207.13332v2</a></td><td>Screen: live QA design and stale-answer observation supported.</td></tr>
+        <tr><td class="n">62</td><td>Park et al. (2024) · ChroKnowledge <a href="https://arxiv.org/abs/2410.09870">2410.09870v3</a></td><td>Screen: temporal benchmark summary broadly supported; priority language is unnecessary.</td></tr>
+        <tr><td class="n">63</td><td>Deng et al. (2024) · NewTerm <a href="https://arxiv.org/abs/2410.20814">2410.20814v1</a></td><td>Screen: the performance drop belongs to the tested term benchmark, not all novel vocabulary.</td></tr>
+        <tr><td class="n">64</td><td>Xian, Cui, Bauer &amp; Abbasi-Asl (2025) · Date-Controlled Tool Use <a href="https://arxiv.org/abs/2503.04188">2503.04188v2</a></td><td>Screen: demonstrates tool-date effects; does not quantify equality of tool and model-cutoff importance.</td></tr>
+        <tr><td class="n">65</td><td>Vladika, Dhaini &amp; Matthes (2025) · Facts Fade Fast <a href="https://arxiv.org/abs/2509.04304">2509.04304v1</a></td><td>Summary correction: all tested models exhibit outdated answers; not all answers from every model are outdated.</td></tr>
+        <tr><td class="n">66</td><td>Yuan, Ding &amp; Vlachos (2025) · Do LMs Update Their Forecasts? <a href="https://arxiv.org/abs/2509.23936">2509.23936v3</a></td><td>Screen: update sizes are compared with human forecasts, which are a reference rather than an oracle posterior.</td></tr>
+        <tr><td class="n">67</td><td>Guan et al. (2026) · TempoMed-Bench <a href="https://arxiv.org/abs/2605.13045">2605.13045v1</a></td><td>Summary correction: observed temporal trend is not a universal linear law of medical knowledge.</td></tr>
+        <tr><td class="n">68</td><td>Zheng, Shao, Ritter &amp; Xu (2026) · Synthetic Worlds <a href="https://arxiv.org/abs/2609.00184">2609.00184v2</a></td><td>Summary correction: fresh synthetic instances reduce memorization risk; published instances can later enter training, and synthetic-to-real transfer needs validation.</td></tr>
+        <tr><td class="n">69</td><td>Dell et al. (2023) · American Stories <a href="https://arxiv.org/abs/2308.12477">2308.12477v1</a></td><td>Summary correction: segmentation improves corpus quality; unsegmented text is not categorically unusable.</td></tr>
+        <tr><td class="n">70</td><td>Silcock, Arora, D&#x27;Amico-Wong &amp; Dell (2024) · Newswire <a href="https://arxiv.org/abs/2406.09490">2406.09490v1</a></td><td>Screen: corpus contribution supported. Modern entity metadata needs separate controls if used as training input.</td></tr>
+        <tr><td class="n">71</td><td>Yang, Liu &amp; Wang (2023) · FinGPT <a href="https://arxiv.org/abs/2306.06031">2306.06031v2</a></td><td>Screen: the page correctly says the pipeline is not point-in-time.</td></tr>
+        <tr><td class="n">72</td><td>Varnum, Baumard, Atari &amp; Gray (2024) · Historical LLMs for Behavioral Science</td><td>Access gap: full paper unavailable. Period writing is not automatically a representative sample of the period’s population.</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+
+    <h2>Reproducing the numerical checks</h2>
+    <p>
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      uses only the Python standard library. It checks the TEMPO gradient, the orthogonality example, the
+      mean-shift example and the missing gate in Fonseca's reduction, and asserts each result.
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/verify_tempo_prop1.py"><code>reviews/verify_tempo_prop1.py</code></a>
+      computes the TEMPO inner product straight from the score functions and reports the dropped
+      covariance term.
+    </p>
+    <p class="key">This section distinguishes errors in a source paper from overstatements introduced or
+    amplified by the summary on this site. Where a summary was the problem, the summary has been changed
+    rather than the paper blamed.</p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

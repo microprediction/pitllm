@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: Temporal Critique Fine-Tuning</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>Temporal Critique Fine-Tuning: Cutoff dependence is compatible with supervised learning</h1>
+    <p class="meta-line">Ding, Wu, Luo, Liu et al. (2026) &middot;
+      <a href="https://arxiv.org/abs/2605.14636">arXiv:2605.14636</a> (v1) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">The paper argues that supervised fine-tuning cannot teach temporal admissibility because admissibility depends on the cutoff. Supervised objectives condition on inputs, and the cutoff can be one of them. The paper's own appendix writes that objective.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>&sect;4.1 argues that answer supervision cannot teach temporal admissibility, because whether an
+      answer is admissible depends on the cutoff rather than on the answer alone. This is presented as a
+      reason that SFT is the wrong tool.</p>
+    </div>
+
+    <p>Supervised learning already conditions on its inputs. Put the cutoff <em>t</em> among them:</p>
+
+    <div class="math">L = -E[ log p_theta(y* | x, t) ]</div>
+
+    <p>There is no representational obstacle to mapping the same question to different answers at
+    different dates. The paper's own Appendix C.1 writes this conditional objective, and &sect;4.4
+    implements TCFT using supervised fine-tuning of critiques. Critique targets, negative examples and
+    rationales may well learn better than answer supervision, but that is an empirical comparison, not
+    an impossibility result about SFT.</p>
+
+    <h2>The QA leakage metric</h2>
+
+    <p>Equation 3 counts an exact correct post-cutoff answer as leakage. Appendix B says the QA examples
+    ask for exact dates of unexpected events and deliberately supply no separate utility metric. That
+    setup can test whether a model withholds such answers. It cannot separate hidden-memory use from a
+    lucky or legitimate correct prediction, and blanket refusal passes the measure trivially.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>The Wiki evaluation carries an additional accuracy measure, so the criticism of the QA metric
+      should not be extended to it. The critique-training method and its reported gains are untouched by
+      either point.</p>
+    </div>
+
+    <div class="verdict infer"><span class="kind">Invalid inference</span>
+      <p>The argument against SFT is false: supervised objectives can condition on the cutoff, and TCFT itself uses SFT. The QA leakage score measures disclosure of correct future answers with no utility check, so a reduction in it does not by itself establish leakage-free forecasting.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">&sect;&sect;4.1 and 4.4, Appendix B, Appendix C.1.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-geometry.html">&larr; The Geometry of Forgetting</a>
+      &middot;
+      <a href="./review-tempo.html">TEMPO &rarr;</a></p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

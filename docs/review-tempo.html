@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: TEMPO</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>TEMPO: The gradient alignment claim has a counterexample</h1>
+    <p class="meta-line">Zhang &amp; Stadie (2026) &middot;
+      <a href="https://arxiv.org/abs/2605.18843">arXiv:2605.18843</a> (v1) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">Proposition 1 asserts that the leakage-mode gradient descends the leakage cost. Its proof changes the weighting distribution without changing the centering means. Two independent witnesses make the inner product positive.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>Proposition 1 (Appendix A.1) states that whenever Var<sub>&pi;</sub>(<em>c</em>) &gt; 0,
+      &lang;<em>g&#772;</em><sub>leak</sub>, &nabla;<em>V</em><sub>c</sub>&rang; &le;
+      &minus;&gamma;(&theta;) &#8214;&nabla;<em>V</em><sub>c</sub>&#8214;<sup>2</sup> with
+      &gamma;(&theta;) &gt; 0, so the exponential cleanliness reward is a provable descent direction for
+      expected leakage cost. Proposition 2, Theorem 1 and Corollary 1 all invoke it.</p>
+    </div>
+
+    <p>The proof derives equation (8) correctly. Writing <em>f</em> = exp(&minus;0.5<em>c</em>) and taking
+    both means under &pi;:</p>
+
+    <div class="math">S = sum_y  pi(y)^2 ( f(y) - fbar ) ( c(y) - cbar )                      (8)</div>
+
+    <p>It then reads <em>S</em> as Cov<sub>Q</sub>(<em>f</em>, <em>c</em>) under the tilted law
+    <em>Q</em>(y) &prop; &pi;(y)<sup>2</sup>, and signs it with the Chebyshev covariance inequality. A
+    covariance under <em>Q</em> must centre under <em>Q</em>. Equation (8) centres under &pi;. The two
+    differ by a term the proof drops:</p>
+
+    <div class="math">S = Z * [ Cov_Q(f,c) + ( E_Q f - E_pi f )( E_Q c - E_pi c ) ],   Z = sum_y pi(y)^2
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     dropped</div>
+
+    <p>Chebyshev signs the first term. It says nothing about the second, which can be positive and
+    larger. Two witnesses, found independently:</p>
+
+    <div class="math">c  = (0, 1, 100)      pi = (0.15, 0.83, 0.02)     inner product = +0.011648
+c  = (0, 5,  39)      pi = (0.08, 0.82, 0.10)     inner product = +0.042248
+
+second witness in detail:
+    Var_pi(c)                    = 108.60      > 0, the stated hypothesis
+    Cov_Q(f, c)                  =  -0.086443  negative, as Chebyshev gives
+    dropped term                 =  +0.101790
+    S                            =  +0.042248
+    ||grad V_c||^2               =  16.0712
+    implied gamma                =  -0.002629  must be > 0</div>
+
+    <p>Inequality (5) requires the inner product to be strictly negative. At these policies it is
+    positive, so the leakage-mode gradient ascends the leakage cost. Taking a step of size
+    10<sup>&minus;4</sup> along the reward gradient at the first witness raises expected cost from
+    2.830000 to 2.830001 while also raising the reward, which is the behaviour the proposition rules
+    out.</p>
+
+    <h2>The finite-sample gate</h2>
+
+    <p>The mode gate switches to performance mode when a sampled group is clean. That is a statement
+    about a sample, not about the policy. With true leakage probability 1%, twelve independent samples
+    are all clean with probability 0.99<sup>12</sup> &asymp; 88.6%, so a clean batch is weak evidence of
+    a leak-free policy.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>The empirical results are unaffected, and the reframing from unlearning to instance-conditioned
+      selection stands on its own. What fails is the claim that the method provably converges.</p>
+    </div>
+
+    <div class="verdict "><span class="kind">Proof error</span>
+      <p>Appendix A.1's gradient alignment claim is false. An explicit three-outcome counterexample raises the reward and the expected leakage cost together, and the implied alignment constant is negative. The sampled gate does not enforce zero policy leakage either. Empirical performance has to be assessed separately from the claimed guarantee.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">Appendix A.1. Inner product recomputed directly from the score functions s(y) = e_y &minus; &pi;, and the two witnesses cross-checked against each other.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-tcft.html">&larr; Temporal Critique Fine-Tuning</a>
+      &middot;
+      <a href="./review-memorization.html">The Memorization Problem &rarr;</a></p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

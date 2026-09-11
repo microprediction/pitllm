@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: All Leaks Count, Some Count More</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>All Leaks Count, Some Count More: Influence under re-prompting is not internal provenance</h1>
+    <p class="meta-line">Zhang, Chen &amp; Stadie (2026) &middot;
+      <a href="https://arxiv.org/abs/2602.17234">arXiv:2602.17234</a> (v2) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">Shapley-DCLR attributes influence to visible rationale claims by re-prompting on subsets of them. That measures the effect of a later prompt, not what caused the original answer.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>The metric assigns Shapley values to the claims in a visible rationale by evaluating subsets of
+      those claims, then weights their leakage labels by absolute Shapley magnitude, reporting the
+      fraction of decision-driving reasoning that is post-cutoff. The arithmetic is a legitimate
+      attribution construction for the chosen set function.</p>
+    </div>
+
+    <p>The intervention changes a later prompt. It does not observe which information produced the
+    original answer. A model can recall the outcome straight from its weights and be insensitive to
+    every rationale claim, in which case all marginal contributions are zero while the leakage is
+    total. The converse also happens: explicit claims can move the follow-up answer without faithfully
+    describing the original reasoning.</p>
+
+    <p>So a low score is not evidence of clean reasoning, and the fraction is not identified as the
+    fraction of internal reasoning caused by future knowledge.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>As a measure of how much a stated rationale drives a re-prompted answer, the construction is
+      sound and the weighting by decision impact is a genuine improvement on counting leaked claims
+      equally. TimeSPEC's date-filtered retrieval does control the retrieved records. A closed-world
+      instruction does not isolate the model from its parametric memory.</p>
+    </div>
+
+    <div class="verdict infer"><span class="kind">Attribution limitation</span>
+      <p>Shapley-DCLR measures claim influence under subset re-prompting, not the causal provenance of the original answer. Hidden memory can drive an answer while every visible claim has zero marginal influence. The score should not be read as a certified fraction of contaminated reasoning.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">Claim attribution and Shapley-DCLR definitions.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-simulated-ignorance.html">&larr; Simulated Ignorance Fails</a>
+      
+      </p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

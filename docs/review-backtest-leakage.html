@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: Temporal Leakage in LLM Backtesting</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>Temporal Leakage in LLM Backtesting: Three different clocks</h1>
+    <p class="meta-line">Zhang &amp; Stadie (2026) &middot;
+      <a href="https://arxiv.org/abs/2608.02985">arXiv:2608.02985</a> (v1) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">Leakage is defined against the forecast as-of date, but Assumption 1 treats outcomes resolving after the training cutoff as clean. Those are different boundaries, and news in between can leak.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>&sect;2 defines leakage relative to the forecasting as-of date. Assumption 1 then treats an
+      outcome that resolves after the model's training cutoff as clean.</p>
+    </div>
+
+    <p>Those are two different boundaries, and a third clock, the outcome resolution date, is in play as
+    well. A forecast is dated January. The model is trained through June. The outcome resolves in
+    December. News published in March can reveal a great deal about December while being unavailable in
+    January, and December's outcome need never have appeared in training at all. Resolution after the
+    training cutoff rules out direct outcome recall. It does not rule out leakage relative to the as-of
+    date.</p>
+
+    <p>The boundary and control estimators additionally require continuity or transportability
+    assumptions. A known date, or a matched clean model on its own, does not identify leakage.</p>
+
+    <h2>The prose after Corollary 10</h2>
+
+    <p>The corollary carries a zero-mean-shift condition; the prose that follows drops it. With
+    <em>Y</em> ~ Bernoulli(&frac12;), no informative bridge data, an original prediction of 0.2 and a
+    changed prediction of 0.5:</p>
+
+    <div class="math">Brier improvement = E[ (0.2 - Y)^2 - (0.5 - Y)^2 ] = 0.09
+mean-shift term   = (0.3)^2 + 2(0.3)(0.2 - 0.5)     = -0.09</div>
+
+    <p>The score improves by 0.09 with no leakage signal extracted at all. The improvement is entirely
+    the correction of a mean shift, which the paper's own decomposition handles through the negative
+    shift term. The corollary with both conditions is not refuted.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>The convex-pull identity <em>w</em>(2 &minus; <em>w</em>) is correct for the stated mixture
+      model, and there is no gradient error of the kind in the same authors' TEMPO. The problem is the
+      interpretation of what the model and the estimators establish.</p>
+    </div>
+
+    <div class="verdict infer"><span class="kind">Definition mismatch</span>
+      <p>Resolution after the training cutoff does not establish cleanliness relative to an earlier as-of date, because intermediate news can leak. Identification also needs the stated continuity and transportability assumptions. The prose after Corollary 10 omits a necessary zero-mean-shift condition.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">&sect;&sect;2&ndash;5 and the prose following Corollary 10. Brier example computed directly.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-memorization.html">&larr; The Memorization Problem</a>
+      &middot;
+      <a href="./review-simulated-ignorance.html">Simulated Ignorance Fails &rarr;</a></p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

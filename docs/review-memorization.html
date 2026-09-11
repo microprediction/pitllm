@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: The Memorization Problem</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>The Memorization Problem: Softmax reaches only the interior of the simplex</h1>
+    <p class="meta-line">Lopez-Lira, Tang &amp; Zhu (2025) &middot;
+      <a href="https://arxiv.org/abs/2504.14765">arXiv:2504.14765</a> (v2) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">Appendix C.3 claims finite real logits realize every distribution on a finite label set. That fails at the boundary. The error is local and repairable, and the paper's central non-identification result does not depend on it.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>Appendix C.3's stochastic extension states that finite real logits can realize every probability
+      distribution over a finite label set.</p>
+    </div>
+
+    <p>For finite <em>z</em>, every softmax coordinate is strictly positive:</p>
+
+    <div class="math">softmax(z)_i = exp(z_i) / sum_j exp(z_j)  >  0
+
+softmax([50, 0])  = (1.000000000000000, 1.93e-22)
+softmax([200, 0]) = (1.000000000000000, 1.38e-87)
+softmax([700, 0]) = (1.000000000000000, 9.86e-305)</div>
+
+    <p>So (1, 0) has no finite-logit representation. Interior distributions do, by
+    <em>z</em><sub>i</sub> = log <em>p</em><sub>i</sub>; boundary distributions are reachable only as
+    limits, or with explicit masking or infinite logits.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>Almost all of it. Restrict exact reachability to the interior, or state the result as an
+      approximation, and the extension goes through. The deterministic observational-equivalence
+      construction does not use this step, and the non-identification argument stands. That argument does
+      assume an unrestricted relation between factual and counterfactual parameters, so it shows that
+      skill and memorisation cannot be separated without further structure, not that every additional
+      assumption or intervention is useless.</p>
+    </div>
+
+    <div class="verdict minor"><span class="kind">Mathematical error, repairable</span>
+      <p>Appendix C.3 incorrectly claims finite-logit softmax is onto the closed simplex. This is a minor repairable error. The core non-identification result survives and should be read with its unrestricted-model assumptions attached.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">Appendix C.3. Softmax positivity checked numerically at large logit gaps.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-tempo.html">&larr; TEMPO</a>
+      &middot;
+      <a href="./review-backtest-leakage.html">Temporal Leakage in LLM Backtesting &rarr;</a></p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

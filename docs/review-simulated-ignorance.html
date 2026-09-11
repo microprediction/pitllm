@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: Simulated Ignorance Fails</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>Simulated Ignorance Fails: A performance gap is not an amount of leakage</h1>
+    <p class="meta-line">Li et al. (2026) &middot;
+      <a href="https://arxiv.org/abs/2601.13717">arXiv:2601.13717</a> (v1) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">The headline 52% is the share of a performance gap left after a prompting intervention. The comparison that produces it changes the model as well as the cutoff, so the number is not an identified leakage quantity.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>Simulated ignorance is reported to leave a 52% gap to true ignorance, which reads as a
+      measurement of how much leakage prompting fails to remove.</p>
+    </div>
+
+    <p>The 52% is the residual share of a performance gap after the prompting intervention. In &sect;5.1
+    a comparison between DeepSeek and GPT models on the same questions is described as changing only
+    cutoff status. It changes the model too: architecture, training data, and task-specific capability.</p>
+
+    <p>An observed gap can hold leakage plus differences in skill, information recency, and question
+    composition. Similar average performance on some other benchmark imposes no equality on this set.
+    Two models can have errors of +<em>a</em> and &minus;<em>a</em> across two task types and still show
+    the same overall mean.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>The paper gives real evidence that the prompts it tested do not erase the observed advantage,
+      which is the useful and widely applicable finding. The cross-model and horizon checks are
+      informative. What is missing is the counterfactual needed to call 52% a causal quantity, and
+      nothing here shows that all retrospective forecasting designs are invalid.</p>
+    </div>
+
+    <div class="verdict infer"><span class="kind">Identification overclaim</span>
+      <p>The 52% is a remaining performance gap, not an identified leakage quantity. The cross-model comparison changes architecture, training and task-specific capability alongside cutoff status. The controls are suggestive but do not isolate the causal effect of future information.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">&sect;&sect;3 and 5.1.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-backtest-leakage.html">&larr; Temporal Leakage in LLM Backtesting</a>
+      &middot;
+      <a href="./review-shapley-dclr.html">All Leaks Count, Some Count More &rarr;</a></p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

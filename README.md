@@ -11,6 +11,7 @@ A resource that summarizes and connects research on Point-in-Time (chronological
 - [Corpora](https://pitllm.microprediction.org/corpora.html) - dated text sources by domain, with licensing and temporal granularity
 - [Key ideas](https://pitllm.microprediction.org/ideas.html) - one note per paper on what is actually new
 - [Essay](https://pitllm.microprediction.org/essay.html) - point-in-time LLMs beyond finance
+- [Reviews](https://pitllm.microprediction.org/reviews.html) - eight papers whose claims do not survive checking, with counterexamples
 - [Literature map](https://pitllm.microprediction.org/map.html) and [Timeline](https://pitllm.microprediction.org/timeline.html)
 - [Demos](https://pitllm.microprediction.org/demos.html) - notebooks that load a checkpoint and query it
 
@@ -21,6 +22,7 @@ A resource that summarizes and connects research on Point-in-Time (chronological
 - `SMALL-BUDGET-PLAN.md`, `SMALL-BUDGET-CORPUS-PLAN.md`, `SMALL-BUDGET-CORPUS-SUBNET-PLAN.md` - funding notes, not rendered on the site
 - `LLM-PROJECT-LISTING.md` - short list of model sequences and tools
 - `projects/` - summaries and PDFs of individual papers
+- `reviews/` - counterexample scripts behind the reviews section; standard library only
 - `ChronoGPT.ipynb` - Colab notebook for sampling from ChronoGPT checkpoints
 
 ## Key model sequences

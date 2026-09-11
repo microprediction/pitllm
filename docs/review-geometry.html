@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review: The Geometry of Forgetting</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .verdict { border-left: 3px solid var(--bad); background: #fdf0ed; padding: 10px 14px; margin: 16px 0; }
+    .verdict.infer { border-left-color: var(--warn); background: #fdf7ea; }
+    .verdict.minor { border-left-color: var(--faint); background: #f1f1f1; }
+    .verdict .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                     text-transform: uppercase; color: var(--bad); margin-bottom: 3px; }
+    .verdict.infer .kind { color: var(--warn); }
+    .verdict.minor .kind { color: var(--muted); }
+    .verdict p { margin: 3px 0; }
+    .claim { border: 1px solid var(--border); background: var(--panel); padding: 10px 14px; margin: 14px 0; }
+    .claim .lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+                  text-transform: uppercase; color: var(--muted); }
+    .math { background: var(--panel); border: 1px solid var(--border); padding: 10px 14px;
+            margin: 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+    .survives { border-left: 3px solid var(--ok); background: #eaf5ee; padding: 10px 14px; margin: 16px 0; }
+    .survives .kind { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+                      text-transform: uppercase; color: var(--ok); margin-bottom: 3px; }
+    .survives p { margin: 3px 0; }
+    .meta-line { font-size: 0.88rem; color: var(--muted); margin: -6px 0 14px; }
+    .meta-line a { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">pitllm</a>
+      <nav>
+        <a href="./models.html">Models</a>
+        <a href="./corpora.html">Corpora</a>
+        <a href="./ideas.html">Key ideas</a>
+        <a href="./essay.html">Essay</a>
+        <a class="current" href="./reviews.html">Reviews</a>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="./demos.html">Demos</a>
+        <a href="https://github.com/microprediction/pitllm">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./reviews.html">&larr; Reviews</a></p>
+    <h1>The Geometry of Forgetting: Orthogonality does not prove impossibility</h1>
+    <p class="meta-line">Elbadry, Heakl, Zhang, Bouch et al. (2026) &middot;
+      <a href="https://arxiv.org/abs/2605.09195">arXiv:2605.09195</a> (v1) &middot;
+      <a href="./ideas.html#models">summary on the ideas page</a></p>
+
+    <p class="lead">The paper infers that uncertainty-based detectors must be blind to staleness from near-orthogonal probe directions and the failure of the detectors it tested. Near-orthogonality does not support a universal impossibility claim.</p>
+
+    <div class="claim"><span class="lbl">The claim</span>
+      <p>The abstract and discussion hold that because staleness is encoded orthogonally to correctness
+      and uncertainty, detectors built on those signals are blind to it by construction. The paper runs
+      several tests, including score correlations and projection interventions, so the objection is not
+      that it merely inspected weight angles.</p>
+    </div>
+
+    <p>Let <em>U</em> be uniform on {&minus;2, &minus;1, 1, 2}, let the representation be
+    <em>h</em> = (<em>U</em>, <em>U</em><sup>2</sup>), and read out along (1,0) and (0,1). The directions
+    are orthogonal and the two scores have zero covariance:</p>
+
+    <div class="math">U        = [-2, -1,  1,  2]      score 1
+U^2      = [ 4,  1,  1,  4]      score 2
+Cov(U, U^2) = 0.0
+
+drift label D = 1[U^2 > 2] = [1, 0, 0, 1]
+predicted by |U| > 1.5      = [1, 0, 0, 1]   accuracy 1.00</div>
+
+    <p>The second score is an exact function of the first, and the drift label is perfectly predictable
+    from the first score by a nonlinear rule. Orthogonal directions, zero covariance, complete
+    determination.</p>
+
+    <p>More generally Cov(<em>w</em><sup>&#8868;</sup><em>h</em>, <em>v</em><sup>&#8868;</sup><em>h</em>)
+    = <em>w</em><sup>&#8868;</sup>Cov(<em>h</em>)<em>v</em>, so Euclidean orthogonality does not even give
+    zero covariance for an arbitrary representation. Zero covariance, where it does hold, still does not
+    give independence.</p>
+
+    <div class="survives"><span class="kind">What survives</span>
+      <p>The experiments support the narrower claim that the detectors the authors evaluated perform
+      poorly, and that drift-trained probes do better. That is a useful empirical result. It does not
+      rule out every detector built on correctness or uncertainty signals.</p>
+    </div>
+
+    <div class="verdict infer"><span class="kind">Invalid inference</span>
+      <p>The impossibility claim is unsupported. Near-orthogonal probe directions, low correlations, and the failure of selected detectors do not imply that every uncertainty-based detector must fail. The probe results stand as empirical evidence, not as a structural impossibility theorem.</p>
+    </div>
+
+    <p class="meta-line" style="margin-top:18px">Abstract and &sect;5. Counterexample computed directly.
+      Numerical checks are reproducible with
+      <a href="https://github.com/microprediction/pitllm/blob/main/reviews/counterexamples.py"><code>reviews/counterexamples.py</code></a>
+      (standard library only). These are counterexamples to particular claims; they do not reproduce the
+      papers' training experiments.</p>
+
+    <p class="pagenav"><a href="./review-fonseca.html">&larr; Look-Ahead-Freedom as Temporal Non-Interference</a>
+      &middot;
+      <a href="./review-tcft.html">Temporal Critique Fine-Tuning &rarr;</a></p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/pitllm">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

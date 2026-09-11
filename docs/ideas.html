@@ -63,6 +63,7 @@
         <a href="./corpora.html">Corpora</a>
         <a class="current" href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
+        <a href="./reviews.html">Reviews</a>
         <a href="./index.html#bibliography">Bibliography</a>
         <a href="./map.html">Literature map</a>
         <a href="./timeline.html">Timeline</a>
@@ -239,7 +240,14 @@
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-theory">theory</span></p>
       <p><strong>In-sample forecasting skill is non-identified.</strong> Once the model has seen realised values, any output is consistent with both skill and memorisation. LLMs recall exact economic values before their cutoff; instructions to respect the date fail, and masking fails because the model reconstructs entities and dates from minimal context. Memorisation extends to embeddings.</p>
       <p class="so">Closes the door on in-sample evaluation of forecasting LLMs, and on the two cheap fixes people reach for first.</p>
-    </div>
+          <div class="review limited">
+        <span class="kind">Mathematical error &middot; repairable</span>
+        <p>Appendix C.3 claims finite real logits realise every distribution on a finite label set. Every softmax
+        coordinate is strictly positive for finite logits, so boundary distributions such as (1, 0) are
+        unreachable. Restricting the claim to the interior repairs it. The non-identification result does
+        not use this step and survives, with its unrestricted-model assumptions attached. <a href="./review-memorization.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
     <div class="idea" data-topic="detect" data-kind="empirical">
       <p class="who"><a href="https://doi.org/10.17016/feds.2025.044">Crane, Karra &amp; Soto (2025)</a> &middot; Total Recall? (Federal Reserve)</p>
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-empirical">empirical</span></p>
@@ -301,7 +309,7 @@
         that &ldquo;many published numbers do not support the claims that readers and practitioners want to
         make from them&rdquo;. That step needs a rate of real failures and their effect on reported
         results, which the survey does not measure. A paper that does not discuss a bias may still have
-        avoided it.</p>
+        avoided it. The rest of the audit is on the <a href="./reviews.html">reviews page</a>.</p>
       </div>
     </div>
     <div class="idea" data-topic="detect" data-kind="method">
@@ -309,7 +317,15 @@
       <p class="tags"><span class="tg tg-topic">detection</span><span class="tg tg-method">method</span></p>
       <p><strong>Weight each leaked claim by its effect on the decision.</strong> Decompose a rationale into atomic claims, attribute Shapley values to each, and report the fraction of decision-driving reasoning that is post-cutoff (Shapley-DCLR). TimeSPEC then interleaves date-filtered retrieval with claim-level supervision to force pre-cutoff grounding.</p>
       <p class="so">Moves leakage measurement from &ldquo;did it mention a future fact&rdquo; to &ldquo;did that fact change the answer&rdquo;.</p>
-    </div>
+          <div class="review concern">
+        <span class="kind">Attribution limitation &middot; what Shapley-DCLR measures</span>
+        <p>The Shapley values are computed by re-prompting on subsets of the visible rationale, so they measure
+        how much a stated rationale drives a later answer, not what caused the original one. A model
+        recalling the outcome from its weights can be insensitive to every claim, giving a score of zero
+        alongside total leakage. Weighting by decision impact is still an improvement on counting leaked
+        claims equally. <a href="./review-shapley-dclr.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
     <div class="idea" data-topic="posttrain" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2604.02921">Gao, Jiang &amp; Yan (2026)</a> &middot; Debiasing LLMs by Fine-tuning</p>
       <p class="tags"><span class="tg tg-topic">post-training</span><span class="tg tg-method">method</span></p>
@@ -342,7 +358,9 @@
         computed straight from the score functions is +0.0422. Inequality (5) needs it strictly negative.
         The implied &gamma; is &minus;0.0026, so at this policy the leakage-mode gradient ascends the
         leakage cost. Proposition 2, Theorem 1 and Corollary 1 all invoke Proposition 1.
-        Certificate: <a href="https://github.com/microprediction/pitllm/blob/main/reviews/verify_tempo_prop1.py"><code>verify_tempo_prop1.py</code></a>.</p>
+        Certificate: <a href="https://github.com/microprediction/pitllm/blob/main/reviews/verify_tempo_prop1.py"><code>verify_tempo_prop1.py</code></a>.
+        <a href="./review-tempo.html"><strong>Full review</strong></a>, with a second independent witness
+        and the finite-sample gate.</p>
         <p>The empirical results are unaffected. What fails is the claim that the method provably
         converges.</p>
       </div>
@@ -378,7 +396,16 @@
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-theory">theory</span></p>
       <p><strong>Look-ahead-freedom is an information-flow property and can be type-checked.</strong> Separating a datum&apos;s availability time from its reference time, freedom from leakage is undecidable when availability depends on data values, but for the value-independent fragment (windowing, resampling, joins, point-in-time reads, agentic retrieval) a type-and-effect system decides it in linear time.</p>
       <p class="so">Moves part of the problem from empirical detection, which certifies nothing by its silence, to static verification.</p>
-    </div>
+          <div class="review ">
+        <span class="kind">Verified error &middot; the halting reduction</span>
+        <p>The reduction in &sect;7 does not gate the future value. Under the paper&apos;s own evaluation rules in
+        &sect;6.2, <code>stamp</code> only relabels, <code>val</code> discards the label, and
+        <code>decide</code> emits without checking availability, so a future input still reaches the output
+        when the machine never halts. A separate construction shows that constant timestamps alone do not
+        make semantic non-interference decidable. Decidable type-checking remains a weaker, useful
+        guarantee. <a href="./review-fonseca.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
     <div class="idea" data-topic="bench" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2607.18867">Jia (2026)</a> &middot; HindsightBench</p>
       <p class="tags"><span class="tg tg-topic">benchmark</span><span class="tg tg-resource">resource</span></p>
@@ -390,7 +417,15 @@
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-theory">theory</span></p>
       <p><strong>The standard pre/post-cutoff comparison is uninformative, provably.</strong> Models legitimately know more about times near their cutoff, so recency mimics leakage, and no passive backtest can separate skill, recency, and leakage. Measurement needs outside information: a known cutoff identifies leakage at the boundary, a matched clean control identifies it globally and yields an adjusted score. Validated by planting leakage in twin models and recovering the dose.</p>
       <p class="so">Explains why so many earlier detection results are ambiguous, and why point-in-time models are needed as controls even if you never deploy them.</p>
-    </div>
+          <div class="review concern">
+        <span class="kind">Methodological concern &middot; three different clocks</span>
+        <p>&sect;2 defines leakage against the forecast as-of date, but Assumption 1 treats outcomes resolving
+        after the training cutoff as clean. A forecast dated January, a model trained through June, an
+        outcome resolving in December: March news can reveal a great deal about December while being
+        unavailable in January. The prose after Corollary 10 also drops the corollary&apos;s
+        zero-mean-shift condition. <a href="./review-backtest-leakage.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
     <div class="idea" data-topic="protocol" data-kind="resource">
       <p class="who"><a href="https://arxiv.org/abs/2608.09988">Cai et al. (2026)</a> &middot; OpenPM</p>
       <p class="tags"><span class="tg tg-topic">evaluation protocol</span><span class="tg tg-resource">resource</span></p>
@@ -441,13 +476,28 @@
       <p class="tags"><span class="tg tg-topic">prompting</span><span class="tg tg-empirical">empirical</span></p>
       <p><strong>Simulated ignorance leaves a 52% gap to true ignorance.</strong> Across 477 competition-grade forecasting questions and nine models, cutoff instructions do not suppress prior knowledge, chain-of-thought does not either even when the trace contains no post-cutoff reference, and reasoning-optimised models are worse at pretending. Retrospective forecasting on pre-cutoff events is therefore invalid.</p>
       <p class="so">The largest-scale demonstration that prompts cannot rewind a model.</p>
-    </div>
+          <div class="review concern">
+        <span class="kind">Identification overclaim &middot; the 52%</span>
+        <p>The 52% is the share of a performance gap left after the prompting intervention, not a measured
+        quantity of leakage. The &sect;5.1 comparison between DeepSeek and GPT models changes architecture,
+        training and task-specific capability as well as cutoff status. The evidence that the tested
+        prompts fail to erase the advantage is unaffected. <a href="./review-simulated-ignorance.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
     <div class="idea" data-topic="posttrain" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2605.14636">Ding et al. (2026)</a> &middot; Temporal Critique Fine-Tuning</p>
       <p class="tags"><span class="tg tg-topic">post-training</span><span class="tg tg-method">method</span></p>
       <p><strong>Ex-ante correctness is a relation between an answer and a cutoff, not a property of the answer, so supervised fine-tuning cannot teach it.</strong> Leakage is sensitive to prompt form (explicit cutoffs beat implicit framings; prefix constraints beat suffix), but prompting steers the frame without giving the model any way to check admissibility. TCFT trains a critic that judges temporal admissibility instead.</p>
       <p class="so">Same conclusion as TEMPO by a different route: the model needs a verifier, not a memory wipe.</p>
-    </div>
+          <div class="review concern">
+        <span class="kind">Invalid inference &middot; the argument against SFT</span>
+        <p>&sect;4.1 argues that supervised fine-tuning cannot teach temporal admissibility because admissibility
+        depends on the cutoff. Supervised objectives condition on their inputs, and the cutoff can be one
+        of them. The paper&apos;s Appendix C.1 writes that objective and &sect;4.4 implements TCFT with
+        SFT. Its QA leakage score also counts any correct post-cutoff answer as leakage with no utility
+        check, so blanket refusal passes it. <a href="./review-tcft.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
     <div class="idea" data-topic="prompting" data-kind="method">
       <p class="who"><a href="https://arxiv.org/abs/2606.05804">Asai et al. (2026)</a> &middot; Recall-Based Prompting</p>
       <p class="tags"><span class="tg tg-topic">prompting</span><span class="tg tg-method">method</span></p>
@@ -516,7 +566,15 @@
       <p class="tags"><span class="tg tg-topic">steering &amp; decoding</span><span class="tg tg-empirical">empirical</span></p>
       <p><strong>Staleness is encoded orthogonally to correctness and uncertainty, so uncertainty-based detectors are blind to it by construction.</strong> A linear probe trained on drift labels reaches 0.83&ndash;0.95 AUROC while entropy and consistency methods stay near chance; the retrieval circuit behaves identically for stale recall and confabulation.</p>
       <p class="so">Why models are confidently out of date, and why fixing hallucination will not fix it.</p>
-    </div>
+          <div class="review concern">
+        <span class="kind">Invalid inference &middot; orthogonality is not impossibility</span>
+        <p>Near-orthogonal probe directions and the failure of the detectors actually tested do not establish that
+        every uncertainty-based detector must fail. With <em>U</em> uniform on {&minus;2, &minus;1, 1, 2}
+        and <em>h</em> = (<em>U</em>, <em>U</em><sup>2</sup>), the two readouts are orthogonal and their
+        scores have zero covariance, yet the second score and the drift label are exact functions of the
+        first. The probe results stand as empirical evidence. <a href="./review-geometry.html"><strong>Full review</strong></a>.</p>
+      </div>
+</div>
 
     <h2 id="bench">Temporal knowledge benchmarks</h2>
 
