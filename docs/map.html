@@ -15,7 +15,6 @@
         <a href="./corpora.html">Corpora</a>
         <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
-        <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
         <a class="current" href="./map.html">Literature map</a>
         <a href="./timeline.html">Timeline</a>
@@ -59,12 +58,12 @@ const NODES = [
  {id:"hub", label:"POINT-IN-TIME LLMs", year:"", c:"hub", r:16, url:"./index.html", note:"A sequence of models, each trained only on text available at its cut-off date. Look-ahead bias removed by construction."},
  // model sequences
  {id:"chrono", label:"ChronoBERT/GPT 2025", year:2025, c:"models", r:11, url:"https://arxiv.org/abs/2502.21206", note:"He, Lv, Manela, Wu: 26 yearly cut-offs 1999–2024, from scratch; competitive with BERT-class models."},
- {id:"chronoinst", label:"ChronoGPT-instruct 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2510.11677", note:"Instruction-tuned ChronoGPT per year: a chat interface free of look-ahead bias."},
+ {id:"chronoinst", label:"ChronoGPT-instruct 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2510.11677", note:"Instruction-tuned ChronoGPT per year, from modern instruction data screened by a GPT-4.1 classifier for pre-2000 compatibility."},
  {id:"kelly", label:"Scaling PiT LMs 2026", year:2026, c:"models", r:11, url:"https://arxiv.org/abs/2607.11889", note:"Kelly, Malamud, Schwab, Xu: up to 4B params, 1T FineWeb tokens, monthly checkpoints 2013–2024; gap to unconstrained models narrows with scale."},
  {id:"timagpt", label:"Time Machine GPT 2024", year:2024, c:"models", r:10, url:"https://arxiv.org/abs/2404.18543", note:"Drinkall, Rahimikia, Pierrehumbert, Zohren: 12 yearly GPT-2 models 2011–2022 from scratch; training sets released."},
  {id:"timelms", label:"TimeLMs 2022", year:2022, c:"models", url:"https://arxiv.org/abs/2202.03829", note:"Cardiff NLP: quarterly RoBERTa checkpoints on Twitter, 2019-Q4 to 2022-Q4."},
  {id:"storieslm", label:"StoriesLM 2024", year:2024, c:"models", url:"https://doi.org/10.2139/ssrn.4881024", note:"Sarkar: 64 yearly models 1900–1963 on American Stories, sequentially expanding windows."},
- {id:"histbert", label:"HistBERT 2022", year:2022, c:"models", url:"https://arxiv.org/abs/2202.03612", note:"Qiu & Xu: decade-wise BERT continued on COHA for lexical semantic change."},
+ {id:"histbert", label:"HistBERT 2022", year:2022, c:"models", url:"https://arxiv.org/abs/2202.03612", note:"Qiu & Xu: BERT continued on COHA over multi-decade spans (1910s–1950s, 1910s–2000s) for lexical semantic change."},
  {id:"rottger", label:"Röttger–Pierrehumbert 2021", year:2021, c:"models", url:"https://arxiv.org/abs/2104.08116", note:"Temporal adaptation of BERT: what continued pretraining on period text buys downstream."},
  // look-ahead bias
  {id:"lopezlira", label:"Lopez-Lira–Tang 2023", year:2023, c:"bias", r:10, url:"https://arxiv.org/abs/2304.07619", note:"'Can ChatGPT Forecast Stock Price Movements?' The in-sample result that made leakage urgent."},
@@ -104,8 +103,8 @@ const NODES = [
  {id:"coha", label:"COHA", year:"", c:"data", url:"https://www.english-corpora.org/coha/", note:"Corpus of Historical American English, 1810–2009, decade-balanced."},
  {id:"newscrawl", label:"WMT News Crawl + Wikipedia", year:"", c:"data", url:"https://data.statmt.org/news-crawl/", note:"Yearly news and Wikipedia snapshots; Time Machine GPT's training data, released per year."},
  {id:"twitter", label:"Twitter", year:"", c:"data", url:"https://github.com/cardiffnlp/timelms", note:"Quarterly tweet samples behind TimeLMs."},
- {id:"datedgpt", label:"DatedGPT 2026", year:2026, c:"models", r:10, url:"https://arxiv.org/abs/2603.11838", note:"Yan, Tang, Gao, Jiang: twelve 1.3B yearly models 2013–2024 plus DatedInstruct; lookahead premium priced at 26.4 bp per s.d."},
- {id:"timoe", label:"TiMoE 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2508.08827", note:"Experts on disjoint two-year slices, masked by query date at inference: one set of weights, every cut-off."},
+ {id:"datedgpt", label:"DatedGPT 2026", year:2026, c:"models", r:10, url:"https://arxiv.org/abs/2603.11838", note:"Yan, Tang, Gao, Jiang: twelve 1.3B yearly models 2013–2024 plus DatedInstruct; 26.4 bp per s.d. of the latest-vintage-minus-admissible signal difference."},
+ {id:"timoe", label:"TiMoE 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2508.08827", note:"Separate experts on disjoint two-year slices, masked by query date. Fixed averaging is the clean case; learned routing trains on all periods."},
  {id:"ticlm", label:"TiC-LM 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2504.02107", note:"Time-continual pretraining benchmark over 114 CC dumps; replay matches from-scratch retraining at 2.6× less compute."},
  {id:"pilchen", label:"Pilchen et al 2026", year:2026, c:"models", url:"https://arxiv.org/abs/2605.22769", note:"Chronologically ordered pretraining gives fresher, more temporally precise knowledge than shuffled."},
  {id:"fittschen", label:"Fittschen et al 2025", year:2025, c:"models", url:"https://arxiv.org/abs/2504.05523", note:"Pretraining on five 10M-word time slices for diachronic discovery; beats fine-tuning on period fidelity."},

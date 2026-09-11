@@ -15,7 +15,6 @@
         <a href="./corpora.html">Corpora</a>
         <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
-        <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
         <a href="./map.html">Literature map</a>
         <a href="./timeline.html">Timeline</a>
@@ -31,11 +30,30 @@
     <p class="subtitle">Released families of date-stamped checkpoints, what they were trained on, and how strictly they avoid the future.</p>
 
     <p class="lead">
-      Two questions decide how useful a sequence is for backtesting. <strong>Cadence</strong>: yearly
-      checkpoints suit slow-moving questions; monthly or quarterly ones are needed for markets and
-      news. <strong>Provenance of the first checkpoint</strong>: a model trained from scratch on period text
-      is leakage-free by construction, whereas a model adapted from a modern base (BERT, RoBERTa) carries
-      whatever its base had already read. Both kinds are listed; the distinction is noted for each.
+      Two things decide how useful a sequence is for backtesting. <strong>Cadence</strong>: yearly
+      checkpoints suit slow-moving questions; monthly or quarterly ones are needed for markets and news.
+      <strong>What the cut-off claim actually rests on</strong>: the families below support that claim to
+      three quite different degrees, and conflating them is the main way these models get oversold.
+    </p>
+    <ul>
+      <li><strong>Historical adaptation.</strong> A modern base (BERT, RoBERTa) continued on period text.
+      The period data shifts vocabulary and style, but the base has already read the future, so this
+      supports claims about historical <em>language</em>, not about knowledge available at a date.</li>
+      <li><strong>Restricted pretraining.</strong> The pretraining corpus is filtered to text published
+      before the cut-off. This is the strong form. It does not require retraining from scratch every year:
+      continuing a genuinely clean earlier checkpoint preserves chronological consistency, so annual
+      restarts are a convenience rather than a requirement. Released corpora make the claim auditable, but
+      open data by itself does not prove the timestamps are right or the selection unbiased &mdash; OCR
+      and misdated reprints put future text in nominally historical corpora.</li>
+      <li><strong>Verified post-training.</strong> Instruction tuning or alignment that is itself
+      constrained and checked. Every instruct variant below rests on a screening or grounding procedure,
+      not a proof, and the procedures differ in what they actually test. Each entry says which.</li>
+    </ul>
+    <p>
+      One further distinction matters for any historical claim made with these models. Applying modern
+      methods to historically available information is one counterfactual; reproducing a strategy that
+      could actually have been deployed at the time, with the tools, data feeds and costs of that period,
+      is another. Both are useful, and the sequences below serve the first far better than the second.
     </p>
 
     <div class="diagram">
@@ -56,10 +74,10 @@
         </g>
         <!-- rows -->
         <g font-size="12" fill="#1f1d3d">
-          <!-- HistBERT 1900-2009 decadal -->
-          <rect x="60" y="30" width="681" height="16" rx="3" fill="#cfcaff"/>
-          <g fill="#4a3aff"><rect x="60" y="30" width="2" height="16"/><rect x="121.9" y="30" width="2" height="16"/><rect x="183.8" y="30" width="2" height="16"/><rect x="245.7" y="30" width="2" height="16"/><rect x="307.6" y="30" width="2" height="16"/><rect x="369.5" y="30" width="2" height="16"/><rect x="431.4" y="30" width="2" height="16"/><rect x="493.3" y="30" width="2" height="16"/><rect x="555.2" y="30" width="2" height="16"/><rect x="617.1" y="30" width="2" height="16"/></g>
-          <text x="748" y="43">HistBERT &middot; decadal &middot; COHA</text>
+          <!-- HistBERT: two multi-decade spans (1910s-1950s, 1910s-2000s), not decade checkpoints -->
+          <rect x="121.9" y="30" width="619" height="16" rx="3" fill="#cfcaff"/>
+          <rect x="121.9" y="30" width="309.5" height="16" rx="3" fill="#a99fff"/>
+          <text x="748" y="43">HistBERT &middot; two spans &middot; COHA</text>
           <!-- StoriesLM 1900-1963 yearly -->
           <rect x="60" y="66" width="396" height="16" rx="3" fill="#4a3aff" opacity="0.85"/>
           <text x="462" y="79">StoriesLM &middot; yearly (64) &middot; American Stories</text>
@@ -80,10 +98,10 @@
           <text x="790" y="259" text-anchor="end">TimeLMs &middot; quarterly &middot; Twitter</text>
         </g>
         <g font-size="10.5" fill="#9a9a9a">
-          <text x="60" y="328">bar = span of checkpoints; light = decade steps; dark = monthly or quarterly cadence</text>
+          <text x="60" y="328">bar = span of training data; nested bars = overlapping spans, not separate checkpoints; dark = monthly or quarterly cadence</text>
         </g>
       </svg>
-      <p class="caption">Coverage of the seven released sequences. Nothing open covers 1964&ndash;1998 at yearly cadence, and nothing before 2013 at monthly cadence.</p>
+      <p class="caption">Coverage of the six released sequences, plus HistBERT&apos;s two multi-decade variants. Nothing open covers 1964&ndash;1998 at yearly cadence, and nothing before 2013 at monthly cadence.</p>
     </div>
 
     <h2 id="chrono">ChronoBERT / ChronoGPT &mdash; Manela lab</h2>
@@ -92,18 +110,33 @@
       Twenty-six yearly cut-offs from 1999-12-31 to 2024-12-31, each trained only on text that was
       available at that date. ChronoBERT is a BERT-style encoder; ChronoGPT a GPT-style decoder. Despite
       the restriction the models match or outperform BERT on standard NLP benchmarks and stay competitive
-      with larger open-weight models. The paper&apos;s finance application shows that look-ahead bias is
-      model- and application-specific: a weaker but chronologically clean model can still deliver the
-      predictability that survives once leakage is removed.
+      with larger open-weight models. The paper&apos;s finance application shows that a chronologically
+      restricted pipeline can still deliver useful return predictability, which makes these models a
+      practical alternative to a contaminated one and a control to compare a contaminated one against.
+      The gap between the clean pipeline and a larger modern model is <em>not</em> an identified estimate
+      of look-ahead bias: that comparison also changes architecture, corpus, training budget, language
+      competence, and the interaction with the downstream predictor, and offsetting effects can leave two
+      Sharpe ratios looking similar for unrelated reasons. Quantitative attribution of leakage needs a
+      controlled comparison, with its remaining assumptions stated.
     </p>
     <p>
       A second family, <a href="https://arxiv.org/abs/2510.11677">chrono-gpt-instruct</a> (October 2025),
-      instruction-tunes each yearly ChronoGPT so it can be used through a chat interface while remaining
-      free of post-cutoff data.
+      instruction-tunes each yearly ChronoGPT for chat use. The instruction data are not historical
+      documents. The three curriculum stages draw on a from-scratch tutorial set, a GPT-3 self-instruct
+      corpus, and AllenAI&apos;s Tulu-3 SFT mixture &mdash; all modern. Each candidate pair is then screened
+      by a GPT-4.1 classifier and retained only when labelled &ldquo;knowledge available pre-2000&rdquo;
+      with sufficient confidence. That is classifier-based anachronism screening with empirical validation,
+      which is a real precaution but does not establish that every retained example contains only
+      historically available information. The authors are explicit about it: the classifier &ldquo;may
+      misidentify whether certain prompt-response pairs reflect knowledge from before or after the year
+      2000&rdquo;. So the instruct models&apos; forecasts are a conservative lower bound only to the extent
+      the screen held, and the &ldquo;leakage-free&rdquo; label belongs to the pretraining stage rather
+      than to the whole pipeline.
     </p>
     <ul>
       <li>Weights: <a href="https://huggingface.co/collections/manelalab/chronobert-67c1ca6c2382e03aaec446f8">Hugging Face collection</a> &mdash; <code>manelalab/chrono-bert-v1-YYYY1231</code>, <code>chrono-gpt-v1-YYYY1231</code>, <code>chrono-gpt-instruct-v1-YYYY1231</code> (78 repos in total).</li>
-      <li>Provenance: trained from scratch on chronologically filtered data. <span class="tag open">leakage-free</span></li>
+      <li>Pretraining: restricted to text published before each cut-off. <span class="tag open">restricted pretraining</span></li>
+      <li>Post-training (instruct variants): modern instruction data screened by an LLM classifier. <span class="tag mixed">screened, not proven</span></li>
       <li>Try it: the <a href="./demos.html">ChronoGPT notebook</a> loads any cut-off and samples from it.</li>
     </ul>
 
@@ -111,14 +144,31 @@
     <p>
       <a href="https://arxiv.org/abs/2607.11889">arXiv:2607.11889</a> (2026). Decoder-only transformers
       with up to 4 billion parameters trained on one trillion chronologically filtered tokens from FineWeb,
-      producing monthly checkpoints spanning 2013&ndash;2024. The headline result is that the well-known
-      performance gap between point-in-time and unconstrained models narrows substantially with scale:
-      on common-sense reasoning and language-understanding benchmarks the models approach leading
-      open-weight models of similar size.
+      producing monthly checkpoints spanning 2013&ndash;2024. The headline result is that scale
+      substantially narrows the <em>measured benchmark gap</em> between point-in-time and unconstrained
+      models: on common-sense reasoning and language-understanding benchmarks the models approach leading
+      open-weight models of similar size. The full pretraining run took roughly 28,000 GPU-hours, which
+      makes the affordability claim concrete rather than rhetorical.
+    </p>
+    <p>
+      The two stages deserve separate verdicts. The pretraining is filtered by crawl date and is the solid
+      part. The instruction-tuned variants are not, because the post-training filter asks the wrong
+      question. Appendix B screens the SFT and DPO sets with gpt-5-nano, keeping only examples judged
+      &ldquo;timeless&rdquo;, where the stated test is whether the text states &ldquo;facts that could
+      BECOME OUTDATED&rdquo;. The prompt therefore keeps programming tasks and tutorials &ldquo;even
+      mentioning real tools&rdquo;, general content about real frameworks, and scientific facts that do not
+      change. But durability and availability are different properties: a fact can be true forever and
+      still have been unknown before the cut-off, and a tutorial can teach a technology that did not yet
+      exist. The prompt&apos;s own worked example retains &ldquo;React 18 introduced concurrent
+      rendering&rdquo; as a stable technical fact &mdash; exactly the sort of item a 2013 checkpoint should
+      never have seen. This is a substantive weakness in the post-training argument, and it leaves the
+      chronologically pretrained base models useful while the instruct variants&apos; cut-offs are
+      unverified.
     </p>
     <ul>
       <li>Cadence: monthly &mdash; the finest of any released sequence.</li>
-      <li>Provenance: trained from scratch. <span class="tag open">leakage-free</span></li>
+      <li>Pretraining: filtered to text published before each cut-off; roughly 28,000 GPU-hours. <span class="tag open">restricted pretraining</span></li>
+      <li>Post-training: LoRA instruction tuning, filtered for time-sensitivity rather than availability. <span class="tag academic">wrong criterion</span></li>
       <li>Weights: see the paper for release details. <span class="tag mixed">check paper</span></li>
     </ul>
 
@@ -126,14 +176,29 @@
     <p>
       <a href="https://arxiv.org/abs/2603.11838">arXiv:2603.11838</a> (2026). Twelve 1.3-billion-parameter
       models trained from scratch on roughly 100 billion tokens each, with strict annual cut-offs from 2013 to
-      2024, plus DatedInstruct, an instruction-tuning set grounded in each year&apos;s documents so that
-      post-training cannot reintroduce leakage. Perplexity probes confirm each model&apos;s knowledge stops at its
-      year. The paper&apos;s distinctive result is a direct estimate of the &ldquo;lookahead premium&rdquo;: on
-      61,000 firm-day news headlines, models whose training covers the outcome period earn 26.4 basis points
-      per standard deviation more than the clean models, significant at the 1% level.
+      2024, plus DatedInstruct, an instruction-tuning set grounded in each year&apos;s documents, intended
+      to keep post-training inside the cut-off. Perplexity probes are used to check that each model&apos;s
+      knowledge stops at its year.
+    </p>
+    <p>
+      The paper&apos;s distinctive result is the &ldquo;lookahead premium&rdquo;, and its estimand is worth
+      stating exactly. On 61,000 firm-day news headlines the authors split the leaky sentiment signal as
+      <em>s</em><sup>b</sup> = <em>s</em><sup>f</sup> + (<em>s</em><sup>b</sup> &minus; <em>s</em><sup>f</sup>),
+      where <em>s</em><sup>f</sup> is the historically admissible signal (vintage <em>y</em>&minus;1 scoring
+      year <em>y</em> headlines) and <em>s</em><sup>b</sup> the family&apos;s latest vintage applied to
+      everything. They then estimate <em>r</em><sub>i,t+1</sub> = &alpha;<sub>i</sub> + &delta;<sub>t</sub>
+      + &beta;<sub>1</sub><em>s</em><sup>f</sup> + &beta;<sub>2</sub>(<em>s</em><sup>b</sup> &minus;
+      <em>s</em><sup>f</sup>) with firm and date fixed effects. The 26.4 basis points (<em>t</em> = 10.65)
+      is &beta;&#770;<sub>2</sub> scaled by a standard deviation: the next-day return associated with the
+      residual &mdash; the information only the later vintage had &mdash; conditional on the admissible
+      signal. It is not an extra portfolio return attributable to leakage. The portfolio comparison is
+      reported separately, an annualised Sharpe of 3.20 lookahead-free against 3.65 lookahead-biased. The
+      leakage interpretation is the authors&apos;, and it carries an assumption: even matched vintages of
+      one family differ in language competence and corpus composition, not only in access to the future.
     </p>
     <ul>
-      <li>Provenance: trained from scratch; instruction data period-bounded. <span class="tag open">leakage-free</span></li>
+      <li>Pretraining: from scratch on text published before each cut-off. <span class="tag open">restricted pretraining</span></li>
+      <li>Post-training: DatedInstruct is grounded in each year&apos;s own documents, the tightest construction here. <span class="tag mixed">period-grounded</span></li>
       <li>Weights and demo: see the paper. <span class="tag mixed">check paper</span></li>
     </ul>
 
@@ -149,7 +214,7 @@
     <ul>
       <li>Weights: <a href="https://huggingface.co/Ti-Ma">huggingface.co/Ti-Ma</a> &mdash; <code>Ti-Ma/TiMaGPT2-2011</code> &hellip; <code>TiMaGPT2-2022</code>, licence CC0.</li>
       <li>Data: <code>Ti-Ma/TiMaGPT2-YYYY</code> and <code>Ti-Ma/wikipedia_YYYY</code> datasets (WMT News Crawl and yearly Wikipedia snapshots).</li>
-      <li>Provenance: trained from scratch. <span class="tag open">leakage-free</span></li>
+      <li>Pretraining: from scratch on period data, and because each year&apos;s corpus is released the claim is auditable &mdash; which is not the same as proven, since correct timestamps and unbiased selection still have to hold. <span class="tag open">restricted pretraining</span></li>
     </ul>
 
     <h2 id="timelms">TimeLMs &mdash; Cardiff NLP</h2>
@@ -158,13 +223,17 @@
       <a href="https://arxiv.org/abs/2202.03829">arXiv:2202.03829</a>. RoBERTa-base checkpoints trained
       on Twitter, released quarterly from 2019-12 through 2022-12 (plus a 2022 RoBERTa-large). The
       accompanying <a href="https://github.com/cardiffnlp/timelms">library</a> has a
-      <code>corresponding</code> mode that routes each tweet to the checkpoint trained only up to that
-      tweet&apos;s quarter, which is exactly the point-in-time discipline. Built for studying language-model
-      degradation and cultural shift on social media.
+      <code>corresponding</code> mode that matches each tweet to its own quarter&apos;s checkpoint. That is
+      a temporal-adaptation interface, not a point-in-time cut-off. Quarters run Jan&ndash;Mar,
+      Apr&ndash;Jun and so on, and each quarter&apos;s model is trained on that whole quarter, so the
+      paper&apos;s own example &mdash; a tweet dated 1 February 2021 routed to the 2021-Q1 model &mdash;
+      scores it with a model that has read late February and March. For a historical forecast, choose a
+      checkpoint whose training window ends before the forecast origin, which usually means the preceding
+      quarter. Built for studying language-model degradation and cultural shift on social media.
     </p>
     <ul>
       <li>Weights: <code>cardiffnlp/twitter-roberta-base-2019-90m</code>, <code>-mar2020</code> &hellip; <code>-sep2022</code>, <code>-2022-154m</code>.</li>
-      <li>Provenance: the 2019 base continues pretraining from RoBERTa-base, which itself saw web text to 2019. Later quarters are incremental. <span class="tag academic">base leakage</span></li>
+      <li>Provenance: the 2019 base continues pretraining from RoBERTa-base, which itself saw web text to 2019, and later quarters are incremental. The base&apos;s provenance limits any cut-off claim before 2020 regardless of which quarter is selected. <span class="tag academic">base contaminated</span></li>
     </ul>
 
     <h2 id="storieslm">StoriesLM &mdash; Sarkar</h2>
@@ -178,25 +247,28 @@
     </p>
     <ul>
       <li>Weights: <a href="https://huggingface.co/StoriesLM">huggingface.co/StoriesLM</a> &mdash; <code>StoriesLM/StoriesLM-v1-1900</code> &hellip; <code>-1963</code>, MIT licence.</li>
-      <li>Provenance: sequentially expanding windows over period text. <span class="tag open">leakage-free</span></li>
+      <li>Pretraining: sequentially expanding windows over period text; each year continues the previous clean checkpoint rather than restarting, which preserves chronological consistency. <span class="tag open">restricted pretraining</span></li>
     </ul>
 
     <h2 id="histbert">HistBERT &mdash; Qiu &amp; Xu</h2>
     <p>
-      Qiu &amp; Xu (2022), <a href="https://arxiv.org/abs/2202.03612">arXiv:2202.03612</a>. BERT-base
-      continued on the Corpus of Historical American English, one model per decade from the 1900s to the
-      2000s, built to track diachronic lexical semantic change. Code and training recipe on
-      <a href="https://github.com/wendyqiu/diachronicBert">GitHub</a>.
+      Qiu &amp; Xu (2022), <a href="https://arxiv.org/abs/2202.03612">arXiv:2202.03612</a>. Not a
+      checkpoint sequence, and not one model per decade. Three variants of BERT-base are continued on the
+      Corpus of Historical American English, each over a different historical span: HistBERT-proto is the
+      pilot, <strong>HistBERT-5 covers the 1910s&ndash;1950s collectively</strong>, and
+      <strong>HistBERT-10 covers the 1910s&ndash;2000s collectively</strong>, the 2010s excluded because
+      it would overlap BERT&apos;s own pretraining data. Built to track diachronic lexical semantic change.
+      Code and training recipe on <a href="https://github.com/wendyqiu/diachronicBert">GitHub</a>.
     </p>
     <ul>
-      <li>Provenance: continued pretraining from modern BERT-base. <span class="tag academic">base leakage</span></li>
+      <li>Historical adaptation, not a cut-off claim: every variant continues modern BERT-base, and each spans five or ten decades, so no variant corresponds to a single date. <span class="tag academic">historical adaptation</span></li>
       <li>COHA itself requires academic access.</li>
     </ul>
 
     <h2>Also relevant</h2>
     <ul>
-      <li><strong>TiMoE</strong> &mdash; Faro, Fan, Alphaidze &amp; Jaggi (2025), <a href="https://arxiv.org/abs/2508.08827">arXiv:2508.08827</a>. Not a checkpoint sequence but a substitute for one: GPT-style experts pretrained from scratch on disjoint two-year slices of 2013&ndash;2024, with experts whose window ends after the query date masked at inference. One set of weights answers as of any cut-off, at two-year granularity.</li>
-      <li><strong>TypewriterLM</strong> &mdash; Luo et al. (2026), <a href="https://arxiv.org/abs/2606.02991">arXiv:2606.02991</a>. A single 7.24B model trained only on English text before 1913, with a 54B-token corpus, leakage-mitigated post-training, and a benchmark that tests for leakage. The largest &ldquo;history language model&rdquo; released; a sequence could be built the same way.</li>
+      <li><strong>TiMoE</strong> &mdash; Faro, Fan, Alphaidze &amp; Jaggi (2025), <a href="https://arxiv.org/abs/2508.08827">arXiv:2508.08827</a>. A collection of separate GPT-style expert models, each pretrained from scratch on a disjoint two-year slice of 2013&ndash;2024, with experts whose window ends after the query date masked at inference. The chronological justification is clearest for <code>TiMoE-Avg</code>, which aggregates the surviving clean experts with fixed weights and needs no extra training. Learned routing is weaker: the router is a one-layer MLP trained on the whole multi-period corpus, and <code>TiMoE-CoAdapt</code> jointly updates the router and the &ldquo;present&rdquo; expert for each document. An earlier query can therefore receive mixture weights shaped by later training data even when the later experts are masked. That is a vulnerability in the stated guarantee rather than proof that any particular prediction leaked, but learned routing needs its own cut-off controls, including during co-adaptation. Two-year granularity.</li>
+      <li><strong>TypewriterLM</strong> &mdash; Luo et al. (2026), <a href="https://arxiv.org/abs/2606.02991">arXiv:2606.02991</a>. A single 7.24B model trained only on English text before 1913, with a 54B-token corpus and a post-training stage constrained by &ldquo;lexical grounding&rdquo;: a response is accepted only if every lexical token is derivable from the source passage plus a small allowlist of function words, with limited morphological normalisation and OCR repair, enforced by a verifier that discards non-compliant responses. Instruction generation and judging still use modern LLMs, and the authors add human review of the small LIMA-style set together with explicit leakage evaluations. Three things are worth keeping apart: source vocabulary, meaning genuinely supported by the source, and historical availability. The constraint establishes the first. It does not establish the second or third, since old words can be rearranged &mdash; or source passages selected &mdash; to convey something learned later. The largest &ldquo;history language model&rdquo; released; a sequence could be built the same way.</li>
       <li><strong>Diachronic slice models</strong> &mdash; Fittschen, Li, Lippincott &amp; Choshen (2025), <a href="https://arxiv.org/abs/2504.05523">arXiv:2504.05523</a>. Five small models pretrained on five 10-million-word time slices, for humanities research; argues pretraining beats fine-tuning for period fidelity.</li>
       <li><strong>TiC-LM</strong> &mdash; Li et al. (2025), <a href="https://arxiv.org/abs/2504.02107">arXiv:2504.02107</a>. A time-continual pretraining benchmark over 114 Common Crawl dumps; shows replay schedules that match from-scratch retraining at 2.6&times; less compute, which is how a monthly sequence could be produced cheaply.</li>
       <li><strong>Pitinf models</strong> (PiT-Inference) &mdash; a small, medium, and &ldquo;frontier-level&rdquo; family of point-in-time LLMs evaluated in <a href="https://arxiv.org/abs/2601.13770">Look-Ahead-Bench</a>. Availability outside the benchmark is not documented here. <span class="tag mixed">unverified</span></li>
@@ -207,7 +279,7 @@
     <div class="next-steps">
       <p><strong>Gaps.</strong> No open sequence covers 1964&ndash;1998 at yearly cadence, although Newswire (1878&ndash;1977) now supplies the text for one. Nothing before 2013
       exists at monthly cadence. No sequence targets a non-English language or a specialist domain such as
-      medicine or law. The <a href="./plans.html">plans page</a> costs out ways to fill some of these.</p>
+      medicine or law.</p>
     </div>
   </main>
 

@@ -15,7 +15,6 @@
         <a href="./corpora.html">Corpora</a>
         <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
-        <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
         <a href="./map.html">Literature map</a>
         <a class="current" href="./timeline.html">Timeline</a>
@@ -29,7 +28,7 @@
   <h1>Point-in-time language models: a timeline</h1>
   <p>One lane per thread. Events sit at their earliest public date (preprint, not journal acceptance).
   The NLP community noticed temporal degradation first (2021); finance supplied the motive (2023) once
-  ChatGPT appeared to forecast returns; leakage-free model sequences and leakage benchmarks followed.
+  ChatGPT appeared to forecast returns; chronologically restricted model sequences and leakage benchmarks followed.
   The dashed line marks the arrival of from-scratch, multi-year, general-purpose sequences (ChronoBERT,
   February 2025). Hover for details; click to open. Dates marked &#9888; are month-approximate.</p>
   <div class="legend" id="lane-legend"></div>
@@ -55,7 +54,7 @@ const EVENTS = [
  {d:"2022-02", lane:"models", label:"TimeLMs", big:true, url:"https://arxiv.org/abs/2202.03829",
   note:"Feb 2022 (ACL demo). Cardiff NLP: quarterly RoBERTa checkpoints on Twitter, 2019-Q4 onward, with a library that routes each tweet to the checkpoint that could have seen it."},
  {d:"2022-02", lane:"models", label:"HistBERT", url:"https://arxiv.org/abs/2202.03612",
-  note:"Feb 2022. Qiu & Xu: decade-wise BERT models continued on COHA (1900s–2000s) for diachronic lexical semantics."},
+  note:"Feb 2022. Qiu & Xu: BERT continued on COHA over multi-decade spans — HistBERT-5 (1910s–1950s) and HistBERT-10 (1910s–2000s) — for diachronic lexical semantics. Not one model per decade."},
  {d:"2024-03", lane:"models", label:"TiMaGPT weights", sure:false, url:"https://huggingface.co/Ti-Ma",
   note:"Mar 2024 (Hugging Face upload). Twelve yearly GPT-2 models 2011–2022 with their exact training sets."},
  {d:"2024-04", lane:"models", label:"Time Machine GPT", big:true, url:"https://arxiv.org/abs/2404.18543",
@@ -63,9 +62,9 @@ const EVENTS = [
  {d:"2024-06", lane:"models", label:"StoriesLM ⚠", sure:false, url:"https://doi.org/10.2139/ssrn.4881024",
   note:"Mid-2024 (SSRN 4881024). Sarkar: 64 yearly models 1900–1963 on American Stories, each continuing the previous year's checkpoint."},
  {d:"2025-02", lane:"models", label:"ChronoBERT / ChronoGPT", big:true, url:"https://arxiv.org/abs/2502.21206",
-  note:"Feb 28, 2025 (arXiv:2502.21206). He, Lv, Manela, Wu: 26 yearly cut-offs 1999–2024, trained from scratch on chronologically filtered text; competitive with BERT-class models. The first general-purpose, multi-decade, leakage-free sequence."},
+  note:"Feb 28, 2025 (arXiv:2502.21206). He, Lv, Manela, Wu: 26 yearly cut-offs 1999–2024, trained from scratch on chronologically filtered text; competitive with BERT-class models. The first general-purpose, multi-decade sequence built on restricted pretraining."},
  {d:"2025-10", lane:"models", label:"ChronoGPT-instruct", url:"https://arxiv.org/abs/2510.11677",
-  note:"Oct 2025. Instruction-tuned ChronoGPT per cut-off year: a chat interface that is free of look-ahead bias by construction."},
+  note:"Oct 2025. Instruction-tuned ChronoGPT per cut-off year. The instruction data are modern (GPT-3 self-instruct, Tulu-3) and screened by a GPT-4.1 classifier, so temporal cleanliness is screened rather than guaranteed."},
  {d:"2026-04", lane:"models", label:"Scaling PiT LMs (Kelly et al)", big:true, url:"https://arxiv.org/abs/2607.11889",
   note:"Apr 2026. Kelly, Malamud, Schwab, Xu: decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens; monthly checkpoints 2013–2024. The gap to unconstrained models narrows with scale."},
  {d:"2025-04", lane:"models", label:"TiC-LM", url:"https://arxiv.org/abs/2504.02107",
@@ -73,9 +72,9 @@ const EVENTS = [
  {d:"2025-04", lane:"models", label:"Fittschen et al", url:"https://arxiv.org/abs/2504.05523",
   note:"Apr 2025. Pretraining on five 10M-word time slices for diachronic discovery; beats fine-tuning an 8B model on period fidelity."},
  {d:"2025-08", lane:"models", label:"TiMoE", url:"https://arxiv.org/abs/2508.08827",
-  note:"Aug 2025. Faro, Fan, Alphaidze, Jaggi: experts on disjoint two-year slices, masked by query date at inference. One set of weights, every cut-off."},
+  note:"Aug 2025. Faro, Fan, Alphaidze, Jaggi: separate experts on disjoint two-year slices, masked by query date. Fixed averaging has the clearest justification; the learned router trains on all periods, and CoAdapt updates it alongside the present expert."},
  {d:"2026-03", lane:"models", label:"DatedGPT", big:true, url:"https://arxiv.org/abs/2603.11838",
-  note:"Mar 2026. Yan, Tang, Gao, Jiang: twelve 1.3B yearly models 2013–2024 plus DatedInstruct; the lookahead premium measured at 26.4 bp per s.d. in return prediction."},
+  note:"Mar 2026. Yan, Tang, Gao, Jiang: twelve 1.3B yearly models 2013–2024 plus DatedInstruct. The 26.4 bp is per s.d. of the difference between latest-vintage and admissible signals, next-day returns, firm and date fixed effects; portfolio Sharpe 3.20 vs 3.65."},
  {d:"2026-05", lane:"models", label:"Pilchen et al ⚠", sure:false, url:"https://arxiv.org/abs/2605.22769",
   note:"May 2026. Chronologically ordered pretraining gives fresher, more precise temporal knowledge than shuffled, at no cost in general ability."},
  {d:"2026-06", lane:"models", label:"TypewriterLM", url:"https://arxiv.org/abs/2606.02991",

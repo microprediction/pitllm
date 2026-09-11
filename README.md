@@ -11,7 +11,6 @@ A resource that summarizes and connects research on Point-in-Time (chronological
 - [Corpora](https://pitllm.microprediction.org/corpora.html) - dated text sources by domain, with licensing and temporal granularity
 - [Key ideas](https://pitllm.microprediction.org/ideas.html) - one note per paper on what is actually new
 - [Essay](https://pitllm.microprediction.org/essay.html) - point-in-time LLMs beyond finance
-- [Plans](https://pitllm.microprediction.org/plans.html) - three costed proposals for extending the open sequences
 - [Literature map](https://pitllm.microprediction.org/map.html) and [Timeline](https://pitllm.microprediction.org/timeline.html)
 - [Demos](https://pitllm.microprediction.org/demos.html) - notebooks that load a checkpoint and query it
 
@@ -19,7 +18,7 @@ A resource that summarizes and connects research on Point-in-Time (chronological
 
 - `docs/` - the static site (plain HTML and CSS, D3 for the map and timeline), deployed by `.github/workflows/pages.yml`
 - `ESSAY.md`, `PIT-CORPUSES.md`, `CORPUS-GRANULARITY.md` - source documents rendered on the site
-- `SMALL-BUDGET-PLAN.md`, `SMALL-BUDGET-CORPUS-PLAN.md`, `SMALL-BUDGET-CORPUS-SUBNET-PLAN.md` - the plans
+- `SMALL-BUDGET-PLAN.md`, `SMALL-BUDGET-CORPUS-PLAN.md`, `SMALL-BUDGET-CORPUS-SUBNET-PLAN.md` - funding notes, not rendered on the site
 - `LLM-PROJECT-LISTING.md` - short list of model sequences and tools
 - `projects/` - summaries and PDFs of individual papers
 - `ChronoGPT.ipynb` - Colab notebook for sampling from ChronoGPT checkpoints

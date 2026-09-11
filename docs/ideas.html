@@ -25,7 +25,6 @@
         <a href="./corpora.html">Corpora</a>
         <a class="current" href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
-        <a href="./plans.html">Plans</a>
         <a href="./index.html#bibliography">Bibliography</a>
         <a href="./map.html">Literature map</a>
         <a href="./timeline.html">Timeline</a>
@@ -69,18 +68,18 @@
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2202.03829">Loureiro et al. (2022)</a> &middot; TimeLMs</p>
-      <p><strong>Ship the sequence with a router.</strong> Quarterly Twitter checkpoints plus a <code>corresponding</code> mode that scores each tweet with the checkpoint trained only up to that tweet&apos;s quarter. The paper also documents how perplexity on future tweets degrades and how continual updates repair it.</p>
-      <p class="so">The routing idea, rather than the models, is the lasting contribution: a point-in-time sequence is only useful if every query is matched to the right cut-off automatically.</p>
+      <p><strong>Ship the sequence with a router.</strong> Quarterly Twitter checkpoints plus a <code>corresponding</code> mode that matches each tweet to its own quarter&apos;s checkpoint. Note what that does and does not give you: a quarter&apos;s model is trained on the whole quarter, so the paper&apos;s example of a 1 February 2021 tweet routed to the 2021-Q1 model scores it with a model that read late February and March. The paper also documents how perplexity on future tweets degrades and how continual updates repair it.</p>
+      <p class="so">The routing idea, rather than the models, is the lasting contribution. But routing to the matching period is temporal adaptation; for a forecast you want the checkpoint whose window closes before the forecast origin, usually the preceding quarter.</p>
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2202.03612">Qiu &amp; Xu (2022)</a> &middot; HistBERT</p>
-      <p><strong>Whether contextual embeddings detect semantic change depends on when their pretraining text was written.</strong> Decade models continued on COHA beat modern BERT on historical word-similarity and shift tasks.</p>
-      <p class="so">A modest paper, but it is the earliest evidence that the temporal profile of pretraining data is a variable, not a nuisance.</p>
+      <p><strong>Whether contextual embeddings detect semantic change depends on when their pretraining text was written.</strong> Variants of BERT-base continued on COHA beat modern BERT on historical word-similarity and shift tasks. Not one model per decade: HistBERT-5 covers the 1910s&ndash;1950s collectively and HistBERT-10 the 1910s&ndash;2000s collectively, both continuing modern BERT.</p>
+      <p class="so">Historical adaptation rather than a cut-off claim, and a useful demonstration that the temporal profile of pretraining data is a variable, not a nuisance. The paper itself discusses earlier work on the problem.</p>
     </div>
     <div class="idea big">
       <p class="who"><a href="https://arxiv.org/abs/2404.18543">Drinkall, Rahimikia, Pierrehumbert &amp; Zohren (2024)</a> &middot; Time Machine GPT</p>
       <p><strong>Train from scratch per year, and publish the exact training set.</strong> Earlier &ldquo;temporal&rdquo; models continued a modern base that had already read the future. TiMaGPT is nonprognosticative by construction, and because every year&apos;s corpus is released, leakage is auditable rather than asserted.</p>
-      <p class="so">Sets the standard that later sequences follow: from-scratch training and open data are what make a cut-off claim checkable.</p>
+      <p class="so">Sets the standard that later sequences follow, with two qualifications. Restarting from scratch every year is not required &mdash; continuing a genuinely clean earlier checkpoint preserves consistency too. And open data makes a cut-off claim <em>checkable</em> rather than proven: someone still has to establish that the timestamps are right and the selection unbiased.</p>
     </div>
     <div class="idea">
       <p class="who"><a href="https://doi.org/10.2139/ssrn.4881024">Sarkar (2024)</a> &middot; StoriesLM</p>
@@ -89,13 +88,13 @@
     </div>
     <div class="idea big">
       <p class="who"><a href="https://arxiv.org/abs/2502.21206">He, Lv, Manela &amp; Wu (2025)</a> &middot; Chronologically Consistent LLMs</p>
-      <p><strong>Look-ahead bias is model- and application-specific, and can be measured by difference.</strong> A chronologically clean model may understand language worse, but the prediction layer fitted on top compensates, so the clean pipeline&apos;s Sharpe ratio is close to a much larger leaky model&apos;s. The gap between the two is the size of the bias for that application.</p>
-      <p class="so">Turns &ldquo;is there leakage?&rdquo; into a number you compute by running the clean model alongside the dirty one. Also the first general-purpose, multi-decade, from-scratch sequence.</p>
+      <p><strong>A chronologically restricted pipeline can be competitive.</strong> A clean model may understand language worse, but the prediction layer fitted on top compensates, so the clean pipeline&apos;s Sharpe ratio lands close to a much larger contaminated model&apos;s. What the difference between them is <em>not</em> is an identified estimate of look-ahead bias: the comparison also changes architecture, corpus, training budget, language competence, and the interaction with the downstream predictor, and offsetting effects can make two Sharpe ratios agree for unrelated reasons.</p>
+      <p class="so">Gives you a useful control and a practical alternative to a contaminated model. Reserve quantitative leakage attribution for controlled comparisons, with the remaining assumptions stated. Also the first general-purpose, multi-decade sequence built on restricted pretraining.</p>
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2510.11677">He, Lv, Manela &amp; Wu (2025)</a> &middot; Instruction Tuning Chronologically Consistent LMs</p>
-      <p><strong>Instruction tuning need not reintroduce leakage if the instruction data is period-bounded too.</strong> The result is a chat model per cut-off whose forecasts are a conservative lower bound on the predictability that survives once leakage is gone.</p>
-      <p class="so">Makes point-in-time models usable by people who prompt rather than fine-tune.</p>
+      <p><strong>Modern instruction data, screened for anachronisms.</strong> The data are not historical documents: a from-scratch tutorial set, a GPT-3 self-instruct corpus, and Tulu-3&apos;s SFT mixture, each example then classified by GPT-4.1 and kept only when labelled &ldquo;knowledge available pre-2000&rdquo;. The screening is validated empirically, but classifier acceptance does not establish that retained examples contain only historically available information &mdash; the paper notes the classifier may misidentify pairs.</p>
+      <p class="so">Makes point-in-time models usable by people who prompt rather than fine-tune. The lower-bound reading of their forecasts holds only as far as the screen did.</p>
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2504.05523">Fittschen, Li, Lippincott &amp; Choshen (2025)</a> &middot; Pretraining for Diachronic Linguistic Change Discovery</p>
@@ -109,18 +108,18 @@
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2508.08827">Faro, Fan, Alphaidze &amp; Jaggi (2025)</a> &middot; TiMoE</p>
-      <p><strong>One set of weights, every cut-off: mask experts by date.</strong> Experts are pretrained from scratch on disjoint two-year slices of 2013&ndash;2024; at inference, experts whose window ends after the query date are masked and the rest are merged in log-probability space. Causal validity comes from routing, not retraining. Also releases TSQA, whose answer options are labelled past, future, or irrelevant.</p>
-      <p class="so">The most compute-efficient route to a point-in-time model so far proposed, at the cost of a coarser two-year cadence.</p>
+      <p><strong>A collection of separate experts, masked by date.</strong> Each expert is pretrained from scratch on a disjoint two-year slice of 2013&ndash;2024; at inference, experts whose window ends after the query date are masked and the rest merged in log-probability space. Fixed aggregation of the surviving clean experts has a clear chronological justification. Learned routing does not: the router is trained on the whole multi-period corpus, and the co-adaptation variant updates the router together with the selected expert, so an earlier query can get mixture weights shaped by later data even when later experts are masked. Also releases TSQA, whose answer options are labelled past, future, or irrelevant.</p>
+      <p class="so">Serves every cut-off from one deployment at a coarser two-year cadence. Learned routing needs its own cut-off controls, co-adaptation included, before the guarantee covers the whole system.</p>
     </div>
     <div class="idea big">
       <p class="who"><a href="https://arxiv.org/abs/2603.11838">Yan, Tang, Gao &amp; Jiang (2026)</a> &middot; DatedGPT</p>
-      <p><strong>Estimate the &ldquo;lookahead premium&rdquo; directly.</strong> Twelve 1.3B models with annual cut-offs 2013&ndash;2024, plus DatedInstruct, an instruction set grounded in each year&apos;s documents. On 61,000 firm-day headlines the clean models earn a Sharpe of 3.20; models whose training covers the outcome period add a premium of 26.4 basis points per standard deviation, significant at 1%.</p>
-      <p class="so">The first paper to put a price on leakage in a return-prediction setting using matched clean and dirty models.</p>
+      <p><strong>Estimate the &ldquo;lookahead premium&rdquo;, carefully defined.</strong> Twelve 1.3B models with annual cut-offs 2013&ndash;2024, plus DatedInstruct, an instruction set grounded in each year&apos;s documents. The 26.4 basis points (<em>t</em> = 10.65) is not an extra portfolio return: it is the next-day return associated with one standard deviation of the <em>difference</em> between the latest-vintage and historically admissible sentiment signals, estimated with the admissible signal plus firm and date fixed effects in the regression. The portfolio comparison is separate, a Sharpe of 3.20 lookahead-free against 3.65 lookahead-biased.</p>
+      <p class="so">The closest thing yet to a price on leakage in return prediction, using matched model vintages. The leakage reading is the authors&apos; own, and it assumes matched vintages differ only in access to the future, when they also differ in language competence and corpus composition.</p>
     </div>
     <div class="idea big">
       <p class="who"><a href="https://arxiv.org/abs/2607.11889">Kelly, Malamud, Schwab &amp; Xu (2026)</a> &middot; Scaling Point-in-Time Language Models</p>
-      <p><strong>The point-in-time performance gap is mostly a scale artifact.</strong> Decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens, at monthly cadence over 2013&ndash;2024, approach Gemma-3-4B and LLaMA-7B on common-sense and language-understanding benchmarks. Full pipeline released.</p>
-      <p class="so">Removes the main excuse for using leaky models: a clean model of comparable ability is now attainable at academic scale.</p>
+      <p><strong>Scale substantially narrows the measured benchmark gap.</strong> Decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens, at monthly cadence over 2013&ndash;2024, approach Gemma-3-4B and LLaMA-7B on common-sense and language-understanding benchmarks, for roughly 28,000 GPU-hours of pretraining. Full pipeline released. The instruction-tuned variants are a separate matter: their filter asks whether a fact &ldquo;could become outdated&rdquo;, explicitly keeping coding tutorials and stable scientific facts, which is a different question from whether the fact was available at the cut-off.</p>
+      <p class="so">Removes the main excuse for using contaminated models at pretraining: a restricted model of comparable ability is attainable at academic scale, and the GPU-hour figure says how attainable. Treat the instruct variants&apos; temporal validity as unestablished.</p>
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2605.22769">Pilchen, Fabre, Signe Talla &amp; P&eacute;rez (2026)</a> &middot; Data Temporality in Pre-training</p>
@@ -129,8 +128,8 @@
     </div>
     <div class="idea">
       <p class="who"><a href="https://arxiv.org/abs/2606.02991">Luo, Shinnick, Griesshaber &amp; Wang (2026)</a> &middot; TypewriterLM</p>
-      <p><strong>A 7B model trained only on pre-1913 English, with post-training that cannot leak.</strong> The novelties are the leakage-mitigation steps in building the 54B-token TypewriterCorpus, &ldquo;lexically grounded&rdquo; instruction tuning that forces answers to stay anchored in historical source documents, and a benchmark that tests for leakage as well as competence.</p>
-      <p class="so">Shows that the chat-model recipe can be run inside a period without importing the present, at a scale where the model is genuinely useful.</p>
+      <p><strong>A 7B model trained only on pre-1913 English, with lexically constrained post-training.</strong> The novelties are the leakage-mitigation steps in building the 54B-token TypewriterCorpus, &ldquo;lexically grounded&rdquo; instruction tuning &mdash; a response is kept only if every lexical token is derivable from the source passage plus a small function-word allowlist, with limited morphological and OCR recovery &mdash; human review of the small instruction set, and a benchmark that tests for leakage as well as competence. Instruction generation and judging still use modern LLMs.</p>
+      <p class="so">Pushes the chat-model recipe furthest inside a period at useful scale. Worth separating source vocabulary from source-supported meaning from historical availability: the lexical constraint secures the first, while old words can still be rearranged, or passages chosen, to convey something learned later.</p>
     </div>
 
     <h2 id="bias">Look-ahead bias and leakage</h2>
@@ -453,7 +452,7 @@
       <li><strong>Prompting does not remove it.</strong> Gao et al., Li et al., Lopez-Lira et al., and Wongchamcharoen &amp; Glasserman show cutoff instructions fail on causally downstream knowledge and that models cannot hold a consistent timeline anyway. Recall-based prompting narrows the gap; nothing closes it.</li>
       <li><strong>The pre/post-cutoff comparison is not a valid test.</strong> Zhang &amp; Stadie prove recency mimics leakage in any passive backtest; measurement needs a known cutoff or a matched clean control.</li>
       <li><strong>Unlearning is the wrong frame.</strong> Temporal admissibility depends on the cutoff, so the same fact must be kept for one query and dropped for another (TEMPO; Ding et al.). Decoding-time methods (Merchant &amp; Levy; FinCAD) and feature steering are the workable cheap alternatives.</li>
-      <li><strong>Clean models no longer have to be weak.</strong> Scale (Kelly et al.), routing (TiMoE), replay schedules (TiC-LM), and ordered data (Pilchen et al.) each shrink the cost of chronological consistency.</li>
+      <li><strong>Restricted models no longer have to be weak.</strong> Scale (Kelly et al.), routing (TiMoE), replay schedules (TiC-LM), and ordered data (Pilchen et al.) each shrink the cost of chronological consistency &mdash; at pretraining. Post-training is where the guarantees are thinnest across the whole literature.</li>
       <li><strong>&ldquo;Cutoff&rdquo; is a distribution.</strong> Effective cutoffs differ by resource (Cheng et al.), medical knowledge decays linearly rather than stopping (Guan et al.), and the model&apos;s internal year lags its data (Zhao et al.; van Adrichem et al.).</li>
     </ul>
     <p class="muted small">Disagree with a summary, or have a paper that belongs here? Open an issue on <a href="https://github.com/microprediction/pitllm">microprediction/pitllm</a>. Every entry links to its source so the note can be checked against it.</p>

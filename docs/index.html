@@ -16,7 +16,6 @@
         <a href="./corpora.html">Corpora</a>
         <a href="./ideas.html">Key ideas</a>
         <a href="./essay.html">Essay</a>
-        <a href="./plans.html">Plans</a>
         <a href="#bibliography">Bibliography</a>
         <a href="./map.html">Literature map</a>
         <a href="./timeline.html">Timeline</a>
@@ -108,10 +107,13 @@
 
     <h2 id="models">Model sequences</h2>
     <p>
-      Seven open efforts have released sequences of date-stamped checkpoints, and TiMoE serves every cut-off from one set of routed experts. They differ in domain,
-      cadence, and in whether the first checkpoint was itself trained from scratch on period text or
-      adapted from a modern base model (which reintroduces some leakage). Details, checkpoint lists, and
-      a coverage chart are on the <a href="./models.html">models page</a>.
+      Six open efforts have released sequences of date-stamped checkpoints, TiMoE serves every cut-off
+      from a set of date-masked experts, and HistBERT offers two multi-decade variants rather than a
+      sequence. They differ in domain, cadence, and in what the cut-off claim rests on: pretraining
+      restricted to text published before the date, or a modern base adapted on period text, which shifts
+      style without restricting knowledge. Post-training is a third, weaker layer &mdash; every instruct
+      variant relies on a screening or grounding procedure rather than a proof. Details, checkpoint lists,
+      and a coverage chart are on the <a href="./models.html">models page</a>.
     </p>
     <div class="table-wrap">
       <table class="impl">
@@ -123,7 +125,7 @@
           <tr><td><a href="./models.html#timagpt">Time Machine GPT</a></td><td>GPT-2</td><td>2011&ndash;2022</td><td>yearly (12)</td><td>WMT News Crawl + Wikipedia, datasets released</td></tr>
           <tr><td><a href="./models.html#timelms">TimeLMs</a></td><td>RoBERTa-base (and one large)</td><td>2019-Q4&ndash;2022-Q4</td><td>quarterly</td><td>Twitter</td></tr>
           <tr><td><a href="./models.html#storieslm">StoriesLM</a></td><td>BERT-style, expanding windows</td><td>1900&ndash;1963</td><td>yearly (64)</td><td>American Stories newspapers</td></tr>
-          <tr><td><a href="./models.html#histbert">HistBERT</a></td><td>BERT-base, continued pretraining</td><td>1900s&ndash;2000s</td><td>decadal (10)</td><td>COHA</td></tr>
+          <tr><td><a href="./models.html#histbert">HistBERT</a></td><td>BERT-base, continued pretraining</td><td>1910s&ndash;2000s</td><td>two multi-decade variants (1910s&ndash;1950s, 1910s&ndash;2000s)</td><td>COHA</td></tr>
         </tbody>
       </table>
     </div>
@@ -135,7 +137,7 @@
       <div class="card">
         <h3>Building the models</h3>
         <p>Train a sequence of checkpoints on chronologically filtered text. Recent work shows the
-        performance gap to unconstrained models narrows with scale.</p>
+        measured benchmark gap to unconstrained models narrows substantially with scale.</p>
         <p class="meta">He et al. 2025; Kelly et al. 2026; Yan et al. 2026; Faro et al. 2025; Drinkall et al. 2024</p>
       </div>
       <div class="card">
@@ -178,13 +180,6 @@
       Common Crawl derivatives such as FineWeb.
     </p>
 
-    <h2 id="plans">What to build next</h2>
-    <p>
-      The <a href="./plans.html">plans page</a> holds three costed proposals for extending the open model
-      and corpus sequences on a small budget: a focused $500k programme, an open-source corpus programme,
-      and a decentralised Bittensor-subnet variant. They are working documents, not commitments.
-    </p>
-
     <h2>Further reading</h2>
     <ul>
       <li>He, Lv, Manela &amp; Wu (2025). <a href="https://arxiv.org/abs/2502.21206">Chronologically Consistent Large Language Models</a> &mdash; the paper that made the construction mainstream, with ChronoBERT and ChronoGPT.</li>
@@ -203,8 +198,8 @@
       <h3>Model sequences</h3>
       <ul>
         <li>He, S., Lv, L., Manela, A., and Wu, J. (2025). <a href="https://arxiv.org/abs/2502.21206"><em>Chronologically Consistent Large Language Models</em></a>. arXiv:2502.21206. <em>ChronoBERT and ChronoGPT: 26 yearly checkpoints each, 1999&ndash;2024, trained only on text available at each date; competitive with BERT-class models on NLP benchmarks.</em></li>
-        <li>He, S., Lv, L., Manela, A., and Wu, J. (2025). <a href="https://arxiv.org/abs/2510.11677"><em>Instruction Tuning Chronologically Consistent Language Models</em></a>. arXiv:2510.11677. <em>A chat-style, instruction-tuned ChronoGPT per cut-off year, giving a conservative lower bound on forecast accuracy once leakage is removed.</em></li>
-        <li>Kelly, B., Malamud, S., Schwab, J., and Xu, T. A. (2026). <a href="https://arxiv.org/abs/2607.11889"><em>Scaling Point-in-Time Language Models</em></a>. arXiv:2607.11889. <em>Decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens; monthly checkpoints 2013&ndash;2024; the gap to open-weight frontier models narrows with scale.</em></li>
+        <li>He, S., Lv, L., Manela, A., and Wu, J. (2025). <a href="https://arxiv.org/abs/2510.11677"><em>Instruction Tuning Chronologically Consistent Language Models</em></a>. arXiv:2510.11677. <em>A chat-style, instruction-tuned ChronoGPT per cut-off year. The instruction data are modern (GPT-3 self-instruct, Tulu-3), screened by a GPT-4.1 classifier for pre-2000 compatibility, so the lower-bound reading holds as far as that screen does.</em></li>
+        <li>Kelly, B., Malamud, S., Schwab, J., and Xu, T. A. (2026). <a href="https://arxiv.org/abs/2607.11889"><em>Scaling Point-in-Time Language Models</em></a>. arXiv:2607.11889. <em>Decoder-only models up to 4B parameters on 1T chronologically filtered FineWeb tokens; monthly checkpoints 2013&ndash;2024 for roughly 28,000 GPU-hours; the measured benchmark gap to open-weight models narrows substantially with scale. The post-training filter screens for facts that could become outdated rather than for availability at the cut-off.</em></li>
         <li>Drinkall, F., Rahimikia, E., Pierrehumbert, J. B., and Zohren, S. (2024). <a href="https://arxiv.org/abs/2404.18543"><em>Time Machine GPT</em></a>. Findings of NAACL 2024. arXiv:2404.18543. <em>Twelve yearly &ldquo;nonprognosticative&rdquo; GPT-2 models (2011&ndash;2022) trained from scratch on WMT News Crawl and Wikipedia; models and training data on Hugging Face.</em></li>
         <li>Loureiro, D., Barbieri, F., Neves, L., Espinosa Anke, L., and Camacho-Collados, J. (2022). <a href="https://arxiv.org/abs/2202.03829"><em>TimeLMs: Diachronic Language Models from Twitter</em></a>. ACL 2022 demo. <em>Quarterly RoBERTa checkpoints from 2019-Q4 to 2022-Q4, with a library that routes each tweet to the model that could have seen it.</em></li>
         <li>Sarkar, S. K. (2024). <a href="https://doi.org/10.2139/ssrn.4881024"><em>StoriesLM: A Family of Language Models With Time-Indexed Training Data</em></a>. SSRN 4881024. <em>Sixty-four yearly models, 1900&ndash;1963, each continuing the previous year&apos;s checkpoint on that year&apos;s American Stories newspaper text.</em></li>
